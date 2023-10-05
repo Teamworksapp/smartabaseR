@@ -1,0 +1,94 @@
+---
+title: "Synchronising with Smartabase"
+output: 
+  rmarkdown::html_vignette:
+  toc: true
+  toc_depth: 4
+editor_options:
+  chunk_output_type: console
+vignette: >
+  %\VignetteIndexEntry{Synchronising with Smartabase}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+`sb_sync_event()` is a way to determine which events have been entered/updated after a certain time (`last_sync_time`):
+
+```{r sync_example, eval = FALSE}
+sync_data <- sb_sync_event(
+  form = "Example event form",
+  type = "synchronise",
+  last_sync_time = 1672531200000
+)
+```
+
+Note: `last_sync_time` is represented in unix time, which means the number of milliseconds since 1970-01-01. For reference we can convert the unix time value to a UTC datetime object like so: `as.POSIXct(1672531200000/1000, origin = "1970-01-01")`.
+
+The above call to `sb_sync_event()` will return a tibble with all of the events that have been inserted/updated since `1672531200000` (that is, `01/01/2023 00:00:00 UTC`). 
+
+```{r sync_example2, echo = FALSE}
+sync_example <- dplyr::tibble(
+  about = c("Charlie Thompson", "Jack Williams", "Jamie Anderson", 
+            "Liam Walker"),
+  user_id = c(31808, 31811, 37201, 37204),
+  form = c("Example event form", "Example event form", "Example event form",
+           "Example event form"),
+  start_date = c("15/04/2023", "15/04/2023", "15/04/2023", "15/04/2023"),
+  Distance = c(5411, 2374, 1600, 2564),
+  RPE = c(7, 3, 6, 5),
+  entered_by_user_id = c(37201, 37201, 37201, 37201),
+  event_id = c(16517, 36505, 36014, 28970)
+)
+cli::cli_inform(c("i" = "Form: Example event form"))
+
+cli::cli_inform(c("i" = "HTTP status code: 200"))
+cli::cli_inform(c("i" = "Export time: 2023-06-01 19:35:58 UTC"))
+cli::cli_inform(c("i" = "Unique records: 4"))
+print(sync_example)
+```
+
+The data returned from `sb_sync_event()` also comes with specific attributes attached to the data frame. The most important is the time in which Smartabase returned the data to you. You can access that value by using the `attr()` function:
+
+```{r attr_example, echo = TRUE, eval = FALSE}
+new_sync_time <- attr(sync_example, "new_sync_time")
+```
+
+```{r attr_example_print, echo = FALSE}
+1686085544000
+```
+
+Now, the next time you synchronise with that form, you can use the newly acquired `new_sync_time` value to find any records that have been inserted/updated since you last called `sb_sync_event()`:
+
+```{r sync_example4, echo = TRUE, eval = FALSE}
+next_sync_example <- sb_sync_event(
+  form = "Example profile form",
+  type = "synchronise",
+  last_sync_time = new_sync_time
+)
+```
+
+```{r sync_example5, echo = FALSE}
+next_sync_example <- dplyr::tibble(
+  about = c("Jamie Anderson"),
+  user_id = c(37201),
+  form = c("Example event form"),
+  start_date = c("18/04/2023"),
+  Distance = c(3100),
+  RPE = c(7),
+  entered_by_user_id = c(37201),
+  event_id = c(62331)
+)
+```
+
+```{r synchronise_exmaple6, echo = FALSE}
+print(next_sync_example)
+```
+
+So why is this useful? By querying which records have been inserted/updated in a form beyond a certain time, you can set up workflows that automatically trigger R scripts whenever new data is detected. For more information on how to achieve this, contact Teamworks.

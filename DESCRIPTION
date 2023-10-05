@@ -1,0 +1,47 @@
+Package: smartabaseR
+Title: R wrapper for the Smartabase API
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Zac",
+           family = "Pross",
+           role   = c("aut", "cre"),
+           email = "zpross@teamworks.com"),
+    person(given = "James",
+           family = "Day",
+           role = c("aut"),
+           email = "jday@teamworks.com")
+           )
+Description: R wrapper for the Smartabase API. Export, import or delete
+    Smartabase data from R.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    httr2,
+    rlang,
+    tidyjson,
+    readr,
+    dplyr,
+    tidyselect,
+    tibble,
+    tidyr,
+    purrr,
+    stringr,
+    magrittr,
+    lubridate,
+    usethis,
+    memoise,
+    cli,
+    lifecycle,
+    glue
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat,
+    ggplot2,
+    scales
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

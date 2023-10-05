@@ -1,0 +1,144 @@
+---
+title: "Get Started"
+author: ""
+date: ""
+output: 
+  rmarkdown::html_vignette
+editor_options:
+  chunk_output_type: console
+vignette: >
+  %\VignetteIndexEntry{Get Started}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Load smartabaseR
+
+Load the `smartabaseR` package
+```{r load-package, eval = FALSE}
+library(smartabaseR)
+```
+
+### Credentials
+
+Every call to the main import and export functions require a `url`, `username` and `password`. In the `smartabaseR` documentation, we supply credentials in plain text directly in all the examples. We only do this for the sake of space, but in production environments we would advise against storing Smartabase credentials in plain text anywhere, let alone in the main function call for all to see.
+
+Here is some excellent documentation that explores some options: https://cran.r-project.org/web/packages/httr/vignettes/secrets.html. We'd like to reiterate soemthing Hadley Wickham says in that document: "Regardless of how you store them, to use your secrets you will still need to read them into R variables. Be careful not to expose them by printing them or saving them to a file."
+
+At worst, we would suggest storing credentials as environment variables. These are still stored as plain text, but at least they don't need to be shown on screen when using `smartabaseR` in an interactive environment. 
+
+```{r environment_variable_example1, echo = TRUE, eval = FALSE}
+## Opens .Reviron file
+file.edit("~/.Renviron")
+```
+
+If we set the environment variables `SB_URL`, `SB_USER` and `SB_PASS`, then in our script we could call those credentials like this:
+
+```{r environment_variable_example2, echo = TRUE, eval = FALSE}
+sb_get_event(
+  form = "Training Log",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = Sys.getenv("SB_URL"),
+  username = Sys.getenv("SB_USER"),
+  password = Sys.getenv("SB_PASS")
+)
+```
+
+A better option is to use a package like [keyring](https://github.com/r-lib/keyring]) which gives you more control over how your secrets are accessed.
+
+A more laborious option is to request for a password every time: [rstudioapi::askForPassword()](https://rstudio.github.io/rstudioapi/reference/askForPassword.html) or [getPass::getPass()](https://github.com/wrathematics/getPass).
+
+Hadley again with some sage advice: "You should never type your password into the R console: this will typically be stored in the .Rhistory file, and it’s easy to accidentally share without realising it."
+
+### Exporting data from Smartabase
+Exporting Smartabase data with `smartabaseR` is easy with the `sb_get_event()` function. You will at a minimum need to supply values to the `form`, `date_range`, `url`, `username` and `password` arguments. Note that `date_range` contains a `start_date` and an `end_date` and each must be in dd/mm/YYYY format.
+
+```{r export_example1, eval = FALSE}
+sb_get_event(
+  form = "Training Log",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+```{r  export_success, echo = FALSE}                  
+cat("✔ Successfully logged example.username into example.smartabase.com/site.")
+cat("✔ User details export successful.")      
+cat("✔ Training Log export successful (Mar 03 2020 - Mar 07 2023).")
+```
+
+A successful export! We have `Training Log` data for two athletes named Aiden Thomas and Jamie Anderson.
+
+```{r fake_data, echo = FALSE, paged.print = TRUE}
+training_data <- dplyr::tibble(
+  start_date = "03/01/2023",
+  user_id = c(37204, 37201),
+  about = c("Aiden Thomas", "Jamie Anderson"),
+  distance = c(2530, 5411),
+  rpe = c(5, 7),
+  event_id = c(2381840, 2382033),
+  entered_by_user_id = c(37204, 37201)
+)
+
+training_data
+```
+
+**Note**, frequently exporting data (especially large data sets) can put stress on your Smartabase server which may affect your organisation's Smartabase experience. At a minimum, please save your exported data to a variable (here we saved it to a variable called "training_data"). This minimises unnecessary API calls.
+
+## Importing data to Smartabase
+We can also import an R data frame into Smartabase using `sb_insert_event()`.
+
+Imagine we want to calculate the difference between each athlete's RPE and the team average RPE and upload the results to a form called "Team Summary" 
+
+First, to calculate the team average:
+
+```{r avg_rpe, message = FALSE}
+# Need to load dplyr
+library(dplyr)
+
+rpe_average <- training_data %>% 
+  select(-entered_by_user_id) %>% 
+  mutate(team_rpe = round(mean(rpe), 1))
+
+rpe_average
+```
+
+Now to compare the group average to each athlete's RPE:
+
+```{r}
+rpe_average <- rpe_average %>%
+  mutate(rpe_diff = rpe - team_rpe)
+
+rpe_average
+```
+
+Finally, to upload our results back up to Smartabase, we need to supply a data frame and a form name as well as our credentials:
+
+```{r insert_rpe, eval = FALSE}
+sb_insert_event(
+  df = rpe_average,
+  form = "Team Summary",
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+```{r insert_rpe_success, echo = FALSE}
+msg <- paste("✔ SUCCESSFULLY_INSERTED: 2 out of 2 records successfully",
+             "inserted into Team Summary.")
+cat(msg)
+```
+
+Success! Our data should now be imported into the "Team Summary" form on Smartabase.
+
+To learn more about how to get the most out of `smartabaseR`, please see the `exporting-data` and `importing-data` vignettes.

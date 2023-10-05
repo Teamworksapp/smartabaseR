@@ -1,0 +1,38 @@
+# url:
+
+template:
+  bootstrap: 5
+  opengraph:
+    twitter:
+      creator: "@zac_pross"
+      card: summary
+
+navbar:
+  left:
+  - icon: fas fa-home fa-lg
+    href: index.html
+  - text: Get Started
+    href: articles/get-started.html
+  - text: Functions
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Exporting data
+      href: articles/exporting-data.html
+    - text: Synchronsing with Smartabase
+      href: articles/synchronising-with-smartabase.html
+    - text: Importing data
+      href: articles/importing-data.html
+    - text: Deleting data
+      href: articles/deleting-data.html
+    - text: Helper functions
+      href: articles/helper-functions.html
+
+authors:
+  Zac Pross:
+    href: https://au.linkedin.com/in/zac-pross
+  James Day:
+    href: https://au.linkedin.com/in/james-day-ab648321
+
+toc:
+  depth: 4

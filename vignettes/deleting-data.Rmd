@@ -1,0 +1,79 @@
+---
+title: "Deleting Data"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+editor_options:
+  chunk_output_type: console
+vignette: >
+  %\VignetteIndexEntry{Deleting Data}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+If you haven't already, please read the `getting-started` vignette before proceeding: `vignette("getting-started")`.
+
+`sb_delete_event()` uses the Smartabase API (v1) to delete event data in Smartabase. It requires an `event_id` value.
+
+Use this function at your own risk. Once records are deleted, they cannot be retrieved. It is advised that you practice how this function works using test data before running on real data.
+
+`sb_delete_event()` is fairly straightforward. Besides the usual Smartabase credentials, it expects only one argument: `event_id`. These are the IDs of records that are returned by `sb_get_event()` or `sb_synchronise_event()`.
+
+An example workflow might start with first exporting the to-be-deleted data with `sb_get_event()`:
+
+```{r delete_example1, eval = FALSE}
+example_data <- sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+```{r delete_example2, echo = FALSE}
+example_data <- dplyr::tibble(
+  about              = c("Charlie Thompson", "Jack Williams", "Jamie Anderson", 
+                         "Liam Walker"),
+  user_id            = c(31808, 31811, 37201, 37204),
+  form               = c("Example event form", "Example event form", 
+                         "Example event form", "Example event form"),
+  start_date         = c("15/04/2019", "15/04/2019", "15/04/2019", 
+                         "15/04/2019"),
+  Distance           = c(5411, 2374, 1600, 2564),
+  RPE                = c(7, 3, 6, 5),
+  entered_by_user_id = c(37201, 37201, 37201, 37201),
+  event_id           = c(16517, 36505, 36014, 28970)
+)
+```
+
+```{r delete_example3, echo = FALSE}
+example_data
+```
+
+Let's say that we need to delete the record with `user_id = 31808`. It has `event_id = 16517`. We would pass that event ID to `sb_delete_event()` like so:
+
+```{r delete_example4, eval = FALSE}
+sb_delete_event(
+  event_id = 16517,
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+```{r delete_example5, echo = FALSE}
+cat("SUCCESS: Deleted 16517")
+```
+
+That event will now be deleted from Smartabase.
+
+Once again, please use the function at your own risk and put appropriate measures in place to test and verify that it is doing as you expect before applying to real data.
