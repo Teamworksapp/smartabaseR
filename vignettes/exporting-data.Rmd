@@ -344,12 +344,6 @@ Also note that `data_key`, `data_condition` and `data_value` must be the same le
 
 Below are some examples of filtering for both multiple users and multiple conditions in the one `sb_get_event()` call.
 
-This is our example form, it has a Duration field and an RPE field:
-
-```{r training_log, echo = FALSE, fig.width = 10, out.extra = 'style="border:0;"'}
-knitr::include_graphics("../man/figures/training_log.png")
-```
-
 #### Filter example 1
 
 If we want to filter for 1) "Aiden Thomas" and "Jamie Anderson" using their emails and 2) events where Duration is less than "25" minutes and RPE is greater than or equal to "6", then our `sb_get_event()` call would look like this:

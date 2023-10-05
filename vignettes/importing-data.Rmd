@@ -362,11 +362,7 @@ sb_insert_event(
 
 ### `table_field`
 
-Smartabase tables are used when you want to store multiple rows of data in one event. For example, they are prevalent in strength testing forms where an athlete is performing multiple exercises in the same session; e.g.
-
-```{r screenshot_table, echo = FALSE, out.width = "500px"}
-knitr::include_graphics("../man/figures/table_example.PNG")
-```
+Smartabase tables are used when you want to store multiple rows of data in one event. For example, they are prevalent in strength testing forms where an athlete is performing multiple exercises in the same session.
 
 #### Example
 
