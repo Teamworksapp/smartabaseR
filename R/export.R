@@ -108,7 +108,7 @@ sb_get_event <- function(
     ...,
     filter = sb_get_event_filter(),
     option = sb_get_event_option(),
-    time_range = c("00:00 AM", "11:59 PM")
+    time_range = c("12:00 am", "11:59 pm")
 ) {
   rlang::check_dots_used()
   env <- rlang::current_env()
