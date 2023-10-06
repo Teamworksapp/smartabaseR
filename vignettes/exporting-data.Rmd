@@ -80,7 +80,7 @@ sb_get_event(
 
 ## `time_range`
 
-You can also optionally supply a `time_range` value. By default it is set to `time_range = c("00:00 AM", "11:59 PM")`, which doesn't filter out any events based on event time. However in the situation that you require to export events that occurred within specific times of the day, you can manually supply a `time_range` value like so:
+You can also optionally supply a `time_range` value. By default it is set to `time_range = c("12:00 am", "11:59 pm")`, which doesn't filter out any events based on event time. However in the situation that you require to export events that occurred within specific times of the day, you can manually supply a `time_range` value like so:
 
 ```{r time_range1, eval = FALSE}
 sb_get_event(

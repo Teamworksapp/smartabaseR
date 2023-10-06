@@ -33,8 +33,8 @@
 #' `sb_get_event()` also optionally allows specification of a valid time range.
 #' Similar to `date_range`, `time_range` is a length 2 character vector. The
 #' first element is the start time and the second element is the end time. The
-#' times must be character types represented in "h:mm AM/PM" format. Defaults
-#' to c("00:00 AM", "11:59 PM").
+#' times must be character types represented in "h:mm am/pm" format. Defaults
+#' to c("12:00 am", "11:59 pm").
 #'
 #' @section option:
 #' There are also a range of extra options than can be supplied to the `option`
@@ -53,8 +53,8 @@
 #' @param filter More filters accessible via [sb_get_event_filter()] object
 #' @param option More options accessible via [sb_get_event_option()] object
 #' @param time_range Vector of length two containing a valid start_time and
-#' and end_time (h:mm AM/PM) character values. Defaults to
-#' c("00:00 AM", "11:59 PM").
+#' and end_time (h:mm am/pm) character values. Defaults to
+#' c("12:00 am", "11:59 pm).
 #'
 #' @return A tibble containing Smartabase event data
 #' @export
