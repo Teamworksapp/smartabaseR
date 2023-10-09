@@ -19,15 +19,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you haven't already, please read the `getting-started` and `exporting-data` vignettes before proceeding: `vignette("getting-started")`, `vignette("exporting-data)`.
+If you haven't already, please read the `vignette("get-started")` and `vignette("exporting-data")` vignettes before proceeding.
 
 ## Import functions
 
-There are four general functions for importing data into Smartabase using `smartabaseR`: `sb_insert_event()`, `sb_update_event()`, `sb_upsert_event()` and `sb_upsert_profile()`. 
+`smartabaseR` provides four general functions for importing data into Smartabase: `sb_insert_event()`, `sb_update_event()`, `sb_upsert_event()` and `sb_upsert_profile()`. 
 
 ### sb_insert_event()
 
-'Inserting' data into Smartabase means you are creating new events, which practically means you are adding new rows to the Smartabase event database. `sb_insert_event()` creates new events no matter what. This is the most commonly used import function and ensures no chance of existing events being updated/overwritten.
+'Inserting' data into Smartabase means you are creating new events; i.e. inserting new rows into the Smartabase event database. `sb_insert_event()` is the most commonly used import function and ensures no chance of existing events being updated/overwritten.
 
 #### Example
 
@@ -38,7 +38,6 @@ training_data <- dplyr::tibble(
   about = c("Aiden Thomas", "Jamie Anderson"),
   distance = c(2530, 5411),
   rpe = c(5, 7),
-  event_id = c(2381840, 2382033),
   entered_by_user_id = c(37204, 37201)
 )
 
@@ -54,26 +53,27 @@ sb_insert_event(
 ```
 
 ```{r insert_rpe_success, echo = FALSE}
-msg <- paste0("✔ SUCCESSFULLY_INSERTED: 2 out of 2 records successfully",
-              "inserted into Team Summary.")
-cat(msg)
+cli::cli_alert_success(
+  "SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into Team \\
+  Summary."
+)
 ```
 
 ### sb_update_event()
 
-'Updating' data in Smartabase means you are editing existing events in the Smartabase event database. `sb_update_event()` requires a valid `event_id` column in the supplied data frame. These are unique IDs that ensure only the correct events are updated/overwritten.
+'Updating' data in Smartabase means you are editing existing events in the Smartabase event database. `sb_update_event()` requires a valid `event_id` column in the supplied data frame. These are Smartabase-generated unique IDs that ensure only the correct events are updated/overwritten.
 
 #### Updating is the same as overwriting 
 
 Important side note: we chose the term 'update' for `sb_update_event()` because it aligns with standard database terminology, but arguably a more appropriate name would be `sb_overwrite_event()`. 
 
-That's because every event in the data frame supplied to `sb_update_event()` completely overwrites the matching event (according to the `event_id`) in the Smartabase event database. 
+That's because every event in the data frame supplied to `sb_update_event()` completely overwrites the existing event in the Smartabase event database. 
 
-Practically this also means that most calls to `sb_update_event()` should be preceded by a call to `sb_get_event()`/`sb_sync_event()`. The latter return a data frame that contain the entire Smartabase form, including every column/field that contains data -- and not to mention the necessary `event_id` column.
+Practically this also means that most calls to `sb_update_event()` should be preceded by a call to `sb_get_event()`/`sb_sync_event()`. The latter return a data frame that contain the entire Smartabase form, including every column/field that contains data; not to mention the necessary `event_id` column.
 
 #### Example
 
-The example below represents a typical workflow that involves exporting data via `sb_get_event()`. The workflow involves exporting event data from Smartabase, applying some transformation and then importing the results using `sb_insert_event()`.
+The workflow below involves exporting event data from Smartabase via `sb_get_event()`, applying some transformation and then importing the results using `sb_insert_event()`.
 
 ```{r example_get_for_update, eval = FALSE}
 training_data <- sb_get_event(
@@ -107,8 +107,7 @@ Notice that the field `Team Average Distance` is currently empty. Let's imagine 
 library(dplyr)
 
 avg_dist_data <- training_data %>% 
-  mutate(across("Team Average Distance", ~mean(Distance))) %>% 
-  mutate(across("Team Average Distance", ~round(.)))
+  mutate(across("Team Average Distance", ~round(mean(Distance), 0)))
 
 avg_dist_data
 ```
@@ -128,30 +127,30 @@ sb_update_event(
 Running the above code will create a screen prompt that you will have to interact with:
 
 ```{r screen_prompt_up_cat, echo = FALSE}
-cat("── WARNING ──────────────────────────────────────────────────────────")
-cat("! You are about to UPDATE 2 records in Hydration (SS).")
-cat("ℹ Please be aware the incoming data will overwrite the existing data.")
-cat("ℹ The Smartabase API will be called once.")
-cat("→ Are you sure you want to continue?")
-cat("\n")
+cli::cli_h1("WARNING")
+cli::cli_inform(c(
+  "!" = "You are about to UPDATE 2 records in Training Log.",
+  "i" = "Please be aware the incoming data will overwrite the existing data."
+))
+cli::cli_inform("The Smartabase API will be called once.")
+cli::cli_alert("Are you sure you want to continue?")
 cat("1: Yes")
 cat("2: No")
-cat("\n")
-cat("Selection: ")
 ```
 
-If you input `1` into the console then you'll see:
+If you input "1" or "Yes" into the console then you'll see:
 
 ```{r import_dist_avg_success, echo = FALSE}
-msg <- paste0("✔ SUCCESSFULLY_UPDATED: 2 out of 2 records successfully updated",
-              "in Hydration (SS).")
-cat(msg)
+cli::cli_alert_success(
+  "SUCCESSFULLY_UPDATED: 2 out of 2 records successfully updated in Training \\
+  Log."
+)
 ```
 
 
 ### sb_upsert_event()
 
-'Upserting' data into Smartabase means events can either be created or updated, depending on the `event_id` column. Rows with valid event IDs will update the matching rows in the Smartabase event database, whereas rows with no `event_id` will be inserted as new rows in the Smartabase event database.
+['Upserting'](https://en.wiktionary.org/wiki/upsert) data into Smartabase means events can either be created or updated, depending on the `event_id` column. Rows with valid event IDs will update the matching rows in the Smartabase event database, whereas rows with no `event_id` will be inserted as new rows in the Smartabase event database.
 
 #### Example
 
@@ -228,31 +227,32 @@ sb_upsert_event(
 
 
 ```{r, echo = FALSE}
-cat("── WARNING ──────────────────────────────────────────────────────────")
-cat("! You are about to UPDATE 2 records in Hydration (SS).")
-cat("ℹ Please be aware the incoming data will overwrite the existing data.")
-cat("ℹ The Smartabase API will be called twice.")
-cat("ℹ You will also INSERT 2 new records..")
-cat("→ Are you sure you want to continue?")
-cat("\n")
+cli::cli_h1("WARNING")
+cli::cli_inform(c(
+  "!" = "You are about to UPDATE 2 records in Training Log.",
+  "i" = "Please be aware the incoming data will overwrite the existing data.",
+  "i" =  "You will also INSERT 2 new records."
+))
+cli::cli_inform("The Smartabase API will be called twice.")
+cli::cli_alert("Are you sure you want to continue?")
 cat("1: Yes")
 cat("2: No")
-cat("\n")
-cat("Selection: ")
 ```
 
 ```{r, echo = FALSE}
-msg <- paste0("✔ 1: SUCCESSFULLY_UPDATED: 2 out of 2 records successfully",
-              "updated in Hydration (SS).")
-cat(msg)
-msg <- paste0("✔ 2: SUCCESSFULLY_INSERTED: 2 out of 2 records successfully",
-              "inserted into Hydration (SS).")
-cat(msg)
+cli::cli_alert_success(
+  "1: SUCCESSFULLY_UPDATED: 2 out of 2 records successfully updated in \\
+  Training Log."
+)
+cli::cli_alert_success(
+  "2: SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into \\
+  updated in Training Log."
+)
 ```
 
 ### sb_upsert_profile()
 
-`sb_upsert_profile()` is the only function for importing profile data into Smartabase. Profile forms can only store one record per athlete and therefore every import into a profile form is an upsert. That is, for each athlete, the first time data is imported into a profile form it will be an insert, but future imports will all be updates.
+`sb_upsert_profile()` is the only function for importing profile data into Smartabase. Profile forms can only store one record per athlete and therefore every import into a profile form is an upsert. That is, for each athlete, the first time data is imported into a profile form it will be an insert, but future profile imports will all be updates.
 
 #### Example 
 
@@ -282,12 +282,15 @@ sb_upsert_profile(
 ```{r profile_upsert_success, echo = FALSE}
 msg <- paste("✔ SUCCESSFULLY_INSERTED: 1 out of 1 records successfully",
              "inserted into Example Profile Form.")
-cat(msg)
+cli::cli_alert_success(
+  "SUCCESSFULLY_INSERTED: 1 out of 1 records successfully inserted into \\
+  Example Profile Form."
+)
 ```
 
 ## `option`
 
-All `option` values must be generated by the relevant helper function. So if we're using `sb_insert_event()` and we want to set `table_field = "Example Table Field"`, we would use `sb_get_event_option(table_field = "Example Table Field")`:
+All `option` values must be generated by the relevant helper function. So if we're using `sb_insert_event()` and we want to set `table_field = "Example Table Field"`, we would set `table_field = "Example Table Field"` within `sb_get_event_option()`. For example:
 
 ```{r option_example, eval = FALSE}
 sb_get_event(
@@ -315,17 +318,15 @@ Note: even though the below examples reference `sb_insert_event()`, the same adv
 
 ### `cache`
 
-The first time you hit the Smartabase API within a given R session (the first time you call `sb_insert_event()`, for instance), `smartabaseR` in the background first calls `sb_login()`. If the `cache` option is set to `TRUE` (default), then this login object is then saved into memory and passed to further calls to the Smartabase API. If the `cache` option is `FALSE`, then call to the Smartabase API will be preceded by a call to `sb_login()`.
+The first time you hit the Smartabase API within a given R session (the first time you call `sb_insert_event()`, for instance), `smartabaseR` in the background first calls `sb_login()`. If the `cache` option is set to `TRUE` (default), then this login object is then saved into memory and passed to further calls to the Smartabase API. If the `cache` option is `FALSE`, then subsequent calls to the Smartabase API will be preceded by a call to `sb_login()`.
 
 ### `id_col`
 
 Whenever you import data into Smartabase, the API requires that there exists a column called `user_id` in the data frame. This represents each athlete's Smartabase-generated user ID. The `id_col` defaults to `"user_id"` for this reason.
 
-However, there may be situations where you don't have the relevant Smartabase user IDs handy. There are two approaches here: firstly, you could make a call to sb_get_user() to get the user IDs yourself, then join that to the event data by "user_id"; or, secondly, 
+However, there may be situations where you don't have the relevant Smartabase user IDs handy. There are two approaches here: firstly, you could make a call to sb_get_user() to get the user IDs yourself, then join that to the event data by "user_id"; or, secondly, if your data frame contains some other kind of identifying column like "username", "email" or "about" (that is, full name), then you can simply set the `id_col` argument to the name of the identifying column. For instance, `id_col = "about"`.
 
-but rather some other kind of identifying column like "username", "email" or "about" (that is, full name). 
-
-In these cases, set `id_col` to either "username", "email" or "about". `smartabaseR` will make an internal call to `sb_get_user()` in order to find, and then pass, the correct user IDs to the Smartabase API.
+`id_col` can either be set to "username", "email" or "about". 
 
 #### Example
 
@@ -372,6 +373,9 @@ Here is some event data from a form that contains both table and non-table field
 strength_data <- sb_get_event(
   form = "Strength Testing",
   date_range = c("15/04/2023", end_date = "15/04/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password",
   option = sb_get_event_option(
     user_key = "about",
     user_value = c("Aiden Thomas", "Jamie Anderson")
@@ -417,7 +421,7 @@ sb_insert_event(
 
 #### Duplicate user_id/start_date when `table_field = NULL`
 
-If `table_field = NULL` but duplicate `user_id`/`start_date` pairings are detected, the data set will be split into a list of data frame. Each data frame contains a set of the original data whereby there are no duplicate `user_id`/`start_date` values internally. Each data set in the list is then imported via separate API calls. 
+If `table_field = NULL` but duplicate `user_id`/`start_date` pairings are detected, the data set will be split into a list of data frames. Each element of the list, i.e., each data frame, contains a set of the original data whereby there are no duplicate `user_id`/`start_date` values internally. Each data set in the list is then imported via individual API calls. 
 
 For example, let's say we have the following data set
 
@@ -461,7 +465,7 @@ The first data set contains the first unique `user_id`/`start_date` pairing; the
 
 ### start_date / end_date / start_time / end_time columns
 
-When uploading data to Smartabase, the API requires metadata about when the event started and stopped. `sb_insert_event()` will first search for any columns in the data named "start_time" and "end_time". **Note: start_time and end_time values must be in h:mm AM or h:mm PM format.** If those columns do not exist, `start_time` and `end_time` will be set to the current time and one hour after the current time, respectively. 
+When uploading data to Smartabase, the API requires metadata about when the event started and stopped. `sb_insert_event()` will first search for any columns in the data named "start_time" and "end_time". **Note: start_time and end_time values must be in h:mm am or h:mm pm format.** If those columns do not exist, `start_time` and `end_time` will be set to the current time and one hour after the current time, respectively. 
 
 Likewise,`sb_insert_event()` will also search for any columns named "start_date" or "end_date", which **must have values formatted as dd/mm/YYYY**. If those columns do not exist, both `start_date` and `end_date` will be set to the current date (unless the difference between `start_time` and `end_time` spans midnight, in which case the `end_date` will be set to the current date plus one day).
 

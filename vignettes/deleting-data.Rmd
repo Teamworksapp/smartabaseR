@@ -19,13 +19,13 @@ comment = "#>"
 )
 ```
 
-If you haven't already, please read the `getting-started` vignette before proceeding: `vignette("getting-started")`.
+If you haven't already, please read the `vignette("get-started")` before preceding.
 
-`sb_delete_event()` uses the Smartabase API (v1) to delete event data in Smartabase. It requires an `event_id` value.
+`sb_delete_event()` uses the Smartabase API to delete event data in Smartabase. It requires an `event_id` value.
 
 Use this function at your own risk. Once records are deleted, they cannot be retrieved. It is advised that you practice how this function works using test data before running on real data.
 
-`sb_delete_event()` is fairly straightforward. Besides the usual Smartabase credentials, it expects only one argument: `event_id`. These are the IDs of records that are returned by `sb_get_event()` or `sb_synchronise_event()`.
+`sb_delete_event()` is fairly straightforward. Besides the usual Smartabase credentials, it expects only one argument: `event_id`. This is the ID of the Smartabase event that is returned by `sb_get_event()` or `sb_synchronise_event()`.
 
 An example workflow might start with first exporting the to-be-deleted data with `sb_get_event()`:
 

@@ -9,7 +9,7 @@
 #' "dd/mm/YYYY" strings.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("exporting-data", package = "smartabaseR")}
+#' \code{vignette("exporting-data")}
 #'
 #' @param duration_value Number of days, weeks, months or years from end date.
 #' @param duration_unit Either "days", "weeks", "months" or "years". Defaults

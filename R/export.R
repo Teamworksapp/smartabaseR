@@ -8,7 +8,7 @@
 #' event form name, date range, url and credentials.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("exporting-data", package = "smartabaseR")}
+#' \code{vignette("exporting-data")}
 #'
 #' @section date_range:
 #' `sb_get_event()` returns events that occur between a start date and an end
@@ -262,7 +262,7 @@ sb_sync_event <- function(
 #' event form name, url and credentials.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("exporting-data", package = "smartabaseR")}
+#' \code{vignette("exporting-data")}
 #'
 #' @section Filters:
 #' There are also a range extra filters than can be supplied to the `filter`
@@ -348,7 +348,7 @@ sb_get_profile <- function(
 #' Smartabase groups that the logged in user has access to.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("helper-functions", package = "smartabaseR")}
+#' \code{vignette("helper-functions")}
 #'
 #' @section Options:
 #' There are also a range extra options than can be supplied to the `option`
@@ -408,7 +408,7 @@ sb_get_group <- function(
 #' the user to input a valid Smartabase url and valid Smartabase credentials.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("helper-functions", package = "smartabaseR")}
+#' \code{vignette("helper-functions")}
 #'
 #' @section Filters:
 #' There are also a range extra filters than can be supplied to the `filter`

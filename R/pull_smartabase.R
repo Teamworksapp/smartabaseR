@@ -6,7 +6,7 @@
 #'
 #' This function pulls data from a Smartabase event form or profile form using
 #' the Smartabase API. For more details see the help vignette:
-#' \code{vignette("pulling-data", package = "smartabaseR")}
+#' \code{vignette("pulling-data")}
 #'
 #' @param url string: Smartabase url e.g. 'example.smartabase.com/site'
 #' @param form string: name of Smartabase form

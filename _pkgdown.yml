@@ -17,6 +17,8 @@ navbar:
     href: reference/index.html
   - text: Articles
     menu:
+    - text: Credential management
+      href: articles/credentials.html
     - text: Exporting data
       href: articles/exporting-data.html
     - text: Synchronsing with Smartabase

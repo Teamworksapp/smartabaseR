@@ -29,13 +29,13 @@ devtools::install_github("Teamworksapp/smartabaseR")
 
 `smartabaseR` respects all the same permissions as if you were
 interacting with the Smartabase web app or a Smartabase mobile app. For
-example, if you don’t have access to certain form in Smartabase, then
+example, if you don’t have access to a certain form in Smartabase, then
 you won’t have access to that form via `smartabaseR`. Likewise, if you
 have delete access to a certain form in Smartabase, then you can also
 delete data from that form with `smartabaseR`.
 
 `smartabaseR` is a powerful tool. It can level up your automation and
-analytics processes but there is potential for damage if you haven’t:
+analytics processes but there is potential for damage if you have not:
 
 1.  read all the documentation
 2.  undertaken extensive testing before putting into production
@@ -44,12 +44,9 @@ analytics processes but there is potential for damage if you haven’t:
 
 ## Getting started
 
-`smartabaseR` provides some helper functions to setup various
-credentials. You can see a vignette for explaining those below.
-
-``` r
-vignette("getting-started", package = "smartabaseR")
-```
+It’s important to think about how you provide credentials to
+`smartabaseR`. You can read more about that here:
+`vignette("get-started")`.
 
 ## Usage
 
@@ -59,7 +56,7 @@ from/to your Smartabase site via the Smartabase API.
 #### sb_get_event()
 
 The `sb_get_event()` function allows you to export data from a specific
-Smartabase form into an R session.
+Smartabase form into an R session:
 
 ``` r
 sb_get_event(
@@ -74,7 +71,7 @@ sb_get_event(
 #### sb_insert_event()
 
 The `sb_insert_event()` function allows you to send data back to a
-Smartabase form.
+Smartabase form:
 
 ``` r
 sb_insert_event(
@@ -89,10 +86,8 @@ sb_insert_event(
 ## Further Reading
 
 Browse the vignettes below for in depth details on the workflow and for
-details each function.
+details each function:
 
-``` r
-vignette("exporting-data", package = "smartabaseR")
-vignette("importing-data", package = "smartabaseR")
-vignette("helper-functions", package = "smartabaseR")
-```
+- `vignette("exporting-data")`
+- `vignette("importing-data")`
+- `vignette("helper-functions")`
