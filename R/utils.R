@@ -290,7 +290,7 @@ save_credentials <- function() {
     details = glue::glue(
       "save_credentials() was deprecated in favour of more explicit \\
       credential strategies. Please see \\
-      {.code vignette(\"get-started\")}"
+      {.code vignette(\"credentials\")}"
     ))
   # writes message similar to brows_github_path()
   message("('.Renviron') file opened.\n")

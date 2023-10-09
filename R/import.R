@@ -7,7 +7,7 @@
 #' Smartabase event form name, url and credentials.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("exporting-data", package = "smartabaseR")}
+#' \code{vignette("exporting-data")}
 #'
 #' @section start_date / end_date / start_time / end_time columns:
 #' When uploading data to Smartabase, the API requires metadata about when the
@@ -117,7 +117,7 @@ sb_insert_event <- function(
 #' `event_id` column that contains valid Smartabase event IDs.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("importing-data", package = "smartabaseR")}
+#' \code{vignette("importing-data")}
 #'
 #' @section Options:
 #' There are also a range extra options than can be supplied to the `option`
@@ -185,7 +185,7 @@ sb_update_event <- function(
 #' in Smartabase, then that event will be inserted as a new event.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("importing-data", package = "smartabaseR")}
+#' \code{vignette("importing-data")}
 #'
 #' @section start_date / end_date / start_time / end_time columns:
 #' When uploading data to Smartabase, the API requires metadata about when the
@@ -270,7 +270,7 @@ sb_upsert_event <- function(
 #' will be inserted as a new profile record.
 #'
 #' For more details see the help vignette:
-#' \code{vignette("importing-data", package = "smartabaseR")}
+#' \code{vignette("importing-data")}
 #'
 #' @section Options:
 #' There are also a range extra options than can be supplied to the `option`

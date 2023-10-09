@@ -7,7 +7,7 @@
 #' data frame into a specific Smartabase event or profile form. Set
 #' 'type' = "profile" to push to a profile form. For more details see the
 #' help vignette:
-#' \code{vignette("get-started", package = "smartabaseR")}
+#' \code{vignette("get-started")}
 #'
 #' @param df data frame: data to be uploaded to Smartabase
 #' @param url string: Smartabase url e.g. 'example.smartabase.com/site'

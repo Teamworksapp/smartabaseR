@@ -46,7 +46,7 @@ devtools::install_github("Teamworksapp/smartabaseR")
 
 ## Getting started
 
-It's important to think about how you provide credentials to `smartabaseR`. You can read more about that here: `vignette("get-started")`.
+It's important to think about how you provide credentials to `smartabaseR`. You can read more about that here: `vignette("credentials")`.
 
 ## Usage
 

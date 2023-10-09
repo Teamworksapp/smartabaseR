@@ -19,7 +19,7 @@ comment = "#>"
 )
 ```
 
-If you haven't already, please read the `get-started` vignette before proceeding: `vignette("get-started")`.
+If you haven't already, please read the `vignette("get-started")` vignette before proceeding.
 
 `sb_get_event()`, `sb_get_profile()`, `sb_get_id()` and `sb_sync_event()` all leverage the Smartabase API to get event data out of Smartabase and into your R session. While only `sb_get_event()` requires a `date_range` value, all export functions contain `filter` and `option` arguments. These arguments allow you to extract only the data you need, which means better performance.
 

@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you haven't already, please read the `vignette(get-started)` and `vignette(exporting-data)` vignettes before proceeding.
+If you haven't already, please read the `vignette("get-started")` and `vignette("exporting-data")` vignettes before proceeding.
 
 ## Import functions
 

@@ -19,7 +19,7 @@ comment = "#>"
 )
 ```
 
-If you haven't already, please read the `vignette(get-started)` before preceding.
+If you haven't already, please read the `vignette("get-started")` before preceding.
 
 `smartabaseR` contains several helper functions that are called from other exported functions. The two main ones are `sb_get_user()` and `sb_get_group()`.
 

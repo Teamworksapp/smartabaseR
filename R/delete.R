@@ -7,7 +7,7 @@
 #' the Smartabase API. It requires the user to input a valid Smartabase
 #' event ID, url and credentials.
 #'
-#' Please see \code{vignette("deleting-data", package = "smartabaseR")} for more
+#' Please see \code{vignette("deleting-data")} for more
 #' details.
 #'
 #' @param event_id IDs of Smartabase events to be deleted
