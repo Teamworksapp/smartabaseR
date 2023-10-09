@@ -31,13 +31,10 @@
 ) {
   cli::cli_h1("WARNING")
   cli::cli_inform(c(
-    "!" = paste(
-      "You are about to UPDATE {.val {update_nrow}} record{?s} in",
-      "{.field {arg$form}}."
-    ),
+    "!" = "You are about to UPDATE {.val {update_nrow}} record{?s} in \\
+      {.field {arg$form}}.",
     "i" = "Please be aware the incoming data will overwrite the existing data."
-    )
-  )
+    ))
   if (insert_nrow > 0) {
     cli::cli_inform(
       c("i" = "You will also INSERT {.val {insert_nrow}} new record{?s}.")
