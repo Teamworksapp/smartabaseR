@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smartabaseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/credentials.html">Credential management</a>
     <a class="dropdown-item" href="../articles/exporting-data.html">Exporting data</a>
     <a class="dropdown-item" href="../articles/synchronising-with-smartabase.html">Synchronsing with Smartabase</a>
     <a class="dropdown-item" href="../articles/importing-data.html">Importing data</a>
@@ -94,13 +95,12 @@
 
     
     
-<p>If you haven’t already, please read the <code>getting-started</code>
-vignette before proceeding:
-<code>vignette("getting-started")</code>.</p>
+<p>If you haven’t already, please read the
+<code><a href="../articles/get-started.html">vignette("get-started")</a></code> vignette before proceeding.</p>
 <p><code><a href="../reference/sb_get_event.html">sb_get_event()</a></code>, <code><a href="../reference/sb_get_profile.html">sb_get_profile()</a></code>,
 <code>sb_get_id()</code> and <code><a href="../reference/sb_sync_event.html">sb_sync_event()</a></code> all leverage
-the Smartabase API (v1) to get event data out of Smartabase and into
-your R session. While only <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> requires a
+the Smartabase API to get event data out of Smartabase and into your R
+session. While only <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> requires a
 <code>date_range</code> value, all export functions contain
 <code>filter</code> and <code>option</code> arguments. These arguments
 allow you to extract only the data you need, which means better
@@ -207,23 +207,27 @@ need to use <code><a href="../reference/sb_get_event_filter.html">sb_get_event_f
 <span>    user_value <span class="op">=</span> <span class="st">"Jamie Anderson"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Each export function has an associated filter function: *
-<code>sb_sync_event(..., filter = sb_sync_event_filter())</code> *
-<code>sb_get_profile(..., filter = sb_get_profile_filter())</code> *
-<code>sb_get_id(..., filter = sb_get_id_filter())</code> * etc…</p>
+<p>Each export function has an associated filter function:</p>
+<ul>
+<li><code>sb_sync_event(..., filter = sb_sync_event_filter())</code></li>
+<li><code>sb_get_profile(..., filter = sb_get_profile_filter())</code></li>
+<li><code>sb_get_id(..., filter = sb_get_id_filter())</code></li>
+<li>etc…</li>
+</ul>
 <p>Below goes into more detail about each available filter.</p>
 <div class="section level3">
 <h3 id="user-filtering">User filtering<a class="anchor" aria-label="anchor" href="#user-filtering"></a>
 </h3>
 <p>Note: this section applies to both <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> and
 <code><a href="../reference/sb_get_profile.html">sb_get_profile()</a></code>.</p>
-<p><code>user_key</code> and <code>user_value</code> allow you to get
+<p><code>user_key</code> and <code>user_value</code> allow you to filter
 event/profile data for specific Smartabase users.</p>
 <p><code>user_key</code> represents the user identification method:
-‘about’, ‘user_id’, ‘username’ or ‘email’.</p>
-<p>If we wanted to filter for the athlete ‘Aiden Thomas’ then we’d set
-<code>user_key = 'about'</code> and
-<code>user_value = 'Aiden Thomas'</code>.</p>
+<code>"about"</code>, <code>"user_id"</code>, <code>"username"</code> or
+<code>"email"</code>.</p>
+<p>If we wanted to filter for the athlete “Aiden Thomas” then we”d set
+<code>user_key = "about"</code> and
+<code>user_value = "Aiden Thomas"</code>.</p>
 <p><strong>about</strong></p>
 <p>If <code>user_key = "about"</code>, <code>data_value</code> accepts
 <em>full names</em>.</p>
@@ -231,7 +235,7 @@ event/profile data for specific Smartabase users.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example event form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
-<span>   url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span>,</span>
 <span>  filter <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_filter.html">sb_get_event_filter</a></span><span class="op">(</span></span>
@@ -249,7 +253,7 @@ the Smartabase admin site.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example event form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
-<span>   url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span>,</span>
 <span>  filter <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_filter.html">sb_get_event_filter</a></span><span class="op">(</span> </span>
@@ -264,7 +268,7 @@ accepts Smartabase <em>usernames</em>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example event form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
-<span>   url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span>,</span>
 <span>  filter <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_filter.html">sb_get_event_filter</a></span><span class="op">(</span> </span>
@@ -279,7 +283,7 @@ users’ <em>emails</em>, as recorded on Smartabase.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example event form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
-<span>   url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span>,</span>
 <span>  filter <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_filter.html">sb_get_event_filter</a></span><span class="op">(</span></span>
@@ -321,8 +325,8 @@ exported for users in that Smartabase group.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>To see a list of Smartabase groups that you have access to, use the
-<code><a href="../reference/sb_get_group.html">sb_get_group()</a></code> function. For more details, see the
-<code>helper-functions</code> vignette.</p>
+<code><a href="../reference/sb_get_group.html">sb_get_group()</a></code> function. For more details, see
+<code>vignette(helper-functions)</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="data-filtering">Data filtering<a class="anchor" aria-label="anchor" href="#data-filtering"></a>
@@ -354,9 +358,9 @@ field, and you only want to export data where Duration was equal to
 <h4 id="data_condition">data_condition<a class="anchor" aria-label="anchor" href="#data_condition"></a>
 </h4>
 <p>By default, records that are <em>equal to</em>
-<code>data_value</code> will be exported However, you may want to export
-records where, for example, Duration is greater than “35”. You can
-achieve this by supplying “greater_than” to the
+<code>data_value</code> will be exported. However, you may want to
+export records where, for example, Duration is greater than “35”. You
+can achieve this by supplying “greater_than” to the
 <code>data_condition</code> argument:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
@@ -381,8 +385,8 @@ achieve this by supplying “greater_than” to the
 <li><code>"less_than_or_equal_to"</code></li>
 <li><code>"contains"</code></li>
 </ul>
-<p>Note that the ‘greater_than’, ‘greater_than_or_equal_to’, ‘less_than’
-and ‘less_than_or_equal_to’ operators will only work on number
+<p>Note that the “greater_than”, “greater_than_or_equal_to”, “less_than”
+and “less_than_or_equal_to” operators will only work on number
 fields.</p>
 <p>You can use multiple filters in the same call to
 <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code>. For example, if we only wanted events where
@@ -483,7 +487,7 @@ equal</em> to “50” minutes and RPE <em>contains</em> the word
 <p>All <code>option</code> values must be generated by the relevant
 helper function. So, if we’re using <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> to
 export data but we want every column to be a string, we could use
-<code><a href="../reference/sb_get_event_option.html">sb_get_event_option()</a></code>:</p>
+<code>sb_get_event_option(guess_col_type = FALSE)</code>:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
@@ -507,15 +511,13 @@ export data but we want every column to be a string, we could use
 <h3 id="cache">
 <code>cache</code><a class="anchor" aria-label="anchor" href="#cache"></a>
 </h3>
-<p>The first time you hit the Smartabase API within a given R session
-(the first time you call <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code>, for instance),
-<code>smartabaseR</code> in the background first calls
-<code><a href="../reference/sb_login.html">sb_login()</a></code>. If the <code>cache</code> option is set to
-<code>TRUE</code> (default), then this login object is then saved into
-memory and passed to further calls to the Smartabase API. If the
-<code>cache</code> option is <code>FALSE</code>, then call to the
-Smartabase API will be preceded by a call to
-<code><a href="../reference/sb_login.html">sb_login()</a></code>.</p>
+<p>The first time you call the Smartabase API within a given R session,
+<code>smartabaseR</code> makes a call to <code><a href="../reference/sb_login.html">sb_login()</a></code>. If the
+<code>cache</code> option is set to <code>TRUE</code> (default), then
+this login object is then saved into memory and passed to further calls
+to the Smartabase API. If the <code>cache</code> option is
+<code>FALSE</code>, then each subsequent call to the Smartabase API will
+be preceded by a call to <code><a href="../reference/sb_login.html">sb_login()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="download_attachment">
@@ -537,8 +539,8 @@ current directory.</p>
 <span>    download_attachment <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; ✔ Hydration (SS) attachment download successful: 5 out of 5 files (80.01kb total) saved to C:/Users/ZacPross/Example_directory</span></span>
-<span><span class="co">#&gt; ✔ Hydration (SS) export successful (17/03/2023 - 17/03/2023).</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Hydration (SS) attachment download successful: 5 out of 5 files (80.01kb total) saved to C:/Users/ZacPross/Example_directory</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Hydration (SS) export successful (17/03/2023 - 17/03/2023).</span></span></code></pre>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 12</span></span></span>
 <span><span class="co">#&gt;   about         user_id form  start_date File  Distance   RPE entered_by_user_id</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -550,17 +552,14 @@ current directory.</p>
 <h3 id="include_missing_users">
 <code>include_missing_users</code><a class="anchor" aria-label="anchor" href="#include_missing_users"></a>
 </h3>
-<p>If an athlete has no data stored against them for the form (and date
-range) you’re requesting, then the Smartabase API doesn’t return any
+<p>If an athlete has no data stored against them (or the requested
+<code>date_range</code>, then the Smartabase API won’t return any event
 data about that athlete.</p>
-<p>But sometimes you want to see which athletes precisely don’t have any
-data against them. If <code>include_missing_users = TRUE</code>, then
-all athletes will be included in the returned data frame, even if they
-have no data stored against them; i.e., they will appear as a row of NA
-values.</p>
-<p>For instance, let’s say we want to get data from “Training Log” for
-the last 2 days and include all athletes from the “Demo Group”,
-irrespective if they have data in “Training Log” for those 2 days:</p>
+<p>But sometimes it’s interesting to include rows about athletes that
+have no data stored against them. For instance, let’s say we want to get
+data from “Training Log” for the last 2 days and include all athletes
+from the “Demo Group”, irrespective if they have data in “Training Log”
+for those 2 days:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
@@ -582,15 +581,16 @@ irrespective if they have data in “Training Log” for those 2 days:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Jack Will…   <span style="text-decoration: underline;">31</span>811 Exam… 15/04/2023     <span style="text-decoration: underline;">2</span>374     3              <span style="text-decoration: underline;">37</span>201    <span style="text-decoration: underline;">36</span>505</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Jamie And…   <span style="text-decoration: underline;">37</span>201 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Liam Walk…   <span style="text-decoration: underline;">37</span>204 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>               <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span></span></span></code></pre>
-<p>Above, Jamie Anderson and Liam Walker haven’t entered any data.</p>
+<p>Jamie Anderson and Liam Walker haven’t entered any data, which could
+prove relevant information for data quality reporting.</p>
 </div>
 <div class="section level3">
 <h3 id="guess_col_type">
 <code>guess_col_type</code><a class="anchor" aria-label="anchor" href="#guess_col_type"></a>
 </h3>
 <p>By default, <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> and
-<code><a href="../reference/sb_get_profile.html">sb_get_profile()</a></code> guess the data type of each column and
-appends the guess to the top of each column. For example,</p>
+<code><a href="../reference/sb_get_profile.html">sb_get_profile()</a></code> guess the data type of each column. For
+example, setting <code>guess_col_type = TRUE</code>:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
@@ -611,13 +611,13 @@ appends the guess to the top of each column. For example,</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Charlie Thompson   <span style="text-decoration: underline;">31</span>808 Example … 15/04/2023 15/04/2023            <span style="text-decoration: underline;">5</span>411     7</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: entered_by_user_id &lt;dbl&gt;, event_id &lt;dbl&gt;</span></span></span></code></pre>
 <p>Notice how in the tibble above the <code>about</code> column has
-<code>&lt;chr&gt;</code> at the top (meaning that the column contains
-character data) and the <code>Distance</code> column has
-<code>&lt;dbl&gt;</code> at the top (meaning that the column contains
-numeric data).</p>
+<code>&lt;chr&gt;</code> at the top. This means that the column is
+<code>character</code> type. The <code>Distance</code> column has
+<code>&lt;dbl&gt;</code> at the top, which means it contains numeric
+data.</p>
 <p>However, if you don’t want <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> to guess the
-column types and would like everything to come through as character
-types, simply set <code>guess_col_type = FALSE</code>.</p>
+column types, and you’d prefer each column to come through as character
+types, set <code>guess_col_type = FALSE</code>.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
@@ -657,9 +657,9 @@ required when importing back into Smartabase.</li>
 <p><code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> and <code><a href="../reference/sb_get_profile.html">sb_get_profile()</a></code> accept
 an input called <code>interactive_mode</code>. If
 <code>interactive_mode = FALSE</code>, no messages will be printed to
-screen. This is for when the package is being run on cloud instances in
-an automated fashion and there is no need to save those messages to a
-log.</p>
+screen. This is for when the package is being run in automated
+environments. In these situations you may want to minimise progress
+messages clogging up logs.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>

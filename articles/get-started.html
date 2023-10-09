@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smartabaseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/credentials.html">Credential management</a>
     <a class="dropdown-item" href="../articles/exporting-data.html">Exporting data</a>
     <a class="dropdown-item" href="../articles/synchronising-with-smartabase.html">Synchronsing with Smartabase</a>
     <a class="dropdown-item" href="../articles/importing-data.html">Importing data</a>
@@ -98,51 +99,13 @@
 <div class="section level3">
 <h3 id="load-smartabaser">Load smartabaseR<a class="anchor" aria-label="anchor" href="#load-smartabaser"></a>
 </h3>
-<p>Load the <code>smartabaseR</code> package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">smartabaseR</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="credentials">Credentials<a class="anchor" aria-label="anchor" href="#credentials"></a>
 </h3>
-<p>Every call to the main import and export functions require a
-<code>url</code>, <code>username</code> and <code>password</code>. In
-the <code>smartabaseR</code> documentation, we supply credentials in
-plain text directly in all the examples. We only do this for the sake of
-space, but in production environments we would advise against storing
-Smartabase credentials in plain text anywhere, let alone in the main
-function call for all to see.</p>
-<p>Here is some excellent documentation that explores some options: <a href="https://cran.r-project.org/web/packages/httr/vignettes/secrets.html" class="external-link uri">https://cran.r-project.org/web/packages/httr/vignettes/secrets.html</a>.
-We’d like to reiterate soemthing Hadley Wickham says in that document:
-“Regardless of how you store them, to use your secrets you will still
-need to read them into R variables. Be careful not to expose them by
-printing them or saving them to a file.”</p>
-<p>At worst, we would suggest storing credentials as environment
-variables. These are still stored as plain text, but at least they don’t
-need to be shown on screen when using <code>smartabaseR</code> in an
-interactive environment.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## Opens .Reviron file</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"~/.Renviron"</span><span class="op">)</span></span></code></pre></div>
-<p>If we set the environment variables <code>SB_URL</code>,
-<code>SB_USER</code> and <code>SB_PASS</code>, then in our script we
-could call those credentials like this:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
-<span>  form <span class="op">=</span> <span class="st">"Training Log"</span>,</span>
-<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
-<span>  url <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"SB_URL"</span><span class="op">)</span>,</span>
-<span>  username <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"SB_USER"</span><span class="op">)</span>,</span>
-<span>  password <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"SB_PASS"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>A better option is to use a package like <a href="https://github.com/r-lib/keyring%5D" class="external-link">keyring</a> which gives you
-more control over how your secrets are accessed.</p>
-<p>A more laborious option is to request for a password every time: <a href="https://rstudio.github.io/rstudioapi/reference/askForPassword.html" class="external-link">rstudioapi::askForPassword()</a>
-or <a href="https://github.com/wrathematics/getPass" class="external-link">getPass::getPass()</a>.</p>
-<p>Hadley again with some sage advice: “You should never type your
-password into the R console: this will typically be stored in the
-.Rhistory file, and it’s easy to accidentally share without realising
-it.”</p>
+<p>Please see <code><a href="../articles/credentials.html">vignette("credentials")</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="exporting-data-from-smartabase">Exporting data from Smartabase<a class="anchor" aria-label="anchor" href="#exporting-data-from-smartabase"></a>
@@ -154,7 +117,7 @@ supply values to the <code>form</code>, <code>date_range</code>,
 arguments. Note that <code>date_range</code> contains a
 <code>start_date</code> and an <code>end_date</code> and each must be in
 dd/mm/YYYY format.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Training Log"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
@@ -162,9 +125,9 @@ dd/mm/YYYY format.</p>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; ✔ Successfully logged example.username into example.smartabase.com/site.</span></span>
-<span><span class="co">#&gt; ✔ User details export successful.</span></span>
-<span><span class="co">#&gt; ✔ Training Log export successful (Mar 03 2020 - Mar 07 2023).</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Successfully logged example.username into example.smartabase.com/site.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> User details export successful.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Training Log export successful (Mar 03 2020 - Mar 07 2023).</span></span></code></pre>
 <p>A successful export! We have <code>Training Log</code> data for two
 athletes named Aiden Thomas and Jamie Anderson.</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
@@ -187,7 +150,7 @@ your exported data to a variable (here we saved it to a variable called
 RPE and the team average RPE and upload the results to a form called
 “Team Summary”</p>
 <p>First, to calculate the team average:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Need to load dplyr</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -202,7 +165,7 @@ RPE and the team average RPE and upload the results to a form called
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 03/01/2023   <span style="text-decoration: underline;">37</span>204 Aiden Thomas       <span style="text-decoration: underline;">2</span>530     5  2<span style="text-decoration: underline;">381</span>840        6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 03/01/2023   <span style="text-decoration: underline;">37</span>201 Jamie Anderson     <span style="text-decoration: underline;">5</span>411     7  2<span style="text-decoration: underline;">382</span>033        6</span></span></code></pre></div>
 <p>Now to compare the group average to each athlete’s RPE:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rpe_average</span> <span class="op">&lt;-</span> <span class="va">rpe_average</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rpe_diff <span class="op">=</span> <span class="va">rpe</span> <span class="op">-</span> <span class="va">team_rpe</span><span class="op">)</span></span>
 <span></span>
@@ -214,7 +177,7 @@ RPE and the team average RPE and upload the results to a form called
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 03/01/2023   <span style="text-decoration: underline;">37</span>201 Jamie Anderson     <span style="text-decoration: underline;">5</span>411     7  2<span style="text-decoration: underline;">382</span>033        6        1</span></span></code></pre></div>
 <p>Finally, to upload our results back up to Smartabase, we need to
 supply a data frame and a form name as well as our credentials:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_insert_event.html">sb_insert_event</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">rpe_average</span>,</span>
 <span>  form <span class="op">=</span> <span class="st">"Team Summary"</span>,</span>
@@ -222,7 +185,7 @@ supply a data frame and a form name as well as our credentials:</p>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; ✔ SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into Team Summary.</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ✔ SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into Team Summary.</span></span></code></pre>
 <p>Success! Our data should now be imported into the “Team Summary” form
 on Smartabase.</p>
 <p>To learn more about how to get the most out of

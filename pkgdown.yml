@@ -2,11 +2,12 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  credentials: credentials.html
   deleting-data: deleting-data.html
   exporting-data: exporting-data.html
   get-started: get-started.html
   helper-functions: helper-functions.html
   importing-data: importing-data.html
   synchronising-with-smartabase: synchronising-with-smartabase.html
-last_built: 2023-10-06T00:17Z
+last_built: 2023-10-09T12:35Z
 

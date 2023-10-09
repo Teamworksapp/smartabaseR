@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">smartabaseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/credentials.html">Credential management</a>
     <a class="dropdown-item" href="../articles/exporting-data.html">Exporting data</a>
     <a class="dropdown-item" href="../articles/synchronising-with-smartabase.html">Synchronsing with Smartabase</a>
     <a class="dropdown-item" href="../articles/importing-data.html">Importing data</a>
@@ -94,25 +95,23 @@
 
     
     
-<p>If you haven’t already, please read the <code>getting-started</code>
-and <code>exporting-data</code> vignettes before proceeding:
-<code>vignette("getting-started")</code>,
-<code>vignette("exporting-data)</code>.</p>
+<p>If you haven’t already, please read the
+<code><a href="../articles/get-started.html">vignette("get-started")</a></code> and
+<code><a href="../articles/exporting-data.html">vignette("exporting-data")</a></code> vignettes before proceeding.</p>
 <div class="section level2">
 <h2 id="import-functions">Import functions<a class="anchor" aria-label="anchor" href="#import-functions"></a>
 </h2>
-<p>There are four general functions for importing data into Smartabase
-using <code>smartabaseR</code>: <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code>,
+<p><code>smartabaseR</code> provides four general functions for
+importing data into Smartabase: <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code>,
 <code><a href="../reference/sb_update_event.html">sb_update_event()</a></code>, <code><a href="../reference/sb_upsert_event.html">sb_upsert_event()</a></code> and
 <code><a href="../reference/sb_upsert_profile.html">sb_upsert_profile()</a></code>.</p>
 <div class="section level3">
 <h3 id="sb_insert_event">sb_insert_event()<a class="anchor" aria-label="anchor" href="#sb_insert_event"></a>
 </h3>
-<p>‘Inserting’ data into Smartabase means you are creating new events,
-which practically means you are adding new rows to the Smartabase event
-database. <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code> creates new events no matter
-what. This is the most commonly used import function and ensures no
-chance of existing events being updated/overwritten.</p>
+<p>‘Inserting’ data into Smartabase means you are creating new events;
+i.e. inserting new rows into the Smartabase event database.
+<code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code> is the most commonly used import function
+and ensures no chance of existing events being updated/overwritten.</p>
 <div class="section level4">
 <h4 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h4>
@@ -123,22 +122,21 @@ chance of existing events being updated/overwritten.</p>
 <span>  about <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aiden Thomas"</span>, <span class="st">"Jamie Anderson"</span><span class="op">)</span>,</span>
 <span>  distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2530</span>, <span class="fl">5411</span><span class="op">)</span>,</span>
 <span>  rpe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span>,</span>
-<span>  event_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2381840</span>, <span class="fl">2382033</span><span class="op">)</span>,</span>
 <span>  entered_by_user_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">37204</span>, <span class="fl">37201</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">training_data</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
-<span><span class="co">#&gt;   start_date user_id about          distance   rpe event_id entered_by_user_id</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 13/01/2023   <span style="text-decoration: underline;">37</span>204 Aiden Thomas       <span style="text-decoration: underline;">2</span>530     5  2<span style="text-decoration: underline;">381</span>840              <span style="text-decoration: underline;">37</span>204</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 13/01/2023   <span style="text-decoration: underline;">37</span>201 Jamie Anderson     <span style="text-decoration: underline;">5</span>411     7  2<span style="text-decoration: underline;">382</span>033              <span style="text-decoration: underline;">37</span>201</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
+<span><span class="co">#&gt;   start_date user_id about          distance   rpe entered_by_user_id</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 13/01/2023   <span style="text-decoration: underline;">37</span>204 Aiden Thomas       <span style="text-decoration: underline;">2</span>530     5              <span style="text-decoration: underline;">37</span>204</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 13/01/2023   <span style="text-decoration: underline;">37</span>201 Jamie Anderson     <span style="text-decoration: underline;">5</span>411     7              <span style="text-decoration: underline;">37</span>201</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_insert_event.html">sb_insert_event</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">training_data</span>,</span>
 <span>  form <span class="op">=</span> <span class="st">"Team Summary"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; ✔ SUCCESSFULLY_INSERTED: 2 out of 2 records successfullyinserted into Team Summary.</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into Team Summary.</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -147,8 +145,8 @@ chance of existing events being updated/overwritten.</p>
 <p>‘Updating’ data in Smartabase means you are editing existing events
 in the Smartabase event database. <code><a href="../reference/sb_update_event.html">sb_update_event()</a></code>
 requires a valid <code>event_id</code> column in the supplied data
-frame. These are unique IDs that ensure only the correct events are
-updated/overwritten.</p>
+frame. These are Smartabase-generated unique IDs that ensure only the
+correct events are updated/overwritten.</p>
 <div class="section level4">
 <h4 id="updating-is-the-same-as-overwriting">Updating is the same as overwriting<a class="anchor" aria-label="anchor" href="#updating-is-the-same-as-overwriting"></a>
 </h4>
@@ -157,23 +155,21 @@ updated/overwritten.</p>
 terminology, but arguably a more appropriate name would be
 <code>sb_overwrite_event()</code>.</p>
 <p>That’s because every event in the data frame supplied to
-<code><a href="../reference/sb_update_event.html">sb_update_event()</a></code> completely overwrites the matching event
-(according to the <code>event_id</code>) in the Smartabase event
-database.</p>
+<code><a href="../reference/sb_update_event.html">sb_update_event()</a></code> completely overwrites the existing event
+in the Smartabase event database.</p>
 <p>Practically this also means that most calls to
 <code><a href="../reference/sb_update_event.html">sb_update_event()</a></code> should be preceded by a call to
 <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code>/<code><a href="../reference/sb_sync_event.html">sb_sync_event()</a></code>. The latter
 return a data frame that contain the entire Smartabase form, including
-every column/field that contains data – and not to mention the necessary
+every column/field that contains data; not to mention the necessary
 <code>event_id</code> column.</p>
 </div>
 <div class="section level4">
 <h4 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h4>
-<p>The example below represents a typical workflow that involves
-exporting data via <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code>. The workflow involves
-exporting event data from Smartabase, applying some transformation and
-then importing the results using <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code>.</p>
+<p>The workflow below involves exporting event data from Smartabase via
+<code><a href="../reference/sb_get_event.html">sb_get_event()</a></code>, applying some transformation and then
+importing the results using <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">training_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Training Log"</span>,</span>
@@ -198,8 +194,7 @@ calculation:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">avg_dist_data</span> <span class="op">&lt;-</span> <span class="va">training_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="st">"Team Average Distance"</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Distance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="st">"Team Average Distance"</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="st">"Team Average Distance"</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Distance</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">avg_dist_data</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
@@ -222,26 +217,27 @@ back into our <code>Training Log</code> form via
 <span><span class="op">)</span></span></code></pre></div>
 <p>Running the above code will create a screen prompt that you will have
 to interact with:</p>
-<pre><code><span><span class="co">#&gt; ── WARNING ──────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; ! You are about to UPDATE 2 records in Hydration (SS).</span></span>
-<span><span class="co">#&gt; ℹ Please be aware the incoming data will overwrite the existing data.</span></span>
-<span><span class="co">#&gt; ℹ The Smartabase API will be called once.</span></span>
+<pre><code><span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">WARNING</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> You are about to UPDATE 2 records in Training Log.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please be aware the incoming data will overwrite the existing data.</span></span>
+<span><span class="co">#&gt; The Smartabase API will be called once.</span></span>
 <span><span class="co">#&gt; → Are you sure you want to continue?</span></span>
 <span><span class="co">#&gt; 1: Yes</span></span>
-<span><span class="co">#&gt; 2: No</span></span>
-<span><span class="co">#&gt; Selection:</span></span></code></pre>
-<p>If you input <code>1</code> into the console then you’ll see:</p>
-<pre><code><span><span class="co">#&gt; ✔ SUCCESSFULLY_UPDATED: 2 out of 2 records successfully updatedin Hydration (SS).</span></span></code></pre>
+<span><span class="co">#&gt; 2: No</span></span></code></pre>
+<p>If you input “1” or “Yes” into the console then you’ll see:</p>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> SUCCESSFULLY_UPDATED: 2 out of 2 records successfully updated in Training Log.</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
 <h3 id="sb_upsert_event">sb_upsert_event()<a class="anchor" aria-label="anchor" href="#sb_upsert_event"></a>
 </h3>
-<p>‘Upserting’ data into Smartabase means events can either be created
-or updated, depending on the <code>event_id</code> column. Rows with
-valid event IDs will update the matching rows in the Smartabase event
-database, whereas rows with no <code>event_id</code> will be inserted as
-new rows in the Smartabase event database.</p>
+<p><a href="https://en.wiktionary.org/wiki/upsert" class="external-link">‘Upserting’</a> data
+into Smartabase means events can either be created or updated, depending
+on the <code>event_id</code> column. Rows with valid event IDs will
+update the matching rows in the Smartabase event database, whereas rows
+with no <code>event_id</code> will be inserted as new rows in the
+Smartabase event database.</p>
 <div class="section level4">
 <h4 id="example-2">Example<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h4>
@@ -312,17 +308,17 @@ update the remaining events:</p>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; ── WARNING ──────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; ! You are about to UPDATE 2 records in Hydration (SS).</span></span>
-<span><span class="co">#&gt; ℹ Please be aware the incoming data will overwrite the existing data.</span></span>
-<span><span class="co">#&gt; ℹ The Smartabase API will be called twice.</span></span>
-<span><span class="co">#&gt; ℹ You will also INSERT 2 new records..</span></span>
+<pre><code><span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">WARNING</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> You are about to UPDATE 2 records in Training Log.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please be aware the incoming data will overwrite the existing data.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> You will also INSERT 2 new records.</span></span>
+<span><span class="co">#&gt; The Smartabase API will be called twice.</span></span>
 <span><span class="co">#&gt; → Are you sure you want to continue?</span></span>
 <span><span class="co">#&gt; 1: Yes</span></span>
-<span><span class="co">#&gt; 2: No</span></span>
-<span><span class="co">#&gt; Selection:</span></span></code></pre>
-<pre><code><span><span class="co">#&gt; ✔ 1: SUCCESSFULLY_UPDATED: 2 out of 2 records successfullyupdated in Hydration (SS).</span></span>
-<span><span class="co">#&gt; ✔ 2: SUCCESSFULLY_INSERTED: 2 out of 2 records successfullyinserted into Hydration (SS).</span></span></code></pre>
+<span><span class="co">#&gt; 2: No</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 1: SUCCESSFULLY_UPDATED: 2 out of 2 records successfully updated in Training Log.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 2: SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into updated in Training Log.</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -332,8 +328,8 @@ update the remaining events:</p>
 profile data into Smartabase. Profile forms can only store one record
 per athlete and therefore every import into a profile form is an upsert.
 That is, for each athlete, the first time data is imported into a
-profile form it will be an insert, but future imports will all be
-updates.</p>
+profile form it will be an insert, but future profile imports will all
+be updates.</p>
 <div class="section level4">
 <h4 id="example-3">Example<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h4>
@@ -360,7 +356,7 @@ updates.</p>
 <span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"example_password"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; ✔ SUCCESSFULLY_INSERTED: 1 out of 1 records successfully inserted into Example Profile Form.</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> SUCCESSFULLY_INSERTED: 1 out of 1 records successfully inserted into Example Profile Form.</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -371,8 +367,8 @@ updates.</p>
 <p>All <code>option</code> values must be generated by the relevant
 helper function. So if we’re using <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code> and we
 want to set <code>table_field = "Example Table Field"</code>, we would
-use
-<code>sb_get_event_option(table_field = "Example Table Field")</code>:</p>
+set <code>table_field = "Example Table Field"</code> within
+<code><a href="../reference/sb_get_event_option.html">sb_get_event_option()</a></code>. For example:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
@@ -406,8 +402,8 @@ other import functions: <code><a href="../reference/sb_update_event.html">sb_upd
 <code><a href="../reference/sb_login.html">sb_login()</a></code>. If the <code>cache</code> option is set to
 <code>TRUE</code> (default), then this login object is then saved into
 memory and passed to further calls to the Smartabase API. If the
-<code>cache</code> option is <code>FALSE</code>, then call to the
-Smartabase API will be preceded by a call to
+<code>cache</code> option is <code>FALSE</code>, then subsequent calls
+to the Smartabase API will be preceded by a call to
 <code><a href="../reference/sb_login.html">sb_login()</a></code>.</p>
 </div>
 <div class="section level3">
@@ -422,13 +418,13 @@ reason.</p>
 <p>However, there may be situations where you don’t have the relevant
 Smartabase user IDs handy. There are two approaches here: firstly, you
 could make a call to sb_get_user() to get the user IDs yourself, then
-join that to the event data by “user_id”; or, secondly,</p>
-<p>but rather some other kind of identifying column like “username”,
-“email” or “about” (that is, full name).</p>
-<p>In these cases, set <code>id_col</code> to either “username”, “email”
-or “about”. <code>smartabaseR</code> will make an internal call to
-<code><a href="../reference/sb_get_user.html">sb_get_user()</a></code> in order to find, and then pass, the correct
-user IDs to the Smartabase API.</p>
+join that to the event data by “user_id”; or, secondly, if your data
+frame contains some other kind of identifying column like “username”,
+“email” or “about” (that is, full name), then you can simply set the
+<code>id_col</code> argument to the name of the identifying column. For
+instance, <code>id_col = "about"</code>.</p>
+<p><code>id_col</code> can either be set to “username”, “email” or
+“about”.</p>
 <div class="section level4">
 <h4 id="example-4">Example<a class="anchor" aria-label="anchor" href="#example-4"></a>
 </h4>
@@ -475,6 +471,9 @@ non-table fields:</p>
 <code class="sourceCode R"><span><span class="va">strength_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Strength Testing"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"15/04/2023"</span>, end_date <span class="op">=</span> <span class="st">"15/04/2023"</span><span class="op">)</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
+<span>  password <span class="op">=</span> <span class="st">"example_password"</span>,</span>
 <span>  option <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_option.html">sb_get_event_option</a></span><span class="op">(</span></span>
 <span>    user_key <span class="op">=</span> <span class="st">"about"</span>,</span>
 <span>    user_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Aiden Thomas"</span>, <span class="st">"Jamie Anderson"</span><span class="op">)</span></span>
@@ -519,10 +518,11 @@ columns map to Smartabase table fields via <code>table_field</code>:</p>
 </h4>
 <p>If <code>table_field = NULL</code> but duplicate
 <code>user_id</code>/<code>start_date</code> pairings are detected, the
-data set will be split into a list of data frame. Each data frame
-contains a set of the original data whereby there are no duplicate
-<code>user_id</code>/<code>start_date</code> values internally. Each
-data set in the list is then imported via separate API calls.</p>
+data set will be split into a list of data frames. Each element of the
+list, i.e., each data frame, contains a set of the original data whereby
+there are no duplicate <code>user_id</code>/<code>start_date</code>
+values internally. Each data set in the list is then imported via
+individual API calls.</p>
 <p>For example, let’s say we have the following data set</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">strength_data</span><span class="op">)</span></span>
@@ -586,7 +586,7 @@ that are intended for human end-users. Set
 when the event started and stopped. <code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code> will
 first search for any columns in the data named “start_time” and
 “end_time”. <strong>Note: start_time and end_time values must be in h:mm
-AM or h:mm PM format.</strong> If those columns do not exist,
+am or h:mm pm format.</strong> If those columns do not exist,
 <code>start_time</code> and <code>end_time</code> will be set to the
 current time and one hour after the current time, respectively.</p>
 <p>Likewise,<code><a href="../reference/sb_insert_event.html">sb_insert_event()</a></code> will also search for any

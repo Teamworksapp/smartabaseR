@@ -39,7 +39,7 @@
     
     <a class="navbar-brand me-2" href="index.html">smartabaseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,6 +63,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/credentials.html">Credential management</a>
     <a class="dropdown-item" href="articles/exporting-data.html">Exporting data</a>
     <a class="dropdown-item" href="articles/synchronising-with-smartabase.html">Synchronsing with Smartabase</a>
     <a class="dropdown-item" href="articles/importing-data.html">Importing data</a>
@@ -103,8 +104,8 @@
 <div class="section level2">
 <h2 id="security">Security<a class="anchor" aria-label="anchor" href="#security"></a>
 </h2>
-<p><code>smartabaseR</code> respects all the same permissions as if you were interacting with the Smartabase web app or a Smartabase mobile app. For example, if you don’t have access to certain form in Smartabase, then you won’t have access to that form via <code>smartabaseR</code>. Likewise, if you have delete access to a certain form in Smartabase, then you can also delete data from that form with <code>smartabaseR</code>.</p>
-<p><code>smartabaseR</code> is a powerful tool. It can level up your automation and analytics processes but there is potential for damage if you haven’t:</p>
+<p><code>smartabaseR</code> respects all the same permissions as if you were interacting with the Smartabase web app or a Smartabase mobile app. For example, if you don’t have access to a certain form in Smartabase, then you won’t have access to that form via <code>smartabaseR</code>. Likewise, if you have delete access to a certain form in Smartabase, then you can also delete data from that form with <code>smartabaseR</code>.</p>
+<p><code>smartabaseR</code> is a powerful tool. It can level up your automation and analytics processes but there is potential for damage if you have not:</p>
 <ol style="list-style-type: decimal">
 <li>read all the documentation</li>
 <li>undertaken extensive testing before putting into production</li>
@@ -114,9 +115,7 @@
 <div class="section level2">
 <h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
-<p><code>smartabaseR</code> provides some helper functions to setup various credentials. You can see a vignette for explaining those below.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"getting-started"</span>, package <span class="op">=</span> <span class="st">"smartabaseR"</span><span class="op">)</span></span></code></pre></div>
+<p>It’s important to think about how you provide credentials to <code>smartabaseR</code>. You can read more about that here: <code><a href="articles/get-started.html">vignette("get-started")</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -125,8 +124,8 @@
 <div class="section level4">
 <h4 id="sb_get_event">sb_get_event()<a class="anchor" aria-label="anchor" href="#sb_get_event"></a>
 </h4>
-<p>The <code><a href="reference/sb_get_event.html">sb_get_event()</a></code> function allows you to export data from a specific Smartabase form into an R session.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>The <code><a href="reference/sb_get_event.html">sb_get_event()</a></code> function allows you to export data from a specific Smartabase form into an R session:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
@@ -138,8 +137,8 @@
 <div class="section level4">
 <h4 id="sb_insert_event">sb_insert_event()<a class="anchor" aria-label="anchor" href="#sb_insert_event"></a>
 </h4>
-<p>The <code><a href="reference/sb_insert_event.html">sb_insert_event()</a></code> function allows you to send data back to a Smartabase form.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>The <code><a href="reference/sb_insert_event.html">sb_insert_event()</a></code> function allows you to send data back to a Smartabase form:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sb_insert_event.html">sb_insert_event</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
@@ -152,11 +151,12 @@
 <div class="section level2">
 <h2 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
 </h2>
-<p>Browse the vignettes below for in depth details on the workflow and for details each function.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"exporting-data"</span>, package <span class="op">=</span> <span class="st">"smartabaseR"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"importing-data"</span>, package <span class="op">=</span> <span class="st">"smartabaseR"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"helper-functions"</span>, package <span class="op">=</span> <span class="st">"smartabaseR"</span><span class="op">)</span></span></code></pre></div>
+<p>Browse the vignettes below for in depth details on the workflow and for details each function:</p>
+<ul>
+<li><code><a href="articles/exporting-data.html">vignette("exporting-data")</a></code></li>
+<li><code><a href="articles/importing-data.html">vignette("importing-data")</a></code></li>
+<li><code><a href="articles/helper-functions.html">vignette("helper-functions")</a></code></li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
