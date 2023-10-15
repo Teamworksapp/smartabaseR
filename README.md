@@ -46,7 +46,7 @@ analytics processes but there is potential for damage if you have not:
 
 It’s important to think about how you provide credentials to
 `smartabaseR`. You can read more about that here:
-`vignette("get-started")`.
+`vignette("credentials")`.
 
 ## Usage
 
