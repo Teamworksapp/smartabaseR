@@ -42,7 +42,7 @@ analytics processes but there is potential for damage if you have not:
 3.  reached out to your Smartabase consultant when/if you have any
     questions and/or concerns
 
-## Getting started
+## Get started
 
 It’s important to think about how you provide credentials to
 `smartabaseR`. You can read more about that here:
