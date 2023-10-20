@@ -64,7 +64,7 @@
 #' # Get one week of wellness data from 'example.smartabase.com/site':
 #' sb_get_event(
 #'   form = "Daily Wellness",
-#'   date_range = c("15/04/2023", "22/04/2023")
+#'   date_range = c("15/04/2023", "22/04/2023"),
 #'   url = "example.smartabase.com/site",
 #'   username = "example.user",
 #'   password = "example_password"
