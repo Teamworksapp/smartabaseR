@@ -43,7 +43,7 @@ a profile record that does not exist in Smartabase, then that profile record
 will be inserted as a new profile record.
 
 For more details see the help vignette:
-\code{vignette("importing-data", package = "smartabaseR")}
+\code{vignette("importing-data")}
 }
 \section{Options}{
 

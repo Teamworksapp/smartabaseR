@@ -47,7 +47,7 @@ the Smartabase API. It requires the user to input a valid Smartabase
 event form name, date range, url and credentials.
 
 For more details see the help vignette:
-\code{vignette("exporting-data", package = "smartabaseR")}
+\code{vignette("exporting-data")}
 }
 \section{date_range}{
 

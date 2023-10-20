@@ -34,7 +34,7 @@ A tibble containing Smartabase user data
 the user to input a valid Smartabase url and valid Smartabase credentials.
 
 For more details see the help vignette:
-\code{vignette("helper-functions", package = "smartabaseR")}
+\code{vignette("helper-functions")}
 }
 \section{Filters}{
 

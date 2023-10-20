@@ -93,6 +93,6 @@ The push_smartabase() function uses the Smartabase API and imports an R
 data frame into a specific Smartabase event or profile form. Set
 'type' = "profile" to push to a profile form. For more details see the
 help vignette:
-\code{vignette("get-started", package = "smartabaseR")}
+\code{vignette("get-started")}
 }
 \keyword{internal}
