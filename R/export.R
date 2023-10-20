@@ -54,7 +54,7 @@
 #' @param option More options accessible via [sb_get_event_option()] object
 #' @param time_range Vector of length two containing a valid start_time and
 #' and end_time (h:mm am/pm) character values. Defaults to
-#' c("12:00 am", "11:59 pm).
+#' `c("12:00 am", "11:59 pm)`.
 #'
 #' @return A tibble containing Smartabase event data
 #' @export
@@ -211,9 +211,9 @@ sb_get_event <- function(
 #'
 #' @family export functions
 #' @seealso
-#' * [sb_get_profile()] for profile data.
-#' * [sb_get_user()] for user data.
-#' * [sb_sync_event()] to synchronise with an event form.
+#' [sb_get_profile()] for profile data.
+#' [sb_get_user()] for user data.
+#' [sb_sync_event()] to synchronise with an event form.
 sb_sync_event <- function(
     form,
     last_sync_time,

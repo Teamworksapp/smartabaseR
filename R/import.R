@@ -61,7 +61,7 @@
 #' )
 #' }
 #'
-#' @family export functions
+#' @family import functions
 #' @seealso
 #' [sb_update_event()]
 #' [sb_upsert_event()]
