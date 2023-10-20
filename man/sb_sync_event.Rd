@@ -87,16 +87,13 @@ new_wellness_data <- sb_sync_event(
 
 }
 \seealso{
-\itemize{
-\item \code{\link[=sb_get_profile]{sb_get_profile()}} for profile data.
-\item \code{\link[=sb_get_user]{sb_get_user()}} for user data.
-\item \code{\link[=sb_sync_event]{sb_sync_event()}} to synchronise with an event form.
-}
+\code{\link[=sb_get_profile]{sb_get_profile()}} for profile data.
+\code{\link[=sb_get_user]{sb_get_user()}} for user data.
+\code{\link[=sb_sync_event]{sb_sync_event()}} to synchronise with an event form.
 
 Other export functions: 
 \code{\link{sb_get_event}()},
 \code{\link{sb_get_profile}()},
-\code{\link{sb_get_user}()},
-\code{\link{sb_insert_event}()}
+\code{\link{sb_get_user}()}
 }
 \concept{export functions}

@@ -77,7 +77,6 @@ sb_get_profile(
 Other export functions: 
 \code{\link{sb_get_event}()},
 \code{\link{sb_get_user}()},
-\code{\link{sb_insert_event}()},
 \code{\link{sb_sync_event}()}
 }
 \concept{export functions}

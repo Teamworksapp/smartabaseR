@@ -76,7 +76,6 @@ id_data <- sb_get_user(
 Other export functions: 
 \code{\link{sb_get_event}()},
 \code{\link{sb_get_profile}()},
-\code{\link{sb_insert_event}()},
 \code{\link{sb_sync_event}()}
 }
 \concept{export functions}
