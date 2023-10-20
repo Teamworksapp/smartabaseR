@@ -18,7 +18,7 @@ learning capabilities.
 ## Installation
 
 You can install the development version of `smartabaseR` from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
 
 ``` r
 # install.packages("devtools")
