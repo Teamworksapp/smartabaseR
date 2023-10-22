@@ -30,7 +30,7 @@ returns a vector of length two containing the start date and end date in
 "dd/mm/YYYY" strings.
 
 For more details see the help vignette:
-\code{vignette("exporting-data", package = "smartabaseR")}
+\code{vignette("exporting-data")}
 }
 \examples{
 \dontrun{

@@ -38,7 +38,7 @@ the Smartabase API. It requires the user to input a data frame, a valid
 Smartabase event form name, url and credentials.
 
 For more details see the help vignette:
-\code{vignette("exporting-data", package = "smartabaseR")}
+\code{vignette("exporting-data")}
 }
 \section{start_date / end_date / start_time / end_time columns}{
 
@@ -90,11 +90,5 @@ sb_insert_event(
 \code{\link[=sb_update_event]{sb_update_event()}}
 \code{\link[=sb_upsert_event]{sb_upsert_event()}}
 \code{\link[=sb_upsert_profile]{sb_upsert_profile()}}
-
-Other export functions: 
-\code{\link{sb_get_event}()},
-\code{\link{sb_get_profile}()},
-\code{\link{sb_get_user}()},
-\code{\link{sb_sync_event}()}
 }
-\concept{export functions}
+\concept{import functions}

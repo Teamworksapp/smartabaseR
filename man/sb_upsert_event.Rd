@@ -42,7 +42,7 @@ that event is updated. If the data frame contains an event does not exist
 in Smartabase, then that event will be inserted as a new event.
 
 For more details see the help vignette:
-\code{vignette("importing-data", package = "smartabaseR")}
+\code{vignette("importing-data")}
 }
 \section{start_date / end_date / start_time / end_time columns}{
 

@@ -42,7 +42,7 @@ Smartabase, then that profile record is updated. The data frame must have an
 \code{event_id} column that contains valid Smartabase event IDs.
 
 For more details see the help vignette:
-\code{vignette("importing-data", package = "smartabaseR")}
+\code{vignette("importing-data")}
 }
 \section{Options}{
 

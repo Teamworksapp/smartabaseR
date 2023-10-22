@@ -25,7 +25,7 @@ This function uses the Smartabase API to export the names of the
 Smartabase groups that the logged in user has access to.
 
 For more details see the help vignette:
-\code{vignette("helper-functions", package = "smartabaseR")}
+\code{vignette("helper-functions")}
 }
 \section{Options}{
 

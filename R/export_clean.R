@@ -580,7 +580,7 @@
   get_id_flag <- TRUE
 
   if (!is.null(id_options$include_user_data)) {
-    if (!id_options$include_user_data) {
+    if (isFALSE(id_options$include_user_data)) {
       if (!is.null(id_filters$user_key)) {
         if (id_filters$user_key == "user_id") {
           if (!is.null(id_filters$user_value)) {
@@ -609,7 +609,7 @@
       dplyr::distinct()
 
   } else {
-    id_data <- tibble::tibble(user_id = arg$filter_user_value)
+    id_data <- tibble::tibble(user_id = id_filters$user_value)
   }
   id_data
 }

@@ -34,7 +34,7 @@ A tibble containing Smartabase user data
 the user to input a valid Smartabase url and valid Smartabase credentials.
 
 For more details see the help vignette:
-\code{vignette("helper-functions", package = "smartabaseR")}
+\code{vignette("helper-functions")}
 }
 \section{Filters}{
 
@@ -76,7 +76,6 @@ id_data <- sb_get_user(
 Other export functions: 
 \code{\link{sb_get_event}()},
 \code{\link{sb_get_profile}()},
-\code{\link{sb_insert_event}()},
 \code{\link{sb_sync_event}()}
 }
 \concept{export functions}

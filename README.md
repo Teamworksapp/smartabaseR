@@ -18,7 +18,7 @@ learning capabilities.
 ## Installation
 
 You can install the development version of `smartabaseR` from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
 
 ``` r
 # install.packages("devtools")
@@ -42,11 +42,11 @@ analytics processes but there is potential for damage if you have not:
 3.  reached out to your Smartabase consultant when/if you have any
     questions and/or concerns
 
-## Getting started
+## Get started
 
 It’s important to think about how you provide credentials to
 `smartabaseR`. You can read more about that here:
-`vignette("get-started")`.
+`vignette("credentials")`.
 
 ## Usage
 

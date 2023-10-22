@@ -66,9 +66,28 @@ sb_date_range <- function(
 #' @return An error when the table_field inputs do not exist as columns in the
 #' input data frame
 .validate_filter_user_key <- function(arg) {
-  if (!is.null(arg$filter$user_key)) {
-    if (arg$filter$user_key == "current_group") {
-      if (!is.null(arg$filter$user_value)) {
+  filter <- arg$filter
+  option <- arg$option
+
+  if (!is.null(option$include_user_data)) {
+    if (isFALSE(option$include_user_data)) {
+      if (!is.null(filter$user_key)) {
+        if (is.null(filter$user_key) || filter$user_key != "user_id") {
+          cli::cli_abort(
+            call = arg$current_env,
+            c(
+              "!" = "`user_key` must equal {.field \"user_id\"} when \\
+              `include_user_data = {.field FALSE}`",
+              "x" = "You supplied `user_key = {.field \"{filter$user_key}\"}`"
+            ))
+        }
+      }
+    }
+  }
+
+  if (!is.null(filter$user_key)) {
+    if (filter$user_key == "current_group") {
+      if (!is.null(filter$user_value)) {
         cli::cli_progress_done(result = "clear", .envir = arg$current_env)
         cli::cli_alert_warning(
           "{.arg user_value} will have no effect when
@@ -78,8 +97,8 @@ sb_date_range <- function(
     }
   }
 
-  if (is.null(arg$filter$user_key)) {
-    if (!is.null(arg$filter$user_value)) {
+  if (is.null(filter$user_key)) {
+    if (!is.null(filter$user_value)) {
       cli::cli_progress_done(result = "clear", .envir = arg$current_env)
       cli::cli_alert_warning(
         "'user_value' will have no effect when 'user_key' is NULL."
