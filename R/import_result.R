@@ -174,8 +174,8 @@
   import_response <- df %>%
     dplyr::mutate(
       form = arg$form,
-      n_records_success = .data$n_records_success,
-      n_records_attempted = .data$n_records_attempted,
+      n_records_success = n_records_success,
+      n_records_attempted = n_records_attempted,
       entered_by_user_id = arg$entered_by_user_id
     )
 
