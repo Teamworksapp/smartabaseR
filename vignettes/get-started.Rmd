@@ -43,9 +43,13 @@ sb_get_event(
 ```
 
 ```{r  export_success, echo = FALSE}                  
-cli::cli_alert_success("Successfully logged example.username into example.smartabase.com/site.")
+cli::cli_alert_success(
+  "Successfully logged example.username into example.smartabase.com/site."
+)
 cli::cli_alert_success("User details export successful.")      
-cli::cli_alert_success("Training Log export successful (Mar 03 2020 - Mar 07 2023).")
+cli::cli_alert_success(
+  "Training Log export successful (Mar 03 2020 - Mar 07 2023)."
+)
 ```
 
 A successful export! We have `Training Log` data for two athletes named Aiden Thomas and Jamie Anderson.
