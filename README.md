@@ -27,10 +27,13 @@ devtools::install_github("Teamworksapp/smartabaseR")
 
 ## Requirements
 
-`smartabaseR` relies on features that only exist on **v6.14+** of
-Smartabase. If your account has `superadmin` or `site owner` privileges,
-then `smartabaseR` can also be used with sites on **v6.13+** of
-Smartabase.
+`smartabaseR` can only be used on Smartabase versions **6.14** or
+greater (if your account has `superadmin` or `site owner` privileges,
+then `smartabaseR` can also be used with **v6.13**).
+
+In 2023, Smartabase switched to [calendar
+versioning](https://calver.org/). `smartabaseR` can be used on any site
+that uses calendar versioning e.g. **2023.1**, **2023.2** etc.
 
 ## Security
 
