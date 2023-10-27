@@ -33,6 +33,10 @@ You can install the development version of `smartabaseR` from [GitHub](https://g
 devtools::install_github("Teamworksapp/smartabaseR")
 ```
 
+## Requirements
+
+`smartabaseR` relies on features that only exist on **v6.14+** of Smartabase. If your account has `superadmin` or `site owner` privileges, then `smartabaseR` can also be used with sites on **v6.13+** of Smartabase.
+
 ## Security
 
 `smartabaseR` respects all the same permissions as if you were interacting with the Smartabase web app or a Smartabase mobile app. For example, if you don't have access to a certain form in Smartabase, then you won't have access to that form via `smartabaseR`. Likewise, if you have delete access to a certain form in Smartabase, then you can also delete data from that form with `smartabaseR`.

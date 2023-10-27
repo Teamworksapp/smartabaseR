@@ -25,6 +25,10 @@ knitr::opts_chunk$set(
 library(smartabaseR)
 ```
 
+## Requirements
+
+`smartabaseR` relies on features that only exist on **v6.14+** of Smartabase. If your account has `superadmin` or `site owner` privileges, then `smartabaseR` can also be used with sites on **v6.13+** of Smartabase.
+
 ### Credentials
 
 Please see `vignette("credentials")`.
