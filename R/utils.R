@@ -222,7 +222,7 @@ get_metadata_names <- function(df) {
     cli::cli_abort(
       c("!" = "Could not retrieve endpoint names.",
         "i" = "Is {.url {url}} up and responsive?",
-        "i" = "Is {.url {url}} on at least version 6.13.0 or greater?"
+        "i" = "Is {.url {url}} on at least version 6.14.0 or greater?"
       ), call = rlang::caller_env())
   }
 }

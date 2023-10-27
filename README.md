@@ -25,6 +25,13 @@ You can install the development version of `smartabaseR` from
 devtools::install_github("Teamworksapp/smartabaseR")
 ```
 
+## Requirements
+
+`smartabaseR` relies on features that only exist on **v6.14+** of
+Smartabase. If your account has `superadmin` or `site owner` privileges,
+then `smartabaseR` can also be used with sites on **v6.13+** of
+Smartabase.
+
 ## Security
 
 `smartabaseR` respects all the same permissions as if you were
