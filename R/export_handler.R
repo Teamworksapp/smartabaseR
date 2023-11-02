@@ -1,3 +1,66 @@
+#' .get_memoised_sb_login
+#'
+#' This function initializes a memoized version of the `sb_login()` function.
+#'
+#' @return memoised function
+#' @noRd
+#' @keywords internal
+.get_memoised_sb_login <- function(
+    url,
+    username,
+    password,
+    env)  {
+  if (!exists(".get_cached_login", envir = .GlobalEnv)) {
+    .get_cached_login <<- memoise::memoise(
+      sb_login,
+      omit_args = c("interactive_mode", "env", "cache")
+    )
+  }
+  .get_cached_login(
+    url,
+    username,
+    password,
+    env
+  )
+}
+
+
+#' .get_memoised_endpoint
+#'
+#' This function initializes a memoized version of the `.get_endpoint()`
+#` function.
+#'
+#' @return memoised function
+#' @noRd
+#' @keywords internal
+.get_memoised_endpoint <- function(
+    login,
+    url,
+    username,
+    password,
+    interactive_mode,
+    cache,
+    env,
+    endpoints
+)  {
+  if (!exists(".get_cached_endpoint", envir = .GlobalEnv)) {
+    .get_cached_endpoint <<- memoise::memoise(
+      .get_endpoint,
+      omit_args = c("interactive_mode", "env", "cache")
+    )
+  }
+  .get_cached_endpoint(
+    login,
+    url,
+    username,
+    password,
+    interactive_mode,
+    cache,
+    env,
+    endpoints
+  )
+}
+
 
 #' .export_handler
 #'
@@ -12,13 +75,13 @@
 #' @noRd
 #' @keywords internal
 .export_handler <- function(arg) {
-  login <- .get_cached_login(
+  login <- .get_memoised_sb_login(
     url = arg$url,
     username = arg$username,
     password = arg$password,
     env = arg$current_env
   )
-  arg$endpoints <- .get_cached_endpoint(
+  arg$endpoints <- .get_memoised_endpoint(
     login = login,
     url = arg$url,
     username = arg$username,

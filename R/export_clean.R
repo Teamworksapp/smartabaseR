@@ -544,6 +544,39 @@
 }
 
 
+#' .get_memoised_user
+#'
+#' This function initializes a memoized version of the `.get_endpoint()`
+#` function.
+#'
+#' @return memoised function
+#' @noRd
+#' @keywords internal
+.get_memoised_user <- function(
+    url,
+    username,
+    password,
+    ...,
+    filter = sb_get_user_filter(),
+    option = sb_get_user_option()
+)  {
+  if (!exists(".get_cached_endpoint", envir = .GlobalEnv)) {
+    .get_cached_user <<- memoise::memoise(
+      .sb_get_user,
+      omit_args = c("interactive_mode", "env", "cache")
+    )
+  }
+  .get_cached_user(
+    url,
+    username,
+    password,
+    ...,
+    filter,
+    option
+  )
+}
+
+
 #' .get_user_id_for_export_body
 #'
 #' Populates user ID values for export filter
