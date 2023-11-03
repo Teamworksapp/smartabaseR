@@ -96,7 +96,7 @@
     user_value <- unique(df[[id_col]])
 
     if (isTRUE(arg$option$cache)) {
-      get_user <- .get_cached_user
+      get_user <- .get_memoised_user
     } else {
       get_user <- sb_get_user
     }

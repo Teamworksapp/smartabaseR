@@ -546,8 +546,7 @@
 
 #' .get_memoised_user
 #'
-#' This function initializes a memoized version of the `.get_endpoint()`
-#` function.
+#' This function initializes a memoised version of the `sb_get_user()` function
 #'
 #' @return memoised function
 #' @noRd
@@ -560,7 +559,7 @@
     filter = sb_get_user_filter(),
     option = sb_get_user_option()
 )  {
-  if (!exists(".get_cached_endpoint", envir = .GlobalEnv)) {
+  if (!exists(".get_cached_user", envir = .GlobalEnv)) {
     .get_cached_user <<- memoise::memoise(
       .sb_get_user,
       omit_args = c("interactive_mode", "env", "cache")
@@ -626,7 +625,7 @@
 
   if (isTRUE(get_id_flag)) {
     if (isTRUE(arg$option$cache)) {
-      get_user <- .get_cached_user
+      get_user <- .get_memoised_user
     } else {
       get_user <- sb_get_user
     }
