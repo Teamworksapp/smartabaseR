@@ -267,7 +267,7 @@
 
   cli::cli_ul(id = "missing_field_id")
   for (i in missing_field) {
-    cli::cli_warn(c("*" = "{.field {i}}"))
+    cli::cli_alert_warning("{.field {i}}")
   }
   cli::cli_end(id = "missing_field_id")
 }
