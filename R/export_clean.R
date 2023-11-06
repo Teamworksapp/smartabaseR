@@ -561,7 +561,7 @@
 )  {
   if (!exists(".get_cached_user", envir = .GlobalEnv)) {
     .get_cached_user <<- memoise::memoise(
-      .sb_get_user,
+      sb_get_user,
       omit_args = c("interactive_mode", "env", "cache")
     )
   }
