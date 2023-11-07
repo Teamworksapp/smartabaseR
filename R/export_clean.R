@@ -635,7 +635,8 @@
       password = arg$password,
       filter = do.call(filter_fun, id_filters),
       option = do.call(option_fun, id_options),
-      endpoints = arg$endpoints
+      endpoints = arg$endpoints,
+      login = arg$login
     ) %>%
       dplyr::select(-c(.data$username, .data$email)) %>%
       dplyr::distinct()
