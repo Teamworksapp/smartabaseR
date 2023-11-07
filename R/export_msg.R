@@ -25,11 +25,11 @@
 .generate_no_data_msg <- function(arg) {
   if (arg$type == "event") {
     cli::cli_inform(
-      c("i" = glue::glue(
+      c("i" = paste(
         "No event data was found in {.field {arg$form}} between \\
         {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}."
       ),
-      "i" = glue::glue(
+      "i" = paste(
         "Does {.field {arg$username}} have the appropriate perissions \\
         required to view this data?"
       ),
@@ -37,8 +37,8 @@
     )
   } else if (arg$type == "profile") {
     cli::cli_inform(
-      c("i" = glue::glue("No profile data was found in {.field {arg$form}}."),
-      "i" = glue::glue(
+      c("i" = paste("No profile data was found in {.field {arg$form}}."),
+      "i" = paste(
         "Does {.field {arg$username}} have the appropriate perissions \\
         required to view this data?"
       ),
@@ -46,7 +46,7 @@
     )
   } else if (arg$type == "synchronise") {
     cli::cli_inform(
-      c("i" = glue::glue(
+      c("i" = paste(
         "No new data in {.field {arg$form}} since \\
         {.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}}."
       ))

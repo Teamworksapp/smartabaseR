@@ -10,6 +10,14 @@
 
 R wrapper for the Smartabase API. Export, import or delete Smartabase data from R.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://teamworksapp.github.io/smartabaseR/}
+  \item \url{https://github.com/Teamworksapp/smartabaseR}
+}
+
+}
 \author{
 \strong{Maintainer}: Zac Pross \email{zpross@teamworks.com}
 
