@@ -17,23 +17,27 @@
 #'
 #' @keywords internal
 .import_handler <- function(df, arg) {
-  login <- .get_cached_login(
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    env = arg$current_env
-  )
-  arg$entered_by_user_id <- login$user$id
-  arg$endpoints <- .get_cached_endpoint(
-    login = login,
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    interactive_mode = arg$interactive_mode,
-    cache = arg$cache,
-    env = arg$current_env,
-    endpoints = NULL
-  )
+  if (is.null(arg$login)) {
+    arg$login <- .get_memoised_sb_login(
+      url = arg$url,
+      username = arg$username,
+      password = arg$password,
+      env = arg$current_env
+    )
+  }
+  if (is.null(arg$endpoints)) {
+    arg$endpoints <- .get_memoised_endpoint(
+      login = arg$login,
+      url = arg$url,
+      username = arg$username,
+      password = arg$password,
+      interactive_mode = arg$interactive_mode,
+      cache = arg$cache,
+      env = arg$current_env,
+      endpoints = NULL
+    )
+  }
+  arg$entered_by_user_id <- arg$login$user$id
   arg$smartabase_url <- .build_import_url(arg)
   arg$dry_run <- FALSE
   arg$action <- "import"
@@ -93,30 +97,3 @@
   )
 }
 
-
-.get_cached_import_data <- function(arg) {
-  if (isTRUE(arg$option$cache)) {
-    get_endpoint_fun <- .get_cached_endpoint
-    login_fun <- .get_cached_login
-  } else {
-    get_endpoint_fun <- .get_endpoint
-    login_fun <- sb_login
-  }
-  login <- login_fun(
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    env = arg$current_env
-  )
-  arg$entered_by_user_id <- login$user$id
-  arg$endpoints <- get_endpoint_fun(
-    login = login,
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    interactive_mode = arg$option$interactive_mode,
-    cache = arg$cache,
-    env = arg$current_env
-  )
-  arg
-}

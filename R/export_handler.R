@@ -75,22 +75,26 @@
 #' @noRd
 #' @keywords internal
 .export_handler <- function(arg) {
-  login <- .get_memoised_sb_login(
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    env = arg$current_env
-  )
-  arg$endpoints <- .get_memoised_endpoint(
-    login = login,
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    interactive_mode = arg$interactive_mode,
-    cache = arg$cache,
-    env = arg$current_env,
-    endpoints = NULL
-  )
+  if (is.null(arg$login)) {
+    arg$login <- .get_memoised_sb_login(
+      url = arg$url,
+      username = arg$username,
+      password = arg$password,
+      env = arg$current_env
+    )
+  }
+  if (is.null(arg$endpoints)) {
+    arg$endpoints <- .get_memoised_endpoint(
+      login = arg$login,
+      url = arg$url,
+      username = arg$username,
+      password = arg$password,
+      interactive_mode = arg$interactive_mode,
+      cache = arg$cache,
+      env = arg$current_env,
+      endpoints = NULL
+    )
+  }
   arg$smartabase_url <- .build_export_url(arg)
   if (!arg$type %in% c("group", "user")) {
     id_data <- .get_user_id_for_export_body(arg)
