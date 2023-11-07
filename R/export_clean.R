@@ -556,8 +556,8 @@
     username,
     password,
     ...,
-    filter = sb_get_user_filter(),
-    option = sb_get_user_option()
+    filter,
+    option
 )  {
   if (!exists(".get_cached_user", envir = .GlobalEnv)) {
     .get_cached_user <<- memoise::memoise(
@@ -566,12 +566,12 @@
     )
   }
   .get_cached_user(
-    url,
-    username,
-    password,
+    url = url,
+    username = username,
+    password = password,
     ...,
-    filter,
-    option
+    filter = filter,
+    option = option
   )
 }
 
