@@ -82,18 +82,15 @@ sb_get_event_filter <- function(
     user_value = NULL,
     data_key = NULL,
     data_value = NULL,
-    data_condition = c(
-      "equal_to", "not_equal_to", "contains", "less_than",
-      "greater_than", "less_than_or_equal_to", "greater_than_or_equal_to"
-    ),
+    data_condition = NULL,
     events_per_user = NULL
 ) {
   if (!is.null(user_key)) {
     user_key <- rlang::arg_match(user_key)
   }
-  if (!is.null(data_condition)) {
-    data_condition <- rlang::arg_match(data_condition)
-  }
+  # if (!is.null(data_condition)) {
+  #   data_condition <- rlang::arg_match(data_condition)
+  # }
   if (!is.null(events_per_user)) {
     events_per_user <- as.integer(events_per_user)
     if (!any(class(events_per_user) == "integer")) {
