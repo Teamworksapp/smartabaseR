@@ -60,11 +60,7 @@ sb_date_range <- function(
 #' .validate_filter_user_key
 #'
 #' @noRd
-#'
 #' @keywords internal
-#'
-#' @return An error when the table_field inputs do not exist as columns in the
-#' input data frame
 .validate_filter_user_key <- function(arg) {
   filter <- arg$filter
   option <- arg$option
@@ -72,13 +68,12 @@ sb_date_range <- function(
   if (!is.null(option$include_user_data)) {
     if (isFALSE(option$include_user_data)) {
       if (!is.null(filter$user_key)) {
-        if (is.null(filter$user_key) || filter$user_key != "user_id") {
+        if (filter$user_key != "user_id") {
           cli::cli_abort(
             call = arg$current_env,
-            c(
-              "!" = "`user_key` must equal {.field \"user_id\"} when \\
-              `include_user_data = {.field FALSE}`",
-              "x" = "You supplied `user_key = {.field \"{filter$user_key}\"}`"
+            c("!" = "`user_key` must equal {.val user_id} when \\
+              include_user_data equals {.field FALSE}",
+              "x" = "You supplied {.val {filter$user_key}}"
             ))
         }
       }
@@ -436,5 +431,63 @@ sb_date_range <- function(
     }
   }
 }
+
+
+.validate_user_key <- function(user_key) {
+  if (!is.null(user_key)) {
+    if (length(user_key) > 1) {
+      cli::cli_abort(c(
+        "{.var user_key} must only contain one value.",
+        "x" = "You supplied {length(user_key)} {.var user_key} values."
+        ),
+        call = parent.frame())
+    }
+    user_key_val <- c(
+      "user_id", "about", "username", "email", "group", "current_group"
+    )
+    if (!all(user_key %in% user_key_val)) {
+      wrong_user_key <- user_key[!user_key %in% user_key_val]
+      cli::cli_abort(c(
+        "{.var user_key} must be one of \\
+      {cli::ansi_collapse(user_key_val, last = ' or ')}",
+        "x" = "You supplied {.field {wrong_user_key}}."
+      ),
+      call = parent.frame())
+    }
+  }
+}
+
+.validate_data_condition <- function(data_condition) {
+  if (!is.null(data_condition)) {
+    data_cond_val <- c(
+      "equal_to", "not_equal_to", "contains", "less_than",
+      "greater_than", "less_than_or_equal_to", "greater_than_or_equal_to"
+    )
+
+    if (!all(data_condition %in% data_cond_val)) {
+      wrong_data_condition <- data_condition[!data_condition %in% data_cond_val]
+      cli::cli_abort(c(
+        "{.var data_condition} must only contain these values: \\
+        {cli::ansi_collapse(data_cond_val, last = ' or ')}",
+        "x" = "You supplied {.field {wrong_data_condition}}"
+      ),
+      call = parent.frame())
+    }
+  }
+}
+
+.validate_events_per_user <- function(events_per_user) {
+  if (!is.null(events_per_user)) {
+    events_per_user <- as.integer(events_per_user)
+    if (!any(class(events_per_user) == "integer")) {
+      cli::cli_progress_done(result = "clear")
+      cli::cli_abort(
+        "{.arg {events_per_user}} must be numeric",
+        call = parent.frame()
+      )
+    }
+  }
+}
+
 
 

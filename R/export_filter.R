@@ -76,28 +76,16 @@ sb_sync_event_filter <- function(
 #' sb_get_event_filter(user_key = "group", user_value = "Example Group")
 #' }
 sb_get_event_filter <- function(
-    user_key = c(
-      "user_id", "about", "username", "email", "group", "current_group"
-    ),
+    user_key = NULL,
     user_value = NULL,
     data_key = NULL,
     data_value = NULL,
     data_condition = NULL,
     events_per_user = NULL
 ) {
-  if (!is.null(user_key)) {
-    user_key <- rlang::arg_match(user_key)
-  }
-  # if (!is.null(data_condition)) {
-  #   data_condition <- rlang::arg_match(data_condition)
-  # }
-  if (!is.null(events_per_user)) {
-    events_per_user <- as.integer(events_per_user)
-    if (!any(class(events_per_user) == "integer")) {
-      cli::cli_progress_done(result = "clear")
-      cli::cli_abort("{.arg {events_per_user}} must be numeric")
-    }
-  }
+  .validate_user_key(user_key)
+  .validate_data_condition(data_condition)
+  .validate_events_per_user(events_per_user)
   if (!is.null(data_key)) {
     data_filter <- .build_export_filter(
       data_key = data_key,
@@ -120,6 +108,9 @@ sb_get_event_filter <- function(
     )
   )
 }
+
+
+
 
 
 #' @title Set filter parameters for [sb_get_profile()]
