@@ -37,12 +37,14 @@
   )
 
   if (any(duplicated(data_key))) {
+    clear_progress_id()
     cli::cli_abort("data_key cannot have duplicate elements")
   }
 
   if (!all_equal_length) {
     if (length_key == 1) {
       if (length_condition > 1 | length_value > 1) {
+        clear_progress_id()
         cli::cli_abort(
           "{.arg data_key}, {.arg data_condition} and {.arg data_value} must be
            the same length"
@@ -61,6 +63,7 @@
         )
         data_value <- list(rep(data_value, length_key))
       } else {
+        clear_progress_id()
         cli::cli_abort(
           "{.arg data_key}, {.arg data_condition} and {.arg data_value} must be
            the same length"

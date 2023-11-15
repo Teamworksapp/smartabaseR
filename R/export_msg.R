@@ -99,8 +99,7 @@
       attachment_response$message, "."
     )
   }
-  cli::cli_progress_done(result = "clear", .envir = arg$new_env)
-  cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+  clear_progress_id()
   cli::cli_alert_warning(attachment_message)
 }
 
@@ -137,8 +136,7 @@
     "{.field {attachment_message$n_rows}} files ({round(attachment_size, 2)} ",
     "{attachment_unit} total) saved to {.field {getwd()}}."
   )
-  cli::cli_progress_done(result = "clear", .envir = arg$new_env)
-  cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+  clear_progress_id()
   attachment_message
 }
 
@@ -171,8 +169,7 @@
   } else if (arg$type == "group") {
     msg <- "Group export successful."
   }
-  cli::cli_progress_done(result = "clear", .envir = arg$new_env)
-  cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+  clear_progress_id()
   cli::cli_alert_success(msg)
 }
 

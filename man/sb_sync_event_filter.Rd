@@ -4,10 +4,7 @@
 \alias{sb_sync_event_filter}
 \title{Set filter parameters for \code{\link[=sb_sync_event]{sb_sync_event()}}}
 \usage{
-sb_sync_event_filter(
-  user_key = c("user_id", "about", "username", "email", "group", "current_group"),
-  user_value = NULL
-)
+sb_sync_event_filter(user_key = NULL, user_value = NULL)
 }
 \arguments{
 \item{user_key}{The type of user variable to filter by. The possible values

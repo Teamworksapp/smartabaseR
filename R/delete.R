@@ -79,13 +79,13 @@ sb_delete_event <- function(
 #' @noRd
 #' @keywords internal
 .delete_handler <- function(arg) {
-  login <- .get_cached_login(
+  login <- sb_login(
     url = arg$url,
     username = arg$username,
     password = arg$password,
-    env = arg$current_env
+    option = arg$option
   )
-  arg$endpoints <- .get_cached_endpoint(
+  arg$endpoints <- .get_endpoint(
     login = login,
     url = arg$url,
     username = arg$username,
@@ -104,8 +104,10 @@ sb_delete_event <- function(
   msg_list <- content %>% dplyr::pull(.data$..JSON)
   msg <- glue::glue("{msg_list$state}: {msg_list$message}")
   if (msg_list$state == "FAILURE") {
+    clear_progress_id()
     cli::cli_alert_warning(msg)
   } else {
+    clear_progress_id()
     cli::cli_alert_success(msg)
   }
 }
@@ -125,6 +127,7 @@ sb_delete_event <- function(
   if (!is.null(option)) {
     if (!inherits(option, "sb_delete_option")) {
       fun <- glue::glue("{fun}_option")
+      clear_progress_id()
       cli::cli_abort(
         "{.arg option} must be created by {.fun {fun}}.",
         call = env

@@ -26,7 +26,7 @@ test_that("check .remove_protected_column_names ", {
   )
 })
 
-test_that("check .replace_na_with_empty_string  ", {
+test_that("check .replace_na_with_empty_string", {
   expect_equal(
     .replace_na_with_empty_string(
       tibble::tibble(event_id = 123456, test = NA)

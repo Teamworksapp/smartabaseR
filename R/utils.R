@@ -161,8 +161,9 @@ get_metadata_names <- function(df) {
 
   code <- response$status_code
   if (httr2::resp_is_error(response)) {
-    cli::cli_progress_done(result = "clear", .envir = rlang::caller_env())
+    clear_progress_id()
     msg <- .build_http_error_msg(code)
+    clear_progress_id()
     cli::cli_abort(msg, call = arg$env)
   }
 
@@ -218,7 +219,7 @@ get_metadata_names <- function(df) {
   }
 
   if (error_flag) {
-    cli::cli_progress_done(result = "clear", .envir = rlang::caller_env())
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "Could not retrieve endpoint names.",
         "i" = "Is {.url {url}} up and responsive?",
@@ -379,3 +380,23 @@ save_credentials <- function() {
 }
 
 
+set_progress_id <- function(msg_name, progress_id) {
+  internal_env[[msg_name]] <- progress_id
+}
+
+get_progress_id <- function(msg_name) {
+  internal_env[[msg_name]]
+}
+
+clear_progress_id <- function() {
+  ids <- ls(envir = internal_env)
+  ids <- ids[stringr::str_detect(ids, pattern = "progress_id$")]
+
+  purrr::walk(
+    ids,
+    ~ cli::cli_progress_done(
+      id = get(.x, envir = internal_env)
+    )
+  )
+  rm(list = ids, envir = internal_env)
+}

@@ -1,66 +1,3 @@
-#' .get_memoised_sb_login
-#'
-#' This function initializes a memoized version of the `sb_login()` function.
-#'
-#' @return memoised function
-#' @noRd
-#' @keywords internal
-.get_memoised_sb_login <- function(
-    url,
-    username,
-    password,
-    env)  {
-  if (!exists(".get_cached_login", envir = .GlobalEnv)) {
-    .get_cached_login <<- memoise::memoise(
-      sb_login,
-      omit_args = c("interactive_mode", "env", "cache")
-    )
-  }
-  .get_cached_login(
-    url,
-    username,
-    password,
-    env
-  )
-}
-
-
-#' .get_memoised_endpoint
-#'
-#' This function initializes a memoized version of the `.get_endpoint()`
-#` function.
-#'
-#' @return memoised function
-#' @noRd
-#' @keywords internal
-.get_memoised_endpoint <- function(
-    login,
-    url,
-    username,
-    password,
-    interactive_mode,
-    cache,
-    env,
-    endpoints
-)  {
-  if (!exists(".get_cached_endpoint", envir = .GlobalEnv)) {
-    .get_cached_endpoint <<- memoise::memoise(
-      .get_endpoint,
-      omit_args = c("interactive_mode", "env", "cache")
-    )
-  }
-  .get_cached_endpoint(
-    login,
-    url,
-    username,
-    password,
-    interactive_mode,
-    cache,
-    env,
-    endpoints
-  )
-}
-
 
 #' .export_handler
 #'
@@ -76,15 +13,15 @@
 #' @keywords internal
 .export_handler <- function(arg) {
   if (is.null(arg$login)) {
-    arg$login <- .get_memoised_sb_login(
+    arg$login <- sb_login(
       url = arg$url,
       username = arg$username,
       password = arg$password,
-      env = arg$current_env
+      option = arg$option
     )
   }
   if (is.null(arg$endpoints)) {
-    arg$endpoints <- .get_memoised_endpoint(
+    arg$endpoints <- .get_endpoint(
       login = arg$login,
       url = arg$url,
       username = arg$username,
@@ -107,17 +44,19 @@
   request <- .build_request(body, arg)
 
   if (isTRUE(arg$option$interactive_mode)) {
-    cli::cli_progress_message(
+    export_request_progress_id <- cli::cli_progress_message(
       "Requesting {arg$type} data from Smartabase...",
       .envir = arg$current_env
     )
+    set_progress_id("export_request_progress_id", export_request_progress_id)
   }
   response <- .make_request(request, arg)
   if (isTRUE(arg$option$interactive_mode)) {
-    cli::cli_progress_message(
+    export_wrangle_progress_id <- cli::cli_progress_message(
       "Wrangling {arg$type} data...",
       .envir = arg$current_env
     )
+    set_progress_id("export_wrangle_progress_id", export_wrangle_progress_id)
   }
   .json_to_df_handler(response, arg, id_data)
 }

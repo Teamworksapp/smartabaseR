@@ -121,22 +121,9 @@ pull_smartabase <- function(
   }
 
   if (isTRUE(arg$option$interactive_mode)) {
-    .generate_export_progress_msg(arg)
+    pull_progress_id <- .generate_export_progress_msg(arg)
+    set_progress_id("pull_progress_id", pull_progress_id)
   }
-  if (isTRUE(arg$option$cache)) {
-    get_endpoint_fun <- .get_cached_endpoint
-  } else {
-    get_endpoint_fun <- .get_endpoint
-  }
-
-  arg$endpoints <- get_endpoint_fun(
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    interactive_mode = arg$option$interactive_mode,
-    cache = arg$option$cache,
-    env = arg$current_env
-  )
   .export_handler(arg)
 }
 

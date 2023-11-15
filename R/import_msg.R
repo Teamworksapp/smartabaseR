@@ -47,11 +47,11 @@
     df_len_val <- "twice"
   }
   cli::cli_inform("The Smartabase API will be called {df_len_val}{?/ times}.")
-  cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+  clear_progress_id()
   cli::cli_alert("Are you sure you want to continue?")
   confirm <- utils::menu(choices = c("Yes", "No"))
   if (confirm == 2) {
-    cli::cli_progress_done(result = "clear", .envir = arg$env)
+    clear_progress_id()
     cli::cli_abort("Data import was aborted.", call = arg$env)
   }
 }
@@ -112,7 +112,8 @@
         "{.field {arg$form}}..."
       )
     }
-    cli::cli_progress_message(msg)
+    import_progress_id <- cli::cli_progress_message(msg)
+    set_progress_id("import_progress_id", import_progress_id)
   }
 }
 
@@ -155,7 +156,7 @@
   state <- content %>% purrr::pluck("..JSON", "state")
   cli_msg <- "{prog_vals[['ix']]}{state}: {message}"
   if (state == "UNEXPECTED ERROR") {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     cli::cli_alert_warning(cli_msg)
   }
 
@@ -165,10 +166,10 @@
     stringr::str_remove_all(., .missing_field_pattern())
 
   if (stringr::str_detect(state, "SUCCESS")) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     cli::cli_alert_success(cli_msg)
   } else if (stringr::str_detect(state, "ERROR")) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     cli::cli_alert_warning(cli_msg)
   }
 }
@@ -187,12 +188,11 @@
   if (!is.null(result$state)) {
     if (result$state == "UNEXPECTED_ERROR") {
       message <- result$message
-      cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+      clear_progress_id()
       return(cli::cli_alert_warning(cli_msg))
     }
   }
 
-  cli::cli_progress_message("")
   state <- stringr::str_replace(
     result$state,
     "IMPORTED",
@@ -225,11 +225,11 @@
     stringr::str_remove_all(., .missing_field_pattern())
 
   if (stringr::str_detect(state, "SUCCESS")) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     cli::cli_alert_success(cli_msg)
 
   } else if (stringr::str_detect(state, "ERROR")) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     cli::cli_alert_warning(cli_msg)
   }
 }
@@ -260,6 +260,7 @@
     field_str <- "field"
   }
   cli::cli_div(theme = list(ul = list(`margin-left` = 2, before = "")))
+  clear_progress_id()
   cli::cli_alert_warning(
     "The following {field_str} do not exist in {.field {arg$form}} and were \\
     not imported:"
@@ -275,6 +276,7 @@
 
 .generate_missing_event_id_warning <- function(arg) {
   cli::cli_div(theme = list(ul = list(`margin-left` = 2, before = "")))
+  clear_progress_id()
   cli::cli_alert_warning(
     "Some records could not be imported into {.field {arg$form}}."
   )

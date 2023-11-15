@@ -5,12 +5,11 @@
 \title{Set filter parameters for \code{\link[=sb_get_event]{sb_get_event()}}}
 \usage{
 sb_get_event_filter(
-  user_key = c("user_id", "about", "username", "email", "group", "current_group"),
+  user_key = NULL,
   user_value = NULL,
   data_key = NULL,
   data_value = NULL,
-  data_condition = c("equal_to", "not_equal_to", "contains", "less_than", "greater_than",
-    "less_than_or_equal_to", "greater_than_or_equal_to"),
+  data_condition = NULL,
   events_per_user = NULL
 )
 }
@@ -29,9 +28,9 @@ are \code{c("about", "username", "email", "group", "current_group")}.}
 i.e. "equal_to", "not_equal_to", "contains", "less_than", "greater_than",
 "less_than_or_equal_to", "greater_than_or_equal_to".}
 
-\item{events_per_user}{The maximum number of events to return per user,
-ordered by most recent. If not specified or set to NULL, all events (that
-meet any other the filter conditions) will be retrieved for each user.}
+\item{events_per_user}{The maximum number of events to return per athlete,
+ordered by most recent. If not specified or set to NULL, all events will be
+retrieved for each athlete}
 }
 \value{
 A list of filters with class = "sb_export_filter"

@@ -143,7 +143,7 @@
         n_records_success = 0,
         n_records_attempted = 0
       )
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     return(df)
   }
 
