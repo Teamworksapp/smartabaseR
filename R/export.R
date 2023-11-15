@@ -142,7 +142,8 @@ sb_get_event <- function(
   }
 
   if (isTRUE(arg$option$interactive_mode)) {
-    .generate_export_progress_msg(arg)
+    export_progress_id <- .generate_export_progress_msg(arg)
+    set_progress_id("export_progress_id", export_progress_id)
   }
   .export_handler(arg)
 }

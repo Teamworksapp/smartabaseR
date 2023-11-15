@@ -4,14 +4,7 @@
 \alias{sb_login}
 \title{Log into Smartabase using credentials}
 \usage{
-sb_login(
-  url,
-  username,
-  password,
-  ...,
-  option = sb_login_option(),
-  env = parent.frame()
-)
+sb_login(url, username, password, ..., option = sb_login_option())
 }
 \arguments{
 \item{url}{Smartabase url e.g. "example.smartabase.com/site"}
@@ -22,9 +15,7 @@ sb_login(
 
 \item{...}{These dots are for future extensions and must be empty}
 
-\item{option}{More options accessible via \code{\link[=sb_login_option]{sb_login_option()}} object}
-
-\item{env}{Environment value generally passed from other exported functions
+\item{option}{More options accessible via \code{\link[=sb_login_option]{sb_login_option()}} object
 calling \code{sb_login()}}
 }
 \value{

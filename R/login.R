@@ -12,7 +12,6 @@
 #' @param password Smartabase password
 #' @param ... These dots are for future extensions and must be empty
 #' @param option More options accessible via [sb_login_option()] object
-#' @param env Environment value generally passed from other exported functions
 #' calling `sb_login()`
 #'
 #' @return login object
@@ -31,14 +30,13 @@ sb_login <- function(
     username,
     password,
     ...,
-    option = sb_login_option(),
-    env = parent.frame()
+    option = sb_login_option()
 ) {
   if (isTRUE(option$interactive_mode)) {
-    cli::cli_progress_message(
-      "Logging {.field {username}} into {.field {url}}...",
-      .envir = env
+    login_progress_id <- cli::cli_progress_message(
+      "Logging {.field {username}} into {.field {url}}..."
     )
+    set_progress_id("login_progress_id", login_progress_id)
   }
   url <- .validate_url(url)
   password <- password
@@ -72,13 +70,14 @@ sb_login <- function(
   login <- httr2::resp_body_json(response)
   if (!is.null(login$`__is_rpc_exception__`)) {
     if (isTRUE(login$`__is_rpc_exception__`)) {
+      clear_progress_id()
       cli::cli_abort(
         glue::glue("{login$value$detailMessage}")
       )
     }
   }
   if (isTRUE(option$interactive_mode)) {
-    cli::cli_progress_done(result = "clear", .envir = env)
+    clear_progress_id()
     cli::cli_alert_success(
       "Successfully logged {.field {username}} into {.field {url}}."
     )

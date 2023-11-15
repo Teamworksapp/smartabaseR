@@ -166,7 +166,6 @@ sb_update_event <- function(
       return(arg)
     }
   }
-  arg <- .get_cached_endpoint(arg)
   .import_handler(df, arg)
 }
 
@@ -250,7 +249,6 @@ sb_upsert_event <- function(
       return(arg)
     }
   }
-  arg <- .get_cached_endpoint(arg)
   .import_handler(df, arg)
 }
 
@@ -319,7 +317,6 @@ sb_upsert_profile <- function(
       return(arg)
     }
   }
-  arg <- .get_cached_endpoint(arg)
   .import_handler(df, arg)
 }
 

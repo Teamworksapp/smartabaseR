@@ -42,11 +42,13 @@ sb_date_range <- function(
   )
   date_check <- lubridate::is.Date(end_date)
   if (isTRUE(date_check)) {
+    clear_progress_id()
     cli::cli_abort("{.arg end_date} must be character type, not a date type")
   }
 
   end_date <- lubridate::dmy(end_date)
   if (is.na(end_date)) {
+    clear_progress_id()
     cli::cli_abort("{.arg end_date} must be in \"dd/mm/YYYY\" format")
   }
   period <- parse(text = glue::glue("lubridate::{duration_unit}"))
@@ -60,11 +62,7 @@ sb_date_range <- function(
 #' .validate_filter_user_key
 #'
 #' @noRd
-#'
 #' @keywords internal
-#'
-#' @return An error when the table_field inputs do not exist as columns in the
-#' input data frame
 .validate_filter_user_key <- function(arg) {
   filter <- arg$filter
   option <- arg$option
@@ -72,13 +70,13 @@ sb_date_range <- function(
   if (!is.null(option$include_user_data)) {
     if (isFALSE(option$include_user_data)) {
       if (!is.null(filter$user_key)) {
-        if (is.null(filter$user_key) || filter$user_key != "user_id") {
+        if (filter$user_key != "user_id") {
+          clear_progress_id()
           cli::cli_abort(
             call = arg$current_env,
-            c(
-              "!" = "`user_key` must equal {.field \"user_id\"} when \\
-              `include_user_data = {.field FALSE}`",
-              "x" = "You supplied `user_key = {.field \"{filter$user_key}\"}`"
+            c("!" = "`user_key` must equal {.val user_id} when \\
+              include_user_data equals {.field FALSE}",
+              "x" = "You supplied {.val {filter$user_key}}"
             ))
         }
       }
@@ -88,7 +86,7 @@ sb_date_range <- function(
   if (!is.null(filter$user_key)) {
     if (filter$user_key == "current_group") {
       if (!is.null(filter$user_value)) {
-        cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+        clear_progress_id()
         cli::cli_alert_warning(
           "{.arg user_value} will have no effect when
           {.code user_key = 'current_group'}."
@@ -99,7 +97,7 @@ sb_date_range <- function(
 
   if (is.null(filter$user_key)) {
     if (!is.null(filter$user_value)) {
-      cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+      clear_progress_id()
       cli::cli_alert_warning(
         "'user_value' will have no effect when 'user_key' is NULL."
       )
@@ -122,7 +120,7 @@ sb_date_range <- function(
   order_test <- start_date > end_date
 
   if (isTRUE(order_test)) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     cli::cli_abort(
       "{.code start_date} must occur on or before {.code end_date}",
       call = arg$current_env
@@ -133,6 +131,7 @@ sb_date_range <- function(
 
 .validate_date_range <- function(date_range, env) {
   if (length(date_range) != 2) {
+    clear_progress_id()
     cli::cli_abort(
       "{.arg date_range} must be a vector/list of length = 2;
       i.e. start_date and end_date",
@@ -149,6 +148,7 @@ sb_date_range <- function(
 
   order_test <- lubridate::dmy(start_date) <= lubridate::dmy(end_date)
   if (isFALSE(order_test)) {
+    clear_progress_id()
     cli::cli_abort(
       "{.code start_date} must occur on or before {.code end_date}",
       call = env
@@ -159,6 +159,7 @@ sb_date_range <- function(
 
 .validate_time_range <- function(time_range, env) {
   if (length(time_range) != 2) {
+    clear_progress_id()
     cli::cli_abort(
       "{.arg time_range} must be a vector/list of length = 2;
       i.e. start_time and end_time",
@@ -192,6 +193,7 @@ sb_date_range <- function(
 #' @return error message
 .validate_export_date_character <- function(date, date_var_name, env) {
   if(inherits(date, "Date")) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {date_var_name}} must be type 'character'.",
         "!" = "You supplied {.arg {date_var_name}} as class {.field Date}."),
@@ -199,6 +201,7 @@ sb_date_range <- function(
     )
   }
   if (typeof(date) != "character") {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {date_var_name}} must be type 'character'.",
         "!" = "You supplied class: {.field {class(date)[[1]]}}."),
@@ -218,6 +221,7 @@ sb_date_range <- function(
 .validate_export_time_colon <- function(time, time_var_name, env) {
   validate_colon <- stringr::str_detect(time, ":")
   if (!validate_colon) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {time_var_name}} must contain a colon.",
         "!" = "You supplied {.field {time}}." ),
@@ -235,9 +239,10 @@ sb_date_range <- function(
 #' @keywords internal
 #' @return error message
 .validate_export_time_ampm <- function(time, time_var_name, env) {
-  pattern <- ".*\\s(?:am|pm)$"
+  pattern <- "(?i).*\\s(?:am|pm)$"
   validate_ampm <- stringr::str_detect(time, pattern)
   if (isFALSE(validate_ampm)) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {time_var_name}} must contain {.field am} or \\
         {.field pm}.",
@@ -259,6 +264,7 @@ sb_date_range <- function(
   validate_hour_min <- as.numeric(stringr::str_extract(time, ".*(?=:)")) < 0
 
   if (any(validate_hour_max) | any(validate_hour_min)) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {time_var_name}} must be in 12-hour format \\
         (hours must be > 0 and <= 12).",
@@ -280,6 +286,7 @@ sb_date_range <- function(
 .validate_export_time_length <- function(time, time_var_name, env) {
   validate_length <- nchar(time) < 7 | nchar(time) > 8
   if (isTRUE(validate_length)) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {time_var_name}} must be less than 7 characters and \\
         no more than 8 characters.",
@@ -300,6 +307,7 @@ sb_date_range <- function(
 .validate_export_date_length <- function(date, date_var_name, env) {
   validate_length <- nchar(date) == 10
   if (isFALSE(validate_length)) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg {time_var_name}} must be 10 characters.",
         "!" = "You supplied {.field {date}}."),
@@ -311,6 +319,7 @@ sb_date_range <- function(
 .validate_export_time_leading_zero <- function(time, time_var_name, env) {
   validate_zero <- stringr::str_detect(time, "^0")
   if (isTRUE(validate_zero)) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.arg time_var_name} cannot start with a zero",
         "!" = "You supplied {.field {time}}."),
@@ -420,6 +429,7 @@ sb_date_range <- function(
   if (!is.null(filter)) {
     if (!inherits(filter, "sb_export_filter")) {
       fun <- glue::glue("{fun}_filter")
+      clear_progress_id()
       cli::cli_abort(
         "{.arg filter} must be created by {.fun {fun}}.",
         call = env
@@ -429,6 +439,7 @@ sb_date_range <- function(
   if (!is.null(option)) {
     if (!inherits(option, "sb_export_option")) {
       fun <- glue::glue("{fun}_option")
+      clear_progress_id()
       cli::cli_abort(
         "{.arg option} must be created by {.fun {fun}}.",
         call = env
@@ -436,5 +447,80 @@ sb_date_range <- function(
     }
   }
 }
+
+
+.validate_user_key <- function(user_key) {
+  if (!is.null(user_key)) {
+    if (length(user_key) > 1) {
+      clear_progress_id()
+      cli::cli_abort(c(
+        "{.var user_key} must only contain one value.",
+        "x" = "You supplied {length(user_key)} {.var user_key} values."
+        ),
+        call = parent.frame())
+    }
+    user_key_val <- c(
+      "user_id", "about", "username", "email", "group", "current_group"
+    )
+    if (!all(user_key %in% user_key_val)) {
+      wrong_user_key <- user_key[!user_key %in% user_key_val]
+      clear_progress_id()
+      cli::cli_abort(c(
+        "{.var user_key} must be one of \\
+      {cli::ansi_collapse(user_key_val, last = ' or ')}.",
+        "x" = "You supplied {.val {wrong_user_key}}."
+      ),
+      call = parent.frame())
+    }
+  }
+}
+
+.validate_data_condition <- function(data_condition) {
+  if (!is.null(data_condition)) {
+    data_cond_val <- c(
+      "equal_to", "not_equal_to", "contains", "less_than",
+      "greater_than", "less_than_or_equal_to", "greater_than_or_equal_to"
+    )
+
+    if (!all(data_condition %in% data_cond_val)) {
+      wrong_data_condition <- data_condition[!data_condition %in% data_cond_val]
+      clear_progress_id()
+      cli::cli_abort(c(
+        "{.var data_condition} must only contain these values: \\
+        {cli::ansi_collapse(data_cond_val, last = ' or ')}.",
+        "x" = "You supplied {.val {wrong_data_condition}}."
+      ),
+      call = parent.frame())
+    }
+  }
+}
+
+.validate_events_per_user <- function(events_per_user) {
+  events <- events_per_user
+  error_flag <- FALSE
+
+  if (!is.null(events)) {
+    if (is.numeric(events)) {
+      if (!is.integer(events)) {
+        events <- suppressWarnings(as.integer(events))
+      }
+      if (is.na(events)) {
+        error_flag <- TRUE
+      }
+    } else {
+      error_flag <- TRUE
+    }
+  }
+  if (isTRUE(error_flag)) {
+    clear_progress_id()
+    cli::cli_abort(c(
+      "{.var events_per_user} must be numeric.",
+      "x" = "You supplied {.val {events_per_user}}."
+    ),
+    call = parent.frame()
+    )
+  }
+}
+
 
 

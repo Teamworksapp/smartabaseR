@@ -465,7 +465,7 @@ The first data set contains the first unique `user_id`/`start_date` pairing; the
 
 ### start_date / end_date / start_time / end_time columns
 
-When uploading data to Smartabase, the API requires metadata about when the event started and stopped. `sb_insert_event()` will first search for any columns in the data named "start_time" and "end_time". **Note: start_time and end_time values must be in h:mm am or h:mm pm format.** If those columns do not exist, `start_time` and `end_time` will be set to the current time and one hour after the current time, respectively. 
+When uploading data to Smartabase, the API requires metadata about when the event started and stopped. `sb_insert_event()` will first search for any columns in the data named "start_time" and "end_time". **Note: start_time and end_time values must be in h:mm AM or h:mm PM format.** If those columns do not exist, `start_time` and `end_time` will be set to the current time and one hour after the current time, respectively. 
 
 Likewise,`sb_insert_event()` will also search for any columns named "start_date" or "end_date", which **must have values formatted as dd/mm/YYYY**. If those columns do not exist, both `start_date` and `end_date` will be set to the current date (unless the difference between `start_time` and `end_time` spans midnight, in which case the `end_date` will be set to the current date plus one day).
 

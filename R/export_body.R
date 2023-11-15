@@ -10,9 +10,18 @@
 #' @keywords internal
 #' @return data
 .build_export_filter <- function(data_key, data_value, data_condition) {
-  data_key <- list(eval(data_key))
+  data_key <- eval(data_key)
   data_value <- eval(data_value)
   data_condition <- eval(data_condition)
+  length_key <- length(data_key)
+  length_condition <- length(data_condition)
+  length_value <- length(data_value)
+
+  if (length_key < length_value) {
+    data_key <- rep(data_key, length_value)
+    length_key <- length(data_key)
+  }
+
   data_condition <- seq_len(length(data_condition)) %>%
     purrr::map(
       ~ .select_filter_condition(
@@ -21,10 +30,6 @@
     ) %>%
     purrr::reduce(., c)
 
-  length_key <- length(data_key)
-  length_condition <- length(data_condition)
-  length_value <- length(data_value)
-
   all_equal_length <- all(
     purrr::map_lgl(
       list(length_condition, length_value), function(x) x == length_key
@@ -32,12 +37,14 @@
   )
 
   if (any(duplicated(data_key))) {
+    clear_progress_id()
     cli::cli_abort("data_key cannot have duplicate elements")
   }
 
   if (!all_equal_length) {
     if (length_key == 1) {
       if (length_condition > 1 | length_value > 1) {
+        clear_progress_id()
         cli::cli_abort(
           "{.arg data_key}, {.arg data_condition} and {.arg data_value} must be
            the same length"
@@ -56,6 +63,7 @@
         )
         data_value <- list(rep(data_value, length_key))
       } else {
+        clear_progress_id()
         cli::cli_abort(
           "{.arg data_key}, {.arg data_condition} and {.arg data_value} must be
            the same length"
@@ -69,7 +77,7 @@
       formName = "__formName__",
       filterSet = seq_along(data_value) %>%
         purrr::map(~ list(
-          key = data_key[[1]][[.x]],
+          key = data_key[[.x]],
           value = as.character(data_value[[.x]]),
           filterCondition = data_condition[[.x]]
         ))

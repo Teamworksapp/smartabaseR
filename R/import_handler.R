@@ -18,15 +18,15 @@
 #' @keywords internal
 .import_handler <- function(df, arg) {
   if (is.null(arg$login)) {
-    arg$login <- .get_memoised_sb_login(
+    arg$login <- sb_login(
       url = arg$url,
       username = arg$username,
       password = arg$password,
-      env = arg$current_env
+      option = arg$option
     )
   }
   if (is.null(arg$endpoints)) {
-    arg$endpoints <- .get_memoised_endpoint(
+    arg$endpoints <- .get_endpoint(
       login = arg$login,
       url = arg$url,
       username = arg$username,
@@ -44,7 +44,7 @@
 
   df <- df %>%
     dplyr::ungroup() %>%
-    .insert_date_time(., arg) %>%
+    .insert_date_time(., arg$current_env) %>%
     .attach_user_id_to_df(., arg)
 
   arg$duplicate_date_user_id <- .detect_duplicate_date_user_id(df, arg)
@@ -73,10 +73,12 @@
 
 .import_df_list_element <- function(df, import_action, index, arg) {
   prog_vals <- .calculate_import_progress_vals(df, index, arg)
-  if (arg$option$interactive_mode) {
-    cli::cli_progress_message(
+  if (isTRUE(arg$option$interactive_mode)) {
+    progress_msg <- cli::cli_progress_message(
       .generate_import_progress_msg(import_action, prog_vals, arg)
     )
+    id_name <- glue::glue("{import_action}_{prog_vals$ix}_progress_id")
+    set_progress_id(id_name, progress_msg)
   }
   if (arg$type == "profile") {
     body <- .build_import_body(df, import_action, arg)

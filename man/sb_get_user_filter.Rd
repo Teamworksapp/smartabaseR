@@ -4,10 +4,7 @@
 \alias{sb_get_user_filter}
 \title{Set filter parameters for \code{\link[=sb_get_profile]{sb_get_profile()}}}
 \usage{
-sb_get_user_filter(
-  user_key = c("user_id", "about", "username", "email", "group", "current_group"),
-  user_value = NULL
-)
+sb_get_user_filter(user_key = NULL, user_value = NULL)
 }
 \arguments{
 \item{user_key}{The type of user variable to filter by. The possible values

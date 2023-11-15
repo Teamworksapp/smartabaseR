@@ -130,35 +130,6 @@ test_that("Check .insert_date_time() works", {
     )
   )
 
-  # Error with ampm in start_time
-  expect_error(
-    .insert_date_time(
-      df = tibble::tibble(about = "Jamie Anderson") %>%
-        dplyr::mutate(
-          start_time = "1:00 AM",
-          start_date = "01/09/2021",
-          end_time = "2:00 am",
-          end_date = "01/09/2021"
-        ),
-      current_datetime = current_datetime,
-      env = rlang::current_env()
-    )
-  )
-  # Error with ampm in end_time
-  expect_error(
-    .insert_date_time(
-      df = tibble::tibble(about = "Jamie Anderson") %>%
-        dplyr::mutate(
-          start_time = "1:00 am",
-          start_date = "01/09/2021",
-          end_time = "2:00 AM",
-          end_date = "01/09/2021"
-        ),
-      current_datetime = current_datetime,
-      env = rlang::current_env()
-    )
-  )
-
   # Error with start_time length
   expect_error(
     .insert_date_time(
@@ -219,8 +190,6 @@ test_that("Check .insert_date_time() works", {
       env = rlang::current_env()
     )
   )
-
-
 
   # Error with start_date type Date
   expect_error(

@@ -447,6 +447,7 @@
     purrr::pluck(1)
 
   if (length(arg$new_sync_time) == 0 || is.null(arg$new_sync_time)) {
+    clear_progress_id()
     cli::cli_abort(
       "Expected {.field new_sync_time} but got {arg$new_sync_time}.",
       call = arg$current_env
@@ -544,38 +545,6 @@
 }
 
 
-#' .get_memoised_user
-#'
-#' This function initializes a memoised version of the `sb_get_user()` function
-#'
-#' @return memoised function
-#' @noRd
-#' @keywords internal
-.get_memoised_user <- function(
-    url,
-    username,
-    password,
-    ...,
-    filter,
-    option
-)  {
-  if (!exists(".get_cached_user", envir = .GlobalEnv)) {
-    .get_cached_user <<- memoise::memoise(
-      sb_get_user,
-      omit_args = c("interactive_mode", "env", "cache")
-    )
-  }
-  .get_cached_user(
-    url = url,
-    username = username,
-    password = password,
-    ...,
-    filter = filter,
-    option = option
-  )
-}
-
-
 #' .get_user_id_for_export_body
 #'
 #' Populates user ID values for export filter
@@ -624,12 +593,7 @@
   }
 
   if (isTRUE(get_id_flag)) {
-    if (isTRUE(arg$option$cache)) {
-      get_user <- .get_memoised_user
-    } else {
-      get_user <- sb_get_user
-    }
-    id_data <- get_user(
+    id_data <- sb_get_user(
       url = arg$url,
       username = arg$username,
       password = arg$password,

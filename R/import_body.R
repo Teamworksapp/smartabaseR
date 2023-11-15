@@ -75,6 +75,7 @@
 
     if (import_action == "update") {
       if (!"event_id" %in% names(df)) {
+        clear_progress_id()
         cli::cli_abort(
           "{.arg event_id} must exist as a column in the data frame when \\
           update_event = TRUE",

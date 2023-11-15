@@ -46,7 +46,7 @@
   attachment_metadata <- .build_attachment_metadata(nested_data, id_data)
   url_flag <- !"attachment_url" %in% names(attachment_metadata)
   if (nrow(attachment_metadata) == 0 || url_flag) {
-    cli::cli_progress_done(result = "clear", .envir = arg$caller_env)
+    clear_progress_id()
     cli::cli_alert_warning("No attachment found in event data")
     return(unnested_data)
   }
@@ -59,7 +59,7 @@
   null_response <- is.null(attachment_response)
   attachment_error <- any(class(attachment_response) == "error")
   if (null_response || attachment_error) {
-    cli::cli_progress_done(result = "clear", .envir = arg$caller_env)
+    clear_progress_id()
     cli::cli_alert_warning("Could not download attachment")
     return(unnested_data)
   }
@@ -105,11 +105,11 @@
 #' @return data
 .get_export_attachment <- function(response, attachment_metadata, arg) {
   if (arg$option$interactive_mode) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
-    cli::cli_progress_message(
+    attachment_progress_id <- cli::cli_progress_message(
       .envir = arg$new_env,
       "Exporting {nrow(attachment_metadata)} attachment{?s} from {arg$form}..."
     )
+    set_progress_id("attachment_progress_id", attachment_progress_id)
   }
 
   attachment_response <- attachment_metadata %>%

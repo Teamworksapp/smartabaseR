@@ -26,15 +26,10 @@
 #' sb_sync_event_filter(user_key = "group", user_value = "Example Group")
 #' }
 sb_sync_event_filter <- function(
-    user_key = c(
-      "user_id", "about", "username", "email", "group", "current_group"
-    ),
+    user_key = NULL,
     user_value = NULL
 ) {
-  if (!is.null(user_key)) {
-    user_key <- rlang::arg_match(user_key)
-  }
-
+  .validate_user_key(user_key)
   structure(
     class = "sb_export_filter",
     list(
@@ -43,6 +38,7 @@ sb_sync_event_filter <- function(
     )
   )
 }
+
 
 #' @title
 #' Set filter parameters for [sb_get_event()]
@@ -53,9 +49,9 @@ sb_sync_event_filter <- function(
 #' @param data_condition Specify the condition you want to apply when filtering
 #' i.e. "equal_to", "not_equal_to", "contains", "less_than", "greater_than",
 #' "less_than_or_equal_to", "greater_than_or_equal_to".
-#' @param events_per_user The maximum number of events to return per user,
-#' ordered by most recent. If not specified or set to NULL, all events (that
-#' meet any other the filter conditions) will be retrieved for each user.
+#' @param events_per_user The maximum number of events to return per athlete,
+#' ordered by most recent. If not specified or set to NULL, all events will be
+#' retrieved for each athlete
 #'
 #' @return A list of filters with class = "sb_export_filter"
 #' @export
@@ -76,31 +72,16 @@ sb_sync_event_filter <- function(
 #' sb_get_event_filter(user_key = "group", user_value = "Example Group")
 #' }
 sb_get_event_filter <- function(
-    user_key = c(
-      "user_id", "about", "username", "email", "group", "current_group"
-    ),
+    user_key = NULL,
     user_value = NULL,
     data_key = NULL,
     data_value = NULL,
-    data_condition = c(
-      "equal_to", "not_equal_to", "contains", "less_than",
-      "greater_than", "less_than_or_equal_to", "greater_than_or_equal_to"
-    ),
+    data_condition = NULL,
     events_per_user = NULL
 ) {
-  if (!is.null(user_key)) {
-    user_key <- rlang::arg_match(user_key)
-  }
-  if (!is.null(data_condition)) {
-    data_condition <- rlang::arg_match(data_condition)
-  }
-  if (!is.null(events_per_user)) {
-    events_per_user <- as.integer(events_per_user)
-    if (!any(class(events_per_user) == "integer")) {
-      cli::cli_progress_done(result = "clear")
-      cli::cli_abort("{.arg {events_per_user}} must be numeric")
-    }
-  }
+  .validate_user_key(user_key)
+  .validate_data_condition(data_condition)
+  .validate_events_per_user(events_per_user)
   if (!is.null(data_key)) {
     data_filter <- .build_export_filter(
       data_key = data_key,
@@ -148,15 +129,10 @@ sb_get_event_filter <- function(
 #' sb_get_profile_filter(user_key = "group", user_value = "Example Group")
 #' }
 sb_get_profile_filter <- function(
-    user_key = c(
-      "user_id", "about", "username", "email", "group", "current_group"
-    ),
+    user_key = NULL,
     user_value = NULL
 ) {
-  if (!is.null(user_key)) {
-    user_key <- rlang::arg_match(user_key)
-  }
-
+  .validate_user_key(user_key)
   structure(
     class = "sb_export_filter",
     list(
@@ -190,14 +166,10 @@ sb_get_profile_filter <- function(
 #' sb_get_user_filter(user_key = "group", user_value = "Example Group")
 #' }
 sb_get_user_filter <- function(
-    user_key = c(
-      "user_id", "about", "username", "email", "group", "current_group"
-    ),
+    user_key = NULL,
     user_value = NULL
 ) {
-  user_key <- rlang::arg_match(user_key)
-  if (user_key == "none") user_key <- NULL
-
+  .validate_user_key(user_key)
   structure(
     class = "sb_export_filter",
     list(

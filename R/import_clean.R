@@ -31,7 +31,7 @@
     df %>%
       dplyr::mutate_all(as.character) %>%
       dplyr::mutate_at(
-        dplyr::vars(-.data$event_id),
+        dplyr::vars(-"event_id"),
         ~ dplyr::if_else(is.na(.), paste(""), .)
       )
   } else {
@@ -66,6 +66,7 @@
 
     dup_names <- sub(",([^,]*)$", " and\\1", paste(dup_names, collapse = ", "))
 
+    clear_progress_id()
     cli::cli_abort(
       message = c(
         "!" = "There are multiple Smartabase accounts with the following \\
@@ -95,13 +96,7 @@
     user_key <- id_col
     user_value <- unique(df[[id_col]])
 
-    if (isTRUE(arg$option$cache)) {
-      get_user <- .get_memoised_user
-    } else {
-      get_user <- sb_get_user
-    }
-
-    id_data <- get_user(
+    id_data <- sb_get_user(
       url = arg$url,
       username = arg$username,
       password = arg$password,
@@ -121,6 +116,7 @@
 
   } else {
     if (!"user_id" %in% names(df)) {
+      clear_progress_id()
       cli::cli_abort(
         "{.arg user_id} must exist as a column in the data frame.",
         call = arg$current_env
@@ -236,11 +232,7 @@
         )
     }
 
-    df <- df %>%
-      dplyr::select(
-        -.data$start_datetime,
-        -.data$end_datetime
-      )
+    df <- df %>% dplyr::select(-"start_datetime", -"end_datetime")
   }
   df %>% dplyr::select(-dplyr::any_of("row_num"))
 }
@@ -258,32 +250,30 @@
 #' @noRd
 #' @keywords internal
 #' @return df with metadata attached
-.insert_date_time <- function(
-    df,
-    current_datetime,
-    env
-) {
+.insert_date_time <- function(df, current_datetime, env) {
   # Check if end_date or end_time columns exist without start_date/start_time
   if ("end_date" %in% names(df) && !"start_date" %in% names(df)) {
+    clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg end_date} column detected in df but no {.arg start_date}\\
-         column was detected",
-        "i" = "Please add a {.arg start_date} column or remove the \\
-      {.arg end_date} column and allow `smartabaseR` to automatically create \\
-      both columns for you."),
+      c("!" = "Can't find {.field start_date} column.",
+        "x" = "{.field end_date} is present but not {.field start_date}.",
+        "i" = "Either remove {.field end_date} from the data frame, or add a \\
+        {.field start_date} column."),
       call = env
     )
   }
 
   if ("end_time" %in% names(df) && !"start_time" %in% names(df)) {
+    clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg end_time} column detected in df but not {.arg start_time}",
-        "i" = "Please add a {.arg start_time} column or remove the \\
-      {.arg end_time} column and allow `smartabaseR` to automatically create \\
-      them for you."),
+      c("!" = "Can't find {.field start_time} column.",
+        "x" = "{.field end_time} is present but not {.field start_time}.",
+        "i" = "Either remove {.field end_time} from the data frame, or add a \\
+        {.field start_time} column."),
       call = env
     )
   }
+  current_datetime <- .get_current_date_time()
 
   # If any date/time columns still missing, add current date/time
   .insert_current_date_time(df, current_datetime, env)

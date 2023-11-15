@@ -19,6 +19,7 @@
   if (!is.null(table_field)) {
     if (!all(table_field %in% names(df))) {
       missing_field <- table_field[!table_field %in% names(df)]
+      clear_progress_id()
       cli::cli_abort(
         c("!" = "All elements of {.arg table_field} must match column names of
           {.arg df}.",
@@ -40,7 +41,7 @@
 #' @return error if validate_date or validate_time are triggered
 .validate_id_col <- function(df, arg) {
   if (!any(arg$option$id_col %in% names(df))) {
-    cli::cli_progress_done(result = "clear", .envir = arg$current_env)
+    clear_progress_id()
     msg <- c(
       "!" = "{.arg id_col} must exist as a column in the data frame.",
       "!" = "There is no column called {.field {arg$option$id_col}}."
@@ -60,6 +61,7 @@
         )
       }
     }
+    clear_progress_id()
     cli::cli_abort(msg, call = arg$current_env)
   }
 }
@@ -131,6 +133,7 @@
         dplyr::pull(.data$value)
 
       if (duplicate_event_id) {
+        clear_progress_id()
         cli::cli_abort(
           message = c(
             "!" = paste(
@@ -184,6 +187,7 @@
   if (!is.null(option)) {
     if (!inherits(option, "sb_import_option")) {
       fun <- glue::glue("{fun}_option")
+      clear_progress_id()
       cli::cli_abort(
         "{.arg option} must be created by {.fun {fun}}.",
         call = env
@@ -194,9 +198,11 @@
 
 .validate_upsert_df <- function(df, env) {
   if (!"event_id" %in% names(df)) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "No {.field event_id} column exists in the data frame.",
-        "i" = "{.field event_id} is required in order to update events."),
+        "x" = "You cannot update events without {.field event_id}.",
+        "i" = "Did you mean to use {.fun sb_insert_df}?"),
       call = env
     )
   }
@@ -209,25 +215,28 @@
         dplyr::filter(is.na(.data$event_id)) %>%
         nrow()
 
-      cli::cli_progress_done(result = "clear", .envir = env)
+      clear_progress_id()
       cli::cli_abort(
-        c("!" = "{nrow_na} row{?s} with missing event IDs {?was/were} were \\
+        c("!" = "{nrow_na} row{?s} with missing event IDs {?was/were} \\
           detected.",
-          "i" = "{.field event_id} is required in order to update events."),
+          "x" = "You cannot update events without {.field event_id}.",
+          "i" = "Did you mean to use {.fun sb_upsert_df}?"),
         call = env
       )
     }
   } else {
-    cli::cli_progress_done(result = "clear")
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "No {.field event_id} column exists in the data frame.",
-        "i" = "{.field event_id} is required in order to update events."),
+        "x" = "You cannot update events without {.field event_id}.",
+        "i" = "Did you mean to use {.fun sb_insert_df}?"),
       call = env
     )
   }
 
   if (!"event_id" %in% names(df)) {
     df <- df %>% dplyr::select(-.data$event_id)
+    clear_progress_id()
     cli::cli_alert_warning(c(
      "!" = "No event ID column was detected.",
      "i" = "All events will be inserted as new events."
@@ -239,6 +248,7 @@
 .remove_event_id <- function(df) {
   if ("event_id" %in% names(df)) {
     df <- df %>% dplyr::select(-.data$event_id)
+    clear_progress_id()
     cli::cli_alert_warning("An event ID column was detected and was removed.")
   }
   df
@@ -246,6 +256,7 @@
 
 .validate_import_df_class <- function(df, env) {
   if (isFALSE(is.data.frame(df))) {
+    clear_progress_id()
     cli::cli_abort(
       message = c(
         "!" = "{.arg df} is not a data frame.",
@@ -271,6 +282,7 @@
     row_num <- error %>% dplyr::pull(.data$row_num)
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
+    clear_progress_id()
     cli::cli_abort(c(
       "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
       {.field {row_num}}.",
@@ -297,6 +309,7 @@
     row_num <- error %>% dplyr::pull(.data$row_num)
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
+    clear_progress_id()
     cli::cli_abort(c(
       "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
       {.field {row_num}}.",
@@ -310,6 +323,7 @@
 
 .validate_import_date_character <- function(df, date_var_name, env) {
   if(inherits(df[[date_var_name]], "Date")) {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.field {date_var_name}} column must be type 'character'.",
         "!" = "Your supplied {.field {date_var_name}} column is class \\
@@ -318,6 +332,7 @@
     )
   }
   if (typeof(df[[date_var_name]]) != "character") {
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "{.field {date_var_name}} column must be type 'character'.",
         "!" = "You supplied type: {.field {class(df[[date_var_name]])}}."),
@@ -339,7 +354,7 @@
     dplyr::mutate(
       ampm_test = !stringr::str_detect(
         !!dplyr::sym(time_var_name),
-        ".*\\s(?:am|pm)$"
+        "(?i).*\\s(?:am|pm)$"
       )
     ) %>%
     dplyr::filter(.data$ampm_test)
@@ -351,6 +366,7 @@
     row_num <- error %>% dplyr::pull(.data$row_num)
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
+    clear_progress_id()
     cli::cli_abort(c(
       "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
       {.field {row_num}}.",
@@ -383,6 +399,7 @@
     row_num <- error %>% dplyr::pull(.data$row_num)
     date <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
         {.field {row_num}}.",
@@ -414,6 +431,7 @@
     row_num <- error %>% dplyr::pull(.data$row_num)
     date <- error %>% dplyr::pull(!!dplyr::sym(date_var_name))
 
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "Incorrect {.field {date_var_name}} value supplied at row: \\
         {.field {row_num}}.",
@@ -448,6 +466,7 @@
 
     row_num <- error %>% dplyr::pull(.data$row_num)
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
+    clear_progress_id()
     cli::cli_abort(
       c("!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
         {.field {row_num}}.",
