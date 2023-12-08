@@ -102,9 +102,6 @@
 sb_get_event <- function(
     form,
     date_range,
-    url,
-    username,
-    password,
     ...,
     filter = sb_get_event_filter(),
     option = sb_get_event_option(),
@@ -117,9 +114,6 @@ sb_get_event <- function(
 
   arg <- list(
     form = form,
-    url = .validate_url(url),
-    username = username,
-    password = password,
     date_range = date_range,
     time_range = time_range,
     filter = filter,

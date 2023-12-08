@@ -4,7 +4,8 @@ cache_function <- function(function_name) {
   fn <- get(function_name, envir = rlang::ns_env("smartabaseR"))
   fn <- memoise::memoise(
     fn,
-    omit_args = c("option")
+    omit_args = c("option"),
+    ~memoise::timeout(30)
   )
   assign(function_name, fn, envir = rlang::ns_env("smartabaseR"))
   return(invisible(TRUE))

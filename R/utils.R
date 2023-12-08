@@ -137,9 +137,10 @@ get_metadata_names <- function(df) {
 .build_request <- function(body, arg) {
   httr2::request(arg$smartabase_url) %>%
     httr2::req_body_json(body, auto_unbox = TRUE, null = "list") %>%
-    httr2::req_auth_basic(
-      username = arg$username,
-      password = arg$password
+    httr2::req_headers(
+      "X-GWT-Permutation" = "HostedMode",
+      "session-header" = arg$login$session_header,
+      "Cookie" = glue::glue("JSESSIONID={arg$login$session_header}")
     ) %>%
     httr2::req_user_agent("smartabaseR")
 }
