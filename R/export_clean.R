@@ -219,8 +219,45 @@
   data <- data %>%
     tidyjson::gather_array("record_number") %>%
     tidyjson::enter_object("results") %>%
-    tidyjson::gather_array("results_number") %>%
-    tidyjson::spread_all() # TODO: %>% .handle_null_rows(.)
+    tidyjson::gather_array("results_number")
+
+  if (arg$user_info_level == "detailed") {
+    phone_df <- data %>%
+      tidyjson::enter_object("phoneNumbers") %>%
+      tidyjson::gather_array("phoneNumbers") %>%
+      tidyjson::spread_all() %>%
+      as_tibble() %>%
+      tidyr::unite(
+        col = "phone_number",
+        countryCode,
+        prefix,
+        number,
+        sep = ""
+      ) %>%
+      dplyr::mutate(across(phone_number, ~as.integer(.)))
+
+    address_df <- data %>%
+      tidyjson::enter_object("addresses") %>%
+      tidyjson::gather_array("addresses") %>%
+      tidyjson::spread_all()
+
+    data <- data %>%
+      tidyjson::spread_all()
+
+    join_cols <- c(
+      "document.id",
+      "export_object",
+      "record_number",
+      "results_number"
+    )
+
+    detailed_df <- dplyr::full_join(phone_df, address_df, by = join_cols)
+    data <- full_join(data, detailed_df, by = join_cols)
+
+  } else {
+    data <- data %>%
+      tidyjson::spread_all() # TODO: %>% .handle_null_rows(.)
+  }
 
   dat <- .clean_user_export(data, arg)
   new_sb_tibble(response, dat, arg)
@@ -515,6 +552,41 @@
 #' @return data
 .clean_user_export <- function(data, arg) {
   if (nrow(data) == 0) return(data)
+
+  data <- tibble::as_tibble(data) %>%
+    dplyr::select(-c(
+      dplyr::contains("groupsAndRoles"),
+      "document.id",
+      "export_object",
+      "record_number",
+      "results_number"
+    )) %>%
+    dplyr::rename(
+      user_id = .data$userId,
+      first_name = .data$firstName,
+      last_name = .data$lastName,
+      email = .data$emailAddress,
+      uuid = .data$uuid
+    ) %>%
+    dplyr::relocate(
+      user_id,
+      first_name,
+      last_name,
+      email,
+      uuid
+    )
+    dplyr::select(
+      user_id = .data$userId,
+      .data$firstName,
+      .data$lastName,
+      .data$username,
+      email = .data$emailAddress,
+      uuid = .data$uuid
+    )
+
+  if (arg$user_info_level == "detailed") {
+
+  }
 
   tibble::as_tibble(data) %>%
     dplyr::select(-dplyr::contains("groupsAndRoles")) %>%

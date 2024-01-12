@@ -184,6 +184,7 @@ sb_get_profile_option <- function(
 sb_get_user_option <- function(
     interactive_mode = TRUE,
     include_user_data = TRUE,
+    user_info_level = "basic",
     cache = TRUE,
     include_missing_user = FALSE,
     guess_col_type = TRUE,
@@ -194,6 +195,7 @@ sb_get_user_option <- function(
     list(
       interactive_mode = interactive_mode,
       include_user_data = include_user_data,
+      user_info_level = user_info_level,
       cache = cache,
       include_missing_user = include_missing_user,
       guess_col_type = guess_col_type,
