@@ -234,12 +234,38 @@
         number,
         sep = ""
       ) %>%
-      dplyr::mutate(across(phone_number, ~as.integer(.)))
+      dplyr::mutate(
+        dplyr::across(phone_number, as.numeric),
+        dplyr::across(type, ~tolower(glue::glue("phone_{type}")))
+      ) %>%
+      tidyr::pivot_wider(
+        id_cols = "results_number",
+        names_from = "type",
+        values_from = "phone_number"
+      )
 
     address_df <- data %>%
       tidyjson::enter_object("addresses") %>%
       tidyjson::gather_array("addresses") %>%
-      tidyjson::spread_all()
+      tidyjson::spread_all() %>%
+      as_tibble() %>%
+      tidyr::unite(
+        col = "address",
+        address,
+        suburb,
+        city,
+        country,
+        postcode,
+        sep = " "
+      ) %>%
+      dplyr::mutate(
+        dplyr::across(type, ~tolower(glue::glue("address_{type}")))
+      ) %>%
+      tidyr::pivot_wider(
+        id_cols = "results_number",
+        names_from = "type",
+        values_from = "address"
+      )
 
     data <- data %>%
       tidyjson::spread_all()
