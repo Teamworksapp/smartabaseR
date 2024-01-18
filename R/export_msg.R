@@ -25,48 +25,43 @@
 .generate_no_data_msg <- function(arg) {
   if (arg$type == "event") {
     cli::cli_inform(
-      c("i" = paste(
-        "No event data was found in {.field {arg$form}} between \\
-        {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}."
-      ),
-      "i" = paste(
-        "Does {.field {arg$username}} have the appropriate perissions \\
+      c("i" = "No event data was found in {.field {arg$form}} between \\
+        {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}.",
+        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
         required to view this data?"
       ),
-      "i" = "Are any data filters or user filters applied incorrectly?")
+      "i" = "Are any data filters or user filters applied incorrectly?"
     )
   } else if (arg$type == "profile") {
     cli::cli_inform(
-      c("i" = paste("No profile data was found in {.field {arg$form}}."),
-      "i" = paste(
-        "Does {.field {arg$username}} have the appropriate perissions \\
-        required to view this data?"
-      ),
-      "i" = "Are any user filters applied incorrectly?")
+      c("i" = "No profile data was found in {.field {arg$form}}.",
+        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
+        required to view this data?",
+        "i" = "Are any user filters applied incorrectly?")
     )
   } else if (arg$type == "synchronise") {
     cli::cli_inform(
-      c("i" = paste(
-        "No new data in {.field {arg$form}} since \\
+      c("i" = "No new data in {.field {arg$form}} since \\
         {.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}}."
-      ))
+      )
     )
   } else if (arg$type == "user") {
-    cli::cli_inform(c("i" = paste0(
-      "No user details could be retrieved from {.field {url}}",
-      "\n",
-      "Please check that the filter conditions are correct and that",
-      "{.field {{arg$username}} is assigned the appriopriate Smartabase ",
-      "permissions/roles/groups required to access this data."
-    )))
+    cli::cli_inform(
+      c("i" = "No user details found",
+        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
+        required to view this data?",
+        "i" = "Are any user filters applied incorrectly?"
+      ),
+      .envir = arg$current_env
+    )
   } else if (arg$type == "group") {
-    cli::cli_inform(c("i" = paste0(
-      "No group names could be retrieved from {.field {url}}",
-      "\n",
-      "Please check that {.field {arg$username}} is assigned the ",
-      "appriopriate Smartabase permissions/roles/groups required to access ",
-      "this data."
-    )))
+    cli::cli_inform(
+      c("i" = "No group details found",
+        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
+        required to view this data?",
+        "i" = "Are any user filters applied incorrectly?"
+      )
+    )
   }
 }
 
