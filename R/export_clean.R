@@ -115,12 +115,6 @@
     last_metadata_cols <- c(last_metadata_cols, "uuid")
   }
 
-  pulled_cols <- data %>%
-    dplyr::select(
-      -dplyr::any_of(c(first_metadata_cols, last_metadata_cols))
-    ) %>%
-    colnames(.)
-
   if (options$include_missing_user) {
     data <- data %>%
       dplyr::full_join(., id_data, by = "user_id")
@@ -129,16 +123,18 @@
       dplyr::left_join(., id_data, by = "user_id", copy = TRUE)
   }
 
-  data %>%
+  middle_metadata_cols <- data %>%
     dplyr::select(
-      dplyr::any_of(
-        c(
-          first_metadata_cols,
-          pulled_cols,
-          last_metadata_cols
-        )
-      )
-    )
+      -dplyr::any_of(c(first_metadata_cols, last_metadata_cols))
+    ) %>%
+    colnames(.)
+
+  col_order <- c(
+    first_metadata_cols,
+    middle_metadata_cols,
+    last_metadata_cols
+  )
+  data %>% dplyr::select(dplyr::any_of(col_order))
 }
 
 
@@ -161,12 +157,14 @@
         tidyjson::gather_object("export_object")
     },
     error = function(e) {
+      clear_progress_id()
       .generate_no_data_msg(arg)
       return(tibble::tibble())
     }
   )
 
   if (rlang::is_empty(data) || nrow(data) == 0) {
+    clear_progress_id()
     .generate_no_data_msg(arg)
     return(tibble::tibble())
   }
@@ -210,83 +208,14 @@
 #' @keywords internal
 #' @return tibble: Smartabase user data
 .convert_id_json_to_df <- function(response, json, arg) {
-  options <- arg$option
-  data <- .try_tbl_json(json, arg)
-  if (nrow(data) == 0) {
+  json <- .try_tbl_json(json, arg)
+  if (nrow(json) == 0) {
+    clear_progress_id()
     .generate_no_data_msg(arg)
     return(data)
   }
-  data <- data %>%
-    tidyjson::gather_array("record_number") %>%
-    tidyjson::enter_object("results") %>%
-    tidyjson::gather_array("results_number")
-
-  if (arg$user_info_level == "detailed") {
-    phone_df <- data %>%
-      tidyjson::enter_object("phoneNumbers") %>%
-      tidyjson::gather_array("phoneNumbers") %>%
-      tidyjson::spread_all() %>%
-      as_tibble() %>%
-      tidyr::unite(
-        col = "phone_number",
-        countryCode,
-        prefix,
-        number,
-        sep = ""
-      ) %>%
-      dplyr::mutate(
-        dplyr::across(phone_number, as.numeric),
-        dplyr::across(type, ~tolower(glue::glue("phone_{type}")))
-      ) %>%
-      tidyr::pivot_wider(
-        id_cols = "results_number",
-        names_from = "type",
-        values_from = "phone_number"
-      )
-
-    address_df <- data %>%
-      tidyjson::enter_object("addresses") %>%
-      tidyjson::gather_array("addresses") %>%
-      tidyjson::spread_all() %>%
-      as_tibble() %>%
-      tidyr::unite(
-        col = "address",
-        address,
-        suburb,
-        city,
-        country,
-        postcode,
-        sep = " "
-      ) %>%
-      dplyr::mutate(
-        dplyr::across(type, ~tolower(glue::glue("address_{type}")))
-      ) %>%
-      tidyr::pivot_wider(
-        id_cols = "results_number",
-        names_from = "type",
-        values_from = "address"
-      )
-
-    data <- data %>%
-      tidyjson::spread_all()
-
-    join_cols <- c(
-      "document.id",
-      "export_object",
-      "record_number",
-      "results_number"
-    )
-
-    detailed_df <- dplyr::full_join(phone_df, address_df, by = join_cols)
-    data <- full_join(data, detailed_df, by = join_cols)
-
-  } else {
-    data <- data %>%
-      tidyjson::spread_all() # TODO: %>% .handle_null_rows(.)
-  }
-
-  dat <- .clean_user_export(data, arg)
-  new_sb_tibble(response, dat, arg)
+  data <- .clean_user_export(json, arg)
+  new_sb_tibble(response, data, arg)
 }
 
 #' .convert_group_json_to_df
@@ -314,6 +243,7 @@
 
   dat <- tibble::tibble(group = groups)
   if (nrow(dat) == 0) {
+    clear_progress_id()
     .generate_no_data_msg(arg)
     return(tibble::tibble())
   }
@@ -431,6 +361,7 @@
 .convert_export_json_to_df <- function(response, json, id_data, arg) {
   json <- .try_tbl_json(json, arg)
   if (nrow(json) == 0) {
+    clear_progress_id()
     .generate_no_data_msg(arg)
     return(json)
   }
@@ -445,6 +376,7 @@
   filters <- arg$filter
 
   if (nrow(metadata) == 0) {
+    clear_progress_id()
     .generate_no_data_msg(arg)
     return(new_sb_tibble(response, tibble::tibble(), arg))
   }
@@ -468,7 +400,7 @@
   if (nrow(export_data) == 0) {
     export_data <- metadata %>% tibble::as_tibble()
   }
-  export_data <- .clean_export(dat = export_data, id_data, arg)
+  export_data <- .clean_export(data = export_data, id_data, arg)
   new_sb_tibble(response, export_data, arg)
   # TODO: %>% .handle_null_rows(.)
 }
@@ -532,22 +464,22 @@
 #' @keywords internal
 #' @return data
 .clean_export <- function(
-    dat,
+    data,
     id_data,
     arg
 ) {
   options <- arg$option
   if (!is.null(options$include_user_data)) {
     if (isTRUE(options$include_user_data)) {
-      dat <- dat %>% .join_id_data(., id_data, arg)
+      data <- data %>% .join_id_data(., id_data, arg)
     }
   }
   if (options$guess_col_type) {
-    dat <- dat %>%
+    data <- data %>%
       dplyr::select(-dplyr::any_of(c("start_time", "end_time"))) %>%
       readr::type_convert(col_types = readr::cols()) %>%
       dplyr::bind_cols(
-        dat %>% dplyr::select(dplyr::any_of(c("start_time", "end_time")))
+        data %>% dplyr::select(dplyr::any_of(c("start_time", "end_time")))
       )
   }
 
@@ -561,76 +493,226 @@
   #   data <- data %>%
   #     bind_cols(deleted_events)
   # }
-  dat %>% dplyr::select(-dplyr::any_of("export_object"))
+  data %>% dplyr::select(-dplyr::any_of("export_object"))
+}
+
+.export_join_cols <- function() {
+  c(
+    "document.id",
+    "export_object",
+    "record_number",
+    "results_number"
+  )
 }
 
 
-#' .clean_user_export
-#'
-#' Final steps to ready export for display to the user, including re-arranging
-#' columns and converting columns from strings into their correct data types
-#'
-#' @param dat Data returned from Smartabase
-#' @param id_data User data returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return data
-.clean_user_export <- function(data, arg) {
-  if (nrow(data) == 0) return(data)
+.clean_user_export <- function(json, arg) {
+  data <- json %>%
+    tidyjson::gather_array("record_number") %>%
+    tidyjson::enter_object("results") %>%
+    tidyjson::gather_array("results_number")
 
-  data <- tibble::as_tibble(data) %>%
-    dplyr::select(-c(
-      dplyr::contains("groupsAndRoles"),
-      "document.id",
-      "export_object",
-      "record_number",
-      "results_number"
-    )) %>%
+  if (nrow(data) == 0) return(data)
+  if (arg$option$user_info_level == "detailed") {
+    groups_roles <- .clean_groups_roles(data)
+    phone_address <- .clean_phone_address(data)
+
+    data <- data %>%
+      tidyjson::spread_all() %>%
+      tibble::as_tibble()
+
+    # data <- list(data, groups_roles, phone_address) %>%
+    if (nrow(groups_roles) > 0) {
+      data <- dplyr::full_join(
+        data,
+        groups_roles,
+        by = c("document.id", "export_object", "record_number", "results_number")
+      )
+    }
+
+    if (nrow(phone_address) > 0) {
+      data <- dplyr::full_join(
+        data,
+        phone_address,
+        by = c(
+          "document.id",
+          "export_object",
+          "record_number",
+          "results_number",
+          "userId",
+          "firstName",
+          "lastName",
+          "dob",
+          "middleName",
+          "emailAddress",
+          "knownAs",
+          "organisationalId",
+          "username",
+          "sex",
+          "uuid"
+        )
+      )
+    }
+
+  } else {
+    data <- data %>%
+      tidyjson::spread_all() %>%
+      tibble::as_tibble() # TODO: %>% .handle_null_rows(.)
+  }
+
+  data <- data %>%
+    dplyr::select(-dplyr::all_of(.export_join_cols())) %>%
     dplyr::rename(
       user_id = .data$userId,
       first_name = .data$firstName,
       last_name = .data$lastName,
       email = .data$emailAddress,
-      uuid = .data$uuid
+      uuid = .data$uuid,
+      middle_name = .data$middleName,
+      known_as = .data$knownAs,
+      organisational_id = .data$organisationalId
     ) %>%
     dplyr::relocate(
-      user_id,
-      first_name,
-      last_name,
-      email,
-      uuid
-    )
-    dplyr::select(
-      user_id = .data$userId,
-      .data$firstName,
-      .data$lastName,
-      .data$username,
-      email = .data$emailAddress,
-      uuid = .data$uuid
+      .data$user_id,
+      .data$first_name,
+      .data$last_name,
+      .data$email,
+      .data$uuid
     )
 
-  if (arg$user_info_level == "detailed") {
+  if (arg$option$user_info_level == "basic") {
+    data <- data %>%
+      dplyr::select(
+        .data$user_id,
+        .data$first_name,
+        .data$last_name,
+        .data$username,
+        .data$email,
+        .data$uuid
+      ) %>%
+      tidyr::unite(
+        col = "about",
+        .data$first_name,
+        .data$last_name,
+        sep = " ",
+        remove = FALSE
+      )
+  }
+  data
+}
 
+.clean_groups_roles <- function(data) {
+  groups_roles_df <- data %>%
+    tidyjson::enter_object("groupsAndRoles")
+
+  coach_groups_df <- groups_roles_df %>%
+    tidyjson::enter_object("coachGroups")
+
+  if (nrow(coach_groups_df) > 0) {
+    coach_groups_df <- coach_groups_df %>%
+      tidyjson::gather_array("coachGroups") %>%
+      tidyjson::spread_all() %>%
+      tibble::as_tibble() %>%
+      dplyr::rename(
+        coach_group_id = id,
+        coach_group = name
+      ) %>%
+      dplyr::select(-coachGroups) %>%
+      tidyr::nest(coach_group = c(coach_group_id, coach_group))
   }
 
-  tibble::as_tibble(data) %>%
-    dplyr::select(-dplyr::contains("groupsAndRoles")) %>%
-    dplyr::select(
-      user_id = .data$userId,
-      .data$firstName,
-      .data$lastName,
-      .data$username,
-      email = .data$emailAddress,
-      uuid = .data$uuid
+  athlete_groups_df <- groups_roles_df %>%
+    tidyjson::enter_object("athleteGroups")
+
+  if (nrow(athlete_groups_df) > 0) {
+    athlete_groups_df <- athlete_groups_df %>%
+      tidyjson::gather_array("athleteGroups") %>%
+      tidyjson::spread_all() %>%
+      tibble::as_tibble() %>%
+      dplyr::rename(
+        athlete_group_id = id,
+        athlete_group = name
+      )  %>%
+      dplyr::select(-athleteGroups) %>%
+      tidyr::nest(athlete_group = c(athlete_group_id, athlete_group))
+  }
+
+  if (nrow(coach_groups_df) > 0 || nrow(athlete_groups_df) > 0) {
+    groups_roles_df <- list(
+      coach_groups_df,
+      athlete_groups_df
     ) %>%
-    tidyr::unite(
-      "about",
-      .data$firstName,
-      .data$lastName,
-      sep = " ",
-      remove = FALSE
-    )
+      purrr::discard(~nrow(.) == 0) %>%
+      purrr::reduce(
+        dplyr::full_join,
+        by = c("document.id", "export_object", "record_number", "results_number")
+      )
+  }
+  groups_roles_df
+}
+
+
+.clean_phone_address <- function(data) {
+  phone_df <- data %>%
+    tidyjson::enter_object("phoneNumbers") %>%
+    tidyjson::gather_array("phoneNumbers") %>%
+    tidyjson::spread_all() %>%
+    tibble::as_tibble()
+
+  if (nrow(phone_df) > 0) {
+    phone_df <- phone_df %>%
+      tidyr::unite(
+        col = "phone_number",
+        .data$countryCode,
+        .data$prefix,
+        .data$number,
+        sep = ""
+      ) %>%
+      dplyr::mutate(
+        dplyr::across(phone_number, as.numeric),
+        dplyr::across(type, ~tolower(glue::glue("phone_{type}")))
+      ) %>%
+      tidyr::pivot_wider(
+        id_cols = dplyr::all_of(.export_join_cols()),
+        names_from = "type",
+        values_from = "phone_number"
+      )
+  }
+
+  address_df <- data %>%
+    tidyjson::enter_object("addresses") %>%
+    tidyjson::gather_array("addresses") %>%
+    tidyjson::spread_all() %>%
+    tibble::as_tibble()
+
+  if (nrow(address_df) > 0) {
+    address_df <- address_df %>%
+      tidyr::unite(
+        col = "address",
+        .data$address,
+        .data$suburb,
+        .data$city,
+        .data$country,
+        postcode,
+        sep = " "
+      ) %>%
+      dplyr::mutate(
+        dplyr::across(type, ~tolower(glue::glue("address_{type}")))
+      ) %>%
+      tidyr::pivot_wider(
+        id_cols = dplyr::all_of(.export_join_cols()),
+        names_from = "type",
+        values_from = "address"
+      )
+  }
+
+  data <- data %>%
+    tidyjson::spread_all() %>%
+    tibble::as_tibble()
+
+  detailed_df <- dplyr::full_join(phone_df, address_df, by = .export_join_cols())
+  data <- dplyr::full_join(data, detailed_df, by = .export_join_cols())
+  data
 }
 
 
