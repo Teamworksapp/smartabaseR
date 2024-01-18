@@ -92,6 +92,7 @@ sb_sync_event_option <- function(
 sb_get_event_option <- function(
     interactive_mode = TRUE,
     include_user_data = TRUE,
+    user_info_level = "basic",
     cache = TRUE,
     download_attachment = FALSE,
     include_missing_user = FALSE,
@@ -103,6 +104,7 @@ sb_get_event_option <- function(
     list(
       interactive_mode = interactive_mode,
       include_user_data = include_user_data,
+      user_info_level = user_info_level,
       cache = cache,
       download_attachment = download_attachment,
       include_missing_user = include_missing_user,
