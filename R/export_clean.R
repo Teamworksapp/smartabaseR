@@ -669,14 +669,29 @@
         sep = ""
       ) %>%
       dplyr::mutate(
-        dplyr::across(phone_number, as.numeric),
+        dplyr::across(
+          phone_number,
+          ~ dplyr::if_else(. == "", NA_character_, .)
+        ),
         dplyr::across(type, ~tolower(glue::glue("phone_{type}")))
       ) %>%
+      dplyr::group_by(results_number, type) %>%
+      dplyr::mutate(phoneNumbers = dplyr::row_number()) %>%
+      dplyr::ungroup() %>%
+      tidyr::unite(col = "type", type, .data$phoneNumbers, sep = "_") %>%
       tidyr::pivot_wider(
         id_cols = dplyr::all_of(.export_join_cols()),
         names_from = "type",
         values_from = "phone_number"
       )
+
+    phone_cols <- phone_df %>%
+      dplyr::select(-dplyr::any_of("phoneNumbers")) %>%
+      dplyr::select(dplyr::contains("phone")) %>%
+      names(.)
+
+    phone_df <- phone_df %>%
+      tidyr::nest(phone_number = dplyr::all_of(phone_cols))
   }
 
   address_df <- data %>%
@@ -700,17 +715,30 @@
         dplyr::across(type, ~tolower(glue::glue("address_{type}")))
       ) %>%
       tidyr::pivot_wider(
-        id_cols = dplyr::all_of(.export_join_cols()),
+        id_cols = c("addresses", dplyr::all_of(.export_join_cols())),
         names_from = "type",
         values_from = "address"
       )
+
+    address_cols <- address_df %>%
+      dplyr::select(-dplyr::any_of("addresses")) %>%
+      dplyr::select(dplyr::contains("address")) %>%
+      names(.)
+
+    address_df <- address_df %>%
+      tidyr::nest(address = dplyr::all_of(address_cols)) %>%
+      dplyr::select(-dplyr::any_of("addresses"))
   }
 
   data <- data %>%
     tidyjson::spread_all() %>%
     tibble::as_tibble()
 
-  detailed_df <- dplyr::full_join(phone_df, address_df, by = .export_join_cols())
+  detailed_df <- dplyr::full_join(
+    phone_df,
+    address_df,
+    by = .export_join_cols()
+  )
   data <- dplyr::full_join(data, detailed_df, by = .export_join_cols())
   data
 }
