@@ -98,7 +98,8 @@ get_metadata_names <- function(df) {
 }
 
 
-.build_http_error_msg <- function(code) {
+.build_http_error_msg <- function(response) {
+  code <- response$status_code
   if (code == 400) {
     c(
       "!" = "Can't process request.",
@@ -156,13 +157,13 @@ get_metadata_names <- function(df) {
   if (arg$dry_run) {
     return(httr2::req_dry_run(request))
   } else {
-    response <- request %>% httr2::req_perform()
+    response <- request %>%
+      httr2::req_error(is_error = function(resp) FALSE) %>%
+      httr2::req_perform()
   }
-
-  code <- response$status_code
   if (httr2::resp_is_error(response)) {
     clear_progress_id()
-    msg <- .build_http_error_msg(code)
+    msg <- .build_http_error_msg(response)
     clear_progress_id()
     cli::cli_abort(msg, call = arg$env)
   }
