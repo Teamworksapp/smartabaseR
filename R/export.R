@@ -437,7 +437,7 @@ sb_get_group <- function(
 #' @examples
 #' \dontrun{
 #' # Get user ID data about Jamie Anderson:
-#' id_data <- sb_get_user(
+#' user_data <- sb_get_user(
 #'   url = "example.smartabase.com/site",
 #'   username = "example.username",
 #'   password = "example_password",
@@ -445,6 +445,16 @@ sb_get_group <- function(
 #'     user_key = "about",
 #'     user_value = "Jamie Anderson"
 #'  )
+#' )
+#'
+#' # Return all user columns:
+#' user_data <- sb_get_user(
+#'   url = "example.smartabase.com/site",
+#'   username = "example.username",
+#'   password = "example_password",
+#'   option = sb_get_user_option(
+#'     include_all_cols = TRUE
+#'   )
 #' )
 #' }
 #'
@@ -482,4 +492,72 @@ sb_get_user <- function(
      }
    }
   .export_handler(arg)
+}
+
+
+
+
+#' .get_user_id_for_export_body
+#'
+#' Populates user ID values for export filter
+#'
+#' Every call to the Smartabase event export API requires a list of athlete
+#' user IDs. This function invokes [sb_get_user()] and caches the results
+#'
+#' @param arg List of arguments passed from export functions
+#'
+#' @return tibble: Smartabase user data
+#'
+#' @noRd
+#'
+#' @keywords internal
+.get_user_id_for_export_body <- function(arg) {
+  if (!arg$type %in% c("event", "profile", "synchronise")) {
+    return()
+  }
+
+  if (!is.null(arg$pull_smartabase)) {
+    if (isTRUE(arg$pull_smartabase)) {
+      filter_fun <- .pull_smartabase_filter
+      option_fun <- .pull_smartabase_option
+    } else {
+      filter_fun <- sb_get_user_filter
+      option_fun <- sb_get_user_option
+    }
+  }
+
+  id_filter_names <- intersect(names(arg$filter), names(filter_fun()))
+  id_filters <- arg$filter[names(arg$filter) %in% id_filter_names]
+  id_option_names <- intersect(names(arg$option), names(option_fun()))
+  id_options <- arg$option[names(arg$option) %in% id_option_names]
+  get_id_flag <- TRUE
+  if (!is.null(id_options$include_user_data)) {
+    if (isFALSE(id_options$include_user_data)) {
+      if (!is.null(id_filters$user_key)) {
+        if (id_filters$user_key == "user_id") {
+          if (!is.null(id_filters$user_value)) {
+            get_id_flag <- FALSE
+          }
+        }
+      }
+    }
+  }
+
+  if (isTRUE(get_id_flag)) {
+    id_data <- sb_get_user(
+      url = arg$url,
+      username = arg$username,
+      password = arg$password,
+      filter = do.call(filter_fun, id_filters),
+      option = do.call(option_fun, id_options),
+      endpoints = arg$endpoints,
+      login = arg$login
+    ) %>%
+      dplyr::select(-c(.data$username, .data$email)) %>%
+      dplyr::distinct()
+
+  } else {
+    id_data <- tibble::tibble(user_id = id_filters$user_value)
+  }
+  id_data
 }
