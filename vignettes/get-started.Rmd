@@ -43,7 +43,7 @@ sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
   url = "example.smartabase.com/site",
-  username = "example.username",
+  username = "example.username", # note: must be valid username, not email
   password = "example_password"
 )
 ```
@@ -110,14 +110,14 @@ sb_insert_event(
   df = rpe_average,
   form = "Team Summary",
   url = "example.smartabase.com/site",
-  username = "example.username",
+  username = "example.username", # note: must be valid username, not email
   password = "example_password"
 )
 ```
 
 ```{r insert_rpe_success, echo = FALSE}
 cli::cli_alert_success(
-  "✔ SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into \\
+  "SUCCESSFULLY_INSERTED: 2 out of 2 records successfully inserted into \\
   Team Summary."
 )
 ```

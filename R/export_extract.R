@@ -7,7 +7,7 @@
 #' data in a single `..JSON` column
 #'
 #' @param response http response
-#' @param arg
+#' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
 #' @return tibble_json: event/profile data stored in json column
