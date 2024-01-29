@@ -56,7 +56,7 @@ see \code{\link[=sb_get_user_option]{sb_get_user_option()}} for more details.
 \examples{
 \dontrun{
 # Get user ID data about Jamie Anderson:
-id_data <- sb_get_user(
+user_data <- sb_get_user(
   url = "example.smartabase.com/site",
   username = "example.username",
   password = "example_password",
@@ -64,6 +64,16 @@ id_data <- sb_get_user(
     user_key = "about",
     user_value = "Jamie Anderson"
  )
+)
+
+# Return all user columns:
+user_data <- sb_get_user(
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password",
+  option = sb_get_user_option(
+    include_all_cols = TRUE
+  )
 )
 }
 

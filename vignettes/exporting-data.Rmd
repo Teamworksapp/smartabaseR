@@ -3,7 +3,7 @@ title: "Exporting Data"
 output: 
   rmarkdown::html_vignette:
     toc: true
-    toc_depth: 3
+    toc_depth: 4
 editor_options:
   chunk_output_type: console
 vignette: >

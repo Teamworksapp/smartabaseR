@@ -3,7 +3,7 @@ title: "Importing Data"
 output: 
   rmarkdown::html_vignette:
     toc: true
-    toc_depth: 3
+    toc_depth: 4
 editor_options:
   chunk_output_type: console
 vignette: >
@@ -413,7 +413,9 @@ sb_insert_event(
   url = "example.smartabase.com/site",
   username = "example.username",
   password = "example_password",
-  table_field = c("Exercise", "Load", "Repetition")
+  option = sb_insert_event_option(
+    table_field = c("Exercise", "Load", "Repetition")
+  )
 )
 ```
 

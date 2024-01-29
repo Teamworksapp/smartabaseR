@@ -69,16 +69,20 @@ sb_date_range <- function(
 
   if (!is.null(option$include_user_data)) {
     if (isFALSE(option$include_user_data)) {
-      if (!is.null(filter$user_key)) {
-        if (filter$user_key != "user_id") {
-          clear_progress_id()
-          cli::cli_abort(
-            call = arg$current_env,
-            c("!" = "`user_key` must equal {.val user_id} when \\
-              include_user_data equals {.field FALSE}",
-              "x" = "You supplied {.val {filter$user_key}}"
-            ))
+      if (is.null(filter$user_key) || filter$user_key != "user_id") {
+        if (is.null(filter$user_key)) {
+          suggestion <- "You supplied NULL."
+        } else if (filter$user_key != "user_id") {
+          suggestion <- "You supplied {.val {filter$user_key}}."
         }
+        clear_progress_id()
+        cli::cli_abort(
+          call = arg$current_env,
+          c("!" = "`user_key` must equal {.val user_id} when \\
+              include_user_data equals {.val FALSE}.",
+            "x" = suggestion
+          )
+        )
       }
     }
   }

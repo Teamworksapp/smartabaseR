@@ -226,7 +226,7 @@ sb_upsert_event <- function(
     option = sb_insert_event_option()
 ) {
   env <- rlang::current_env()
-     .validate_import_df_class(df, env)
+  .validate_import_df_class(df, env)
   .check_import_class(option, env)
   rlang::check_dots_used()
 

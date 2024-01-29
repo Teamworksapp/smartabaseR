@@ -32,13 +32,21 @@
       endpoints = NULL
     )
   }
-  arg$smartabase_url <- .build_export_url(arg)
-  if (!arg$type %in% c("group", "user")) {
-    id_data <- .get_user_id_for_export_body(arg)
-  } else {
+
+  if (arg$type %in% c("group", "user")) {
     id_data <- NULL
+    user_id <- NULL
+  } else {
+    if (isTRUE(arg$option$include_user_data)) {
+      id_data <- .get_user_id_for_export_body(arg)
+      user_id <- id_data %>% dplyr::pull(.data$user_id)
+    } else {
+      id_data <- arg$filter$user_value
+      user_id <- id_data
+    }
   }
-  body <- .build_export_body(arg, id_data)
+  body <- .build_export_body(arg, user_id)
+  arg$smartabase_url <- .build_export_url(arg)
   arg$dry_run <- FALSE
   arg$action <- "export"
   request <- .build_request(body, arg)
@@ -62,3 +70,33 @@
 }
 
 
+#' .json_to_df_handler
+#'
+#' Generic handler that passes response to the right conversion function
+#' according to arg$type
+#'
+#' @param response http response
+#' @param arg List of arguments returned from parent function
+#' @param id_data User data returned from Smartabase
+#' @noRd
+#' @keywords internal
+#' @return tibble
+.json_to_df_handler <- function(response, arg, id_data = NULL) {
+  data <- .extract_content(response, arg)
+  if (nrow(data) == 0) {
+    clear_progress_id()
+    return(new_sb_tibble(response, data, arg))
+  }
+  if (arg$type == "user") {
+    data <- .convert_user_json_to_df(response, data, arg)
+  } else if (arg$type == "group") {
+    data <- .convert_group_json_to_df(response, data, arg)
+  } else {
+    data <- .convert_export_json_to_df(response, data, id_data, arg)
+  }
+  if (isTRUE(arg$option$interactive_mode)) {
+    clear_progress_id()
+    .generate_export_success_msg(arg)
+  }
+  data
+}

@@ -39,6 +39,17 @@ sb_select_metadata <- function(df) {
   vars[vars %in% names(df)]
 }
 
+
+.export_join_cols <- function() {
+  c(
+    "document.id",
+    "export_object",
+    "record_number",
+    "results_number"
+  )
+}
+
+
 #' get_metadata_names
 #'
 #' @description
@@ -98,30 +109,33 @@ get_metadata_names <- function(df) {
 }
 
 
-.build_http_error_msg <- function(code) {
+.build_http_error_msg <- function(response) {
+  code <- response$status_code
   if (code == 400) {
     c(
-      "!" = "Can't process request.",
+      "!" = "400: can't process request.",
       "i" = "Did you forget to include any required parameters?"
     )
   } else if (code == 401) {
     c(
-      "!" = "Could not log {.field {arg$username}} into {.url {arg$url}}.",
+      "!" = "401: couldn't log {.field {arg$username}} into {.url {arg$url}}.",
       "i" = "Did you spell your .field username}/{.field password} correctly?"
     )
   } else if (code == 403) {
     c(
-      "!" = "You are missing the necessary permissions to access something."
+      "!" = "403: you're missing permissions to access something."
     )
   } else if (code == 404) {
     c(
-      "!" = "You tried to access something that doesn't exist."
+      "!" = "404: you tried to access something that doesn't exist."
     )
   } else {
     c(
-      "i" = "Sorry, something went wrong!",
-      "i" = "Please try again in a few minutes.",
-      "i" = "If the problem persists, please contact a Smartabase Consultant."
+      "!" = "500: server error.",
+      "i" = "Possible causes include:",
+      "*" = "An invalid or misspelled URL",
+      "*" = "Malformed filters/options",
+      "*" = "Other unexpected server-side issues"
     )
   }
 }
@@ -152,19 +166,14 @@ get_metadata_names <- function(df) {
 #' @keywords internal
 #' @return Smartabase API response
 .make_request <- function(request, arg) {
-  arg$dry_run <- FALSE
-  if (arg$dry_run) {
-    return(httr2::req_dry_run(request))
-  } else {
-    response <- request %>% httr2::req_perform()
-  }
+  response <- request %>%
+    httr2::req_error(is_error = function(resp) FALSE) %>%
+    httr2::req_perform()
 
-  code <- response$status_code
   if (httr2::resp_is_error(response)) {
     clear_progress_id()
-    msg <- .build_http_error_msg(code)
-    clear_progress_id()
-    cli::cli_abort(msg, call = arg$env)
+    msg <- .build_http_error_msg(response)
+    cli::cli_abort(msg, call = arg$current_env)
   }
 
   response_time <- response$headers$Date %>%
@@ -176,7 +185,7 @@ get_metadata_names <- function(df) {
     "response" = response,
     "request" = response$url,
     "http_method" = "POST",
-    "http_status_code" = code
+    "http_status_code" = response$status_code
   )
   c(response_time, response_list)
 }
@@ -255,19 +264,6 @@ get_metadata_names <- function(df) {
     "\\sThe following names\\s\\[[^\\]]+\\]\\swere",
     "sent in the message but do not exist in the form"
   )
-}
-
-
-#' .replace_form
-#'
-#' Helper that inserts form name into data filter used in export functions
-#'
-#' @noRd
-#' @keywords internal
-#' @return list
-.replace_form <- function(inner_list, new_form_value) {
-  inner_list$formName <- new_form_value
-  return(inner_list)
 }
 
 

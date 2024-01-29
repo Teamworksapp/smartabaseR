@@ -31,12 +31,12 @@
 }
 
 
-#' .process_attachment
+#' .process_export_attachment
 #'
 #' @noRd
 #' @keywords internal
 #' @return data
-.process_attachment <- function(
+.process_export_attachment <- function(
     response,
     nested_data,
     unnested_data,

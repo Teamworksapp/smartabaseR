@@ -1,3 +1,233 @@
+
+
+#' .clean_export
+#'
+#' Final steps to ready export for display to the user, including re-arranging
+#' columns and converting columns from strings into their correct data types
+#'
+#' @param dat Data returned from Smartabase
+#' @param id_data User data returned from Smartabase
+#' @param arg List of arguments returned from parent function
+#' @noRd
+#' @keywords internal
+#' @return data
+.clean_export <- function(
+    data,
+    id_data,
+    arg
+) {
+  options <- arg$option
+  if (!is.null(options$include_user_data)) {
+    if (isTRUE(options$include_user_data)) {
+      data <- data %>% .join_user_data(., id_data, arg)
+    }
+  }
+  if (options$guess_col_type) {
+    data <- data %>%
+      dplyr::select(-dplyr::any_of(c("start_time", "end_time"))) %>%
+      readr::type_convert(col_types = readr::cols()) %>%
+      dplyr::bind_cols(
+        data %>% dplyr::select(dplyr::any_of(c("start_time", "end_time")))
+      )
+  }
+
+  # if (!is.null(sync_time)) {
+  #   data <- data %>%
+  #     mutate(sync_time = sync_time) %>%
+  #     tidyr::nest(data = -sync_time)
+  # }
+  #
+  # if (!is.null(deleted_events)) {
+  #   data <- data %>%
+  #     bind_cols(deleted_events)
+  # }
+  data %>% dplyr::select(-dplyr::any_of("export_object"))
+}
+
+
+
+
+
+.clean_user_export <- function(data, include_all_cols) {
+  if (nrow(data) == 0) return(data)
+  if (isTRUE(include_all_cols)) {
+    data <- .join_detailed_user_data(data)
+  } else {
+    data <- data %>%
+      tidyjson::spread_all() %>%
+      tibble::as_tibble()
+  }
+
+  data <- data %>%
+    dplyr::select(
+      -dplyr::all_of(.export_join_cols()),
+      -dplyr::any_of("organisationalId")
+    ) %>%
+    dplyr::rename(
+      user_id = .data$userId,
+      first_name = .data$firstName,
+      last_name = .data$lastName,
+      email = .data$emailAddress,
+      uuid = .data$uuid,
+      middle_name = .data$middleName,
+      known_as = .data$knownAs
+    ) %>%
+    tidyr::unite(
+      col = "about",
+      .data$first_name,
+      .data$last_name,
+      sep = " ",
+      remove = FALSE
+    ) %>%
+    dplyr::relocate(
+      .data$user_id,
+      .data$about,
+      .data$first_name,
+      .data$last_name,
+      .data$username,
+      .data$email,
+      .data$uuid
+    )
+
+  if (isFALSE(include_all_cols)) {
+    data <- data %>%
+      dplyr::select(
+        .data$user_id,
+        .data$about,
+        .data$first_name,
+        .data$last_name,
+        .data$username,
+        .data$email
+      )
+  }
+  data
+}
+
+.clean_iam_data <- function(
+    data,
+    iam = c("group", "role"),
+    user_type = c("athlete", "coach")
+) {
+  data <- data %>%
+    tidyjson::enter_object("groupsAndRoles")
+
+  if (iam == "group") {
+    id_var <- glue::glue("{user_type}_group_id")
+    name_var <- glue::glue("{user_type}_group_name")
+    array_col <- glue::glue("{user_type}Groups")
+    list_name <- glue::glue("{user_type}_group")
+  } else {
+    id_var <- "role_id"
+    name_var <- "role_name"
+    array_col <- "role"
+    list_name <- "role"
+  }
+
+  data <- data %>%
+    tidyjson::enter_object(!!array_col)
+
+  if (nrow(data) > 0) {
+    data <- data %>%
+      tidyjson::gather_array(array_col) %>%
+      tidyjson::spread_all() %>%
+      tibble::as_tibble() %>%
+      dplyr::rename(
+        !!dplyr::sym(id_var) := .data$id,
+        !!dplyr::sym(name_var) := .data$name
+      ) %>%
+      dplyr::select(-dplyr::all_of(array_col)) %>%
+      tidyr::nest(
+        !!dplyr::sym(list_name) := c(
+          !!id_var,
+          !!name_var
+        ))
+  }
+  data
+}
+
+
+.clean_phone_data <- function(data) {
+  phone_df <- data %>%
+    tidyjson::enter_object("phoneNumbers") %>%
+    tidyjson::gather_array("phoneNumbers") %>%
+    tidyjson::spread_all() %>%
+    tibble::as_tibble()
+
+  if (nrow(phone_df) > 0) {
+    phone_df <- phone_df %>%
+      tidyr::unite(
+        col = "phone_number",
+        .data$countryCode,
+        .data$prefix,
+        .data$number,
+        sep = ""
+      ) %>%
+      dplyr::rename(phone_type = .data$type) %>%
+      dplyr::mutate(
+        dplyr::across(
+          .data$phone_number,
+          ~ dplyr::if_else(. == "", NA_character_, .)
+        ),
+        dplyr::across(
+          .data$phone_type,
+          ~ tolower(glue::glue("phone_{phone_type}")) %>% as.character(.)
+        )
+      ) %>%
+      dplyr::select(-dplyr::any_of("phoneNumbers")) %>%
+      dplyr::group_by(.data$results_number, .data$phone_type) %>%
+      dplyr::mutate(phone_type_count = dplyr::row_number()) %>%
+      dplyr::ungroup() %>%
+      tidyr::nest(phone = c(
+        .data$phone_type_count,
+        .data$phone_type,
+        .data$phone_number
+      ))
+  }
+  phone_df
+}
+
+
+.clean_address_data <- function(data) {
+  address_df <- data %>%
+    tidyjson::enter_object("addresses") %>%
+    tidyjson::gather_array("addresses") %>%
+    tidyjson::spread_all() %>%
+    tibble::as_tibble()
+
+  if (nrow(address_df) > 0) {
+    address_df <- address_df %>%
+      tidyr::unite(
+        col = "address",
+        .data$address,
+        .data$suburb,
+        .data$city,
+        .data$country,
+        .data$postcode,
+        sep = " "
+      ) %>%
+      dplyr::rename(address_type = .data$type) %>%
+      dplyr::mutate(
+        dplyr::across(
+          .data$address_type,
+          ~ tolower(glue::glue("address_{address_type}")) %>% as.character(.)
+          )
+      ) %>%
+      dplyr::select(-dplyr::any_of("addresses")) %>%
+      dplyr::group_by(.data$address_type) %>%
+      dplyr::mutate(address_type_count = dplyr::row_number()) %>%
+      dplyr::ungroup() %>%
+      tidyr::nest(address = c(
+        .data$address_type_count,
+        .data$address_type,
+        .data$address
+      ))
+  }
+
+  address_df
+}
+
+
+
 #' .guess_col_type
 #'
 #' Write pulled data to temp folder and read back in with read_csv and utilise
@@ -42,7 +272,7 @@
 }
 
 
-#' .rename_metadata
+#' .rename_export_metadata
 #'
 #' Cleans metadata column names, largely converting camel case to snake case
 #'
@@ -51,7 +281,7 @@
 #' @noRd
 #' @keywords internal
 #' @return tibble: cleaned metadata columns
-.rename_metadata <- function(data, type) {
+.rename_export_metadata <- function(data, type) {
   if (type == "profile") {
     data %>%
       dplyr::rename(
@@ -76,7 +306,7 @@
 }
 
 
-#' .join_id_data
+#' .join_user_data
 #'
 #' Joins event data with user data and arranges columns
 #'
@@ -86,7 +316,7 @@
 #' @noRd
 #' @keywords internal
 #' @return tibble: user data joined with event/profile data
-.join_id_data <- function(data, id_data, arg) {
+.join_user_data <- function(data, id_data, arg) {
   options <- arg$option
   if (arg$type != "profile") {
     first_metadata_cols <- c(
@@ -111,16 +341,6 @@
     last_metadata_cols <- c("entered_by_user_id", "event_id")
   }
 
-  if (options$include_uuid) {
-    last_metadata_cols <- c(last_metadata_cols, "uuid")
-  }
-
-  pulled_cols <- data %>%
-    dplyr::select(
-      -dplyr::any_of(c(first_metadata_cols, last_metadata_cols))
-    ) %>%
-    colnames(.)
-
   if (options$include_missing_user) {
     data <- data %>%
       dplyr::full_join(., id_data, by = "user_id")
@@ -129,410 +349,70 @@
       dplyr::left_join(., id_data, by = "user_id", copy = TRUE)
   }
 
-  data %>%
+  middle_metadata_cols <- data %>%
     dplyr::select(
-      dplyr::any_of(
-        c(
-          first_metadata_cols,
-          pulled_cols,
-          last_metadata_cols
-        )
-      )
-    )
+      -dplyr::any_of(c(first_metadata_cols, last_metadata_cols))
+    ) %>%
+    colnames(.)
+
+  col_order <- c(
+    first_metadata_cols,
+    middle_metadata_cols,
+    last_metadata_cols
+  )
+  data %>% dplyr::select(dplyr::any_of(col_order))
 }
 
 
-#' .extract_content
-#'
-#' Safely extracts event json from http response
-#'
-#' Uses tidyjson package which creates a tibble that stores Smartabase event
-#' data in a single `..JSON` column
-#'
-#' @param response http response
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return tibble_json: event/profile data stored in json column
-.extract_content <- function(response, arg) {
-  data <- tryCatch(
-    {
-      httr2::resp_body_string(response$response) %>%
-        tidyjson::gather_object("export_object")
-    },
-    error = function(e) {
-      .generate_no_data_msg(arg)
-      return(tibble::tibble())
-    }
+.join_detailed_user_data <- function(data) {
+  athlete_group_df <- .clean_iam_data(data, "group", "athlete")
+  coach_group_df <- .clean_iam_data(data, "group", "coach")
+  role_df <- .clean_iam_data(data, "role")
+  phone_df <- .clean_phone_data(data)
+  address_df <- .clean_address_data(data)
+
+  detailed_list <- list(
+    athlete_group_df,
+    coach_group_df,
+    role_df,
+    phone_df,
+    address_df
   )
 
-  if (rlang::is_empty(data) || nrow(data) == 0) {
-    .generate_no_data_msg(arg)
-    return(tibble::tibble())
+  length_test <- detailed_list %>%
+    purrr::map_lgl(~nrow(.) > 0) %>%
+    any(isTRUE(.))
+
+  if (length_test) {
+    detailed_df <- detailed_list %>%
+      purrr::discard(~nrow(.) == 0) %>%
+      purrr::reduce(dplyr::full_join, by = .export_join_cols())
+  } else {
+    detailed_df <- NULL
+  }
+
+  data <- data %>%
+    tidyjson::spread_all() %>%
+    tibble::as_tibble()
+
+  # data <- list(data, groups_roles, phone_address) %>%
+  if (!is.null(detailed_df)) {
+    data <- dplyr::full_join(data, detailed_df, by = .export_join_cols())
   }
   data
 }
 
 
-#' .try_tbl_json
+#' .replace_form
 #'
-#' Safely constructs a tbl_json object for further downstream manipulation by
-#' other tidyjson functions
+#' Helper that inserts form name into data filter used in export functions
 #'
-#' @param data Data returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return tidyjson::tbl_json
-.try_tbl_json <- function(data, arg) {
-  tryCatch(
-    {
-      data %>% tidyjson::as.tbl_json()
-    },
-    error = function(e) {
-      return(tibble::tibble())
-    })
-}
-
-#' .convert_id_json_to_df
-#'
-#' Takes Smartabase user json returned by Smartabase API and wrangles into a
-#' tibble
-#'
-#' Uses tidyjson to pluck out the user data from the json returned by
-#' Smartabase and then converts this to a tibble. Various details about the
-#' export (e.g. export time) are then attached to the tibble as attributes
-#'
-#' @param response http response
-#' @param json JSON returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return tibble: Smartabase user data
-.convert_id_json_to_df <- function(response, json, arg) {
-  options <- arg$option
-  data <- .try_tbl_json(json, arg)
-  if (nrow(data) == 0) {
-    .generate_no_data_msg(arg)
-    return(data)
-  }
-  data <- data %>%
-    tidyjson::gather_array("record_number") %>%
-    tidyjson::enter_object("results") %>%
-    tidyjson::gather_array("results_number") %>%
-    tidyjson::spread_all() # TODO: %>% .handle_null_rows(.)
-
-  dat <- .clean_user_export(data, arg)
-  new_sb_tibble(response, dat, arg)
-}
-
-#' .convert_group_json_to_df
-#'
-#' Takes Smartabase group json returned by Smartabase API and wrangles into a
-#' tibble
-#'
-#' Uses tidyjson to pluck out the groups data from the json returned by
-#' Smartabase and then converts this to a tibble. Various details about the
-#' export (e.g. export time) are then attached to the tibble as attributes
-#'
-#' @param response http response
-#' @param json JSON returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return tibble: Smartabase user data
-.convert_group_json_to_df <- function(response, json, arg) {
-  dat <- .try_tbl_json(json, arg)
-
-  groups <- dat %>%
-    tidyjson::gather_array("record_number") %>%
-    dplyr::pull(.data$..JSON) %>%
-    purrr::reduce(c)
-
-  dat <- tibble::tibble(group = groups)
-  if (nrow(dat) == 0) {
-    .generate_no_data_msg(arg)
-    return(tibble::tibble())
-  }
-  new_sb_tibble(response, dat, arg)
-}
-
-
-#' .json_to_df_handler
-#'
-#' Generic handler that passes response to the right conversion function
-#' according to arg$type
-#'
-#' @param response http response
-#' @param arg List of arguments returned from parent function
-#' @param id_data User data returned from Smartabase
-#' @noRd
-#' @keywords internal
-#' @return tibble
-.json_to_df_handler <- function(response, arg, id_data = NULL) {
-  json <- .extract_content(response, arg)
-  if (nrow(json) == 0) {
-    return(json)
-  }
-  if (arg$type == "user") {
-    dat <- .convert_id_json_to_df(response, json, arg)
-  } else if (arg$type == "group") {
-    dat <- .convert_group_json_to_df(response, json, arg)
-  } else {
-    dat <- .convert_export_json_to_df(response, json, id_data, arg)
-  }
-  if (arg$option$interactive_mode) {
-    .generate_export_success_msg(arg)
-  }
-  dat
-}
-
-
-#' .flatten_export_metadata
-#'
-#' Takes the metadata columns out of the tbl_json and converts into standalone
-#' columns. The user entered data remains in the `..JSON` column. Each row
-#' represents a unique event ID.
-#'
-#' @param json JSON returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return tibble
-.flatten_export_metadata <- function(json, arg) {
-  if (arg$type == "synchronise") {
-    json <- json %>%
-      dplyr::filter(.data$export_object == "export") %>%
-      tidyjson::enter_object("events")
-  }
-
-  if (nrow(json) > 0) {
-    json <- json %>%
-      tidyjson::gather_array("record_number") %>%
-      tidyjson::spread_all() %>%
-      .rename_metadata(., arg$type)
-  }
-  json
-}
-
-#' .flatten_export_data
-#'
-#' Extracts user-entered data into a flat tibble structure
-#'
-#' @param nested_data Event data that has been nested for ease of use
-#' @noRd
-#' @keywords internal
-#' @return tibble
-.flatten_export_data <- function(nested_data) {
-  nested_data %>%
-    tidyjson::enter_object("rows") %>%
-    tidyjson::gather_array("row_number") %>%
-    tidyjson::enter_object("pairs") %>%
-    tidyjson::gather_array("row_number_long") %>%
-    tidyjson::spread_values(
-      key = tidyjson::jstring("key"),
-      value = tidyjson::jstring("value")
-    ) %>%
-    tibble::as_tibble(.) %>%
-    dplyr::select(.data$record_number, .data$row_number,
-                  dplyr::everything()) %>%
-    dplyr::select(-dplyr::any_of(c(
-      "document.id",
-      "row_number_long",
-      "events",
-      "profile"
-    ))) %>%
-    dplyr::group_by(.data$record_number, .data$row_number) %>%
-    tidyr::pivot_wider(names_from = .data$key, values_from = .data$value) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-c(.data$record_number, .data$row_number))
-}
-
-
-#' .convert_export_json_to_df
-#'
-#' Takes Smartabase export json returned by Smartabase API and wrangles into a
-#' tibble
-#'
-#' Uses tidyjson to pluck out the groups data from the json returned by
-#' Smartabase and then converts this to a tibble. Various details about the
-#' export (e.g. export time) are then attached to the tibble as attributes
-#'
-#' @param response http response
-#' @param json JSON returned from Smartabase
-#' @param id_data User data returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return tibble
-.convert_export_json_to_df <- function(response, json, id_data, arg) {
-  json <- .try_tbl_json(json, arg)
-  if (nrow(json) == 0) {
-    .generate_no_data_msg(arg)
-    return(json)
-  }
-
-  if (arg$type == "synchronise") {
-    arg <- .flatten_deleted_event_id(json, arg)
-    arg <- .extract_new_sync_time(json, arg)
-  }
-
-  metadata <- .flatten_export_metadata(json, arg)
-  options <- arg$option
-  filters <- arg$filter
-
-  if (nrow(metadata) == 0) {
-    .generate_no_data_msg(arg)
-    return(new_sb_tibble(response, tibble::tibble(), arg))
-  }
-  export_data <- .flatten_export_data(metadata)
-  metadata <- metadata %>%
-    dplyr::select(-dplyr::any_of(c(
-      "document.id", "export_object", "record_number", "array.index"
-    )))
-
-  if (!arg$type %in% c("profile", "synchronise")) {
-    if (arg$option$download_attachment) {
-      export_data <- .process_attachment(
-        response = response,
-        nested_data = metadata,
-        unnested_data = export_data,
-        id_data = id_data,
-        arg = arg
-      )
-    }
-  }
-  if (nrow(export_data) == 0) {
-    export_data <- metadata %>% tibble::as_tibble()
-  }
-  export_data <- .clean_export(dat = export_data, id_data, arg)
-  new_sb_tibble(response, export_data, arg)
-  # TODO: %>% .handle_null_rows(.)
-}
-
-
-#' .flatten_deleted_event_id
-#'
-#' Flattens the IDs of any deleted events returned from [`sb_sync_event()`]
-#' since the `last_sync_time`
-#'
-#' @param json JSON returned from Smartabase
-#' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
 #' @return list
-.flatten_deleted_event_id <- function(json, arg) {
-  deleted_events <- json %>%
-    dplyr::filter(.data$export_object == "idsOfDeletedEvents")
-
-  if (nrow(deleted_events) == 0) {
-    return(arg)
-  }
-    deleted_events <- deleted_events %>%
-      tidyjson::gather_array("record_number") %>%
-      dplyr::pull(.data$`..JSON`) %>%
-      purrr::reduce(c)
-
-    if (length(deleted_events) > 0) {
-      arg$deleted_event_id <- deleted_events
-    }
-    arg
-}
-
-
-.extract_new_sync_time <- function(json, arg) {
-  arg$new_sync_time <- json %>%
-    dplyr::filter(.data$export_object == "lastSynchronisationTimeOnServer") %>%
-    dplyr::pull(.data$`..JSON`) %>%
-    purrr::pluck(1)
-
-  if (length(arg$new_sync_time) == 0 || is.null(arg$new_sync_time)) {
-    clear_progress_id()
-    cli::cli_abort(
-      "Expected {.field new_sync_time} but got {arg$new_sync_time}.",
-      call = arg$current_env
-    )
-  }
-  arg
-}
-
-
-#' .clean_export
-#'
-#' Final steps to ready export for display to the user, including re-arranging
-#' columns and converting columns from strings into their correct data types
-#'
-#' @param dat Data returned from Smartabase
-#' @param id_data User data returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return data
-.clean_export <- function(
-    dat,
-    id_data,
-    arg
-) {
-  options <- arg$option
-  if (!is.null(options$include_user_data)) {
-    if (isTRUE(options$include_user_data)) {
-      dat <- dat %>% .join_id_data(., id_data, arg)
-    }
-  }
-  if (options$guess_col_type) {
-    dat <- dat %>%
-      dplyr::select(-dplyr::any_of(c("start_time", "end_time"))) %>%
-      readr::type_convert(col_types = readr::cols()) %>%
-      dplyr::bind_cols(
-        dat %>% dplyr::select(dplyr::any_of(c("start_time", "end_time")))
-      )
-  }
-
-  # if (!is.null(sync_time)) {
-  #   data <- data %>%
-  #     mutate(sync_time = sync_time) %>%
-  #     tidyr::nest(data = -sync_time)
-  # }
-  #
-  # if (!is.null(deleted_events)) {
-  #   data <- data %>%
-  #     bind_cols(deleted_events)
-  # }
-  dat %>% dplyr::select(-dplyr::any_of("export_object"))
-}
-
-
-#' .clean_user_export
-#'
-#' Final steps to ready export for display to the user, including re-arranging
-#' columns and converting columns from strings into their correct data types
-#'
-#' @param dat Data returned from Smartabase
-#' @param id_data User data returned from Smartabase
-#' @param arg List of arguments returned from parent function
-#' @noRd
-#' @keywords internal
-#' @return data
-.clean_user_export <- function(data, arg) {
-  if (nrow(data) == 0) return(data)
-
-  tibble::as_tibble(data) %>%
-    dplyr::select(-dplyr::contains("groupsAndRoles")) %>%
-    dplyr::select(
-      user_id = .data$userId,
-      .data$firstName,
-      .data$lastName,
-      .data$username,
-      email = .data$emailAddress,
-      uuid = .data$uuid
-    ) %>%
-    tidyr::unite(
-      "about",
-      .data$firstName,
-      .data$lastName,
-      sep = " ",
-      remove = FALSE
-    )
+.replace_form <- function(inner_list, new_form_value) {
+  inner_list$formName <- new_form_value
+  return(inner_list)
 }
 
 
@@ -544,69 +424,3 @@
   data_filter
 }
 
-
-#' .get_user_id_for_export_body
-#'
-#' Populates user ID values for export filter
-#'
-#' Every call to the Smartabase event export API requires a list of athlete
-#' user IDs. This function invokes [sb_get_user()] and caches the results
-#'
-#' @param arg List of arguments passed from export functions
-#'
-#' @return tibble: Smartabase user data
-#'
-#' @noRd
-#'
-#' @keywords internal
-.get_user_id_for_export_body <- function(arg) {
-  if (!arg$type %in% c("event", "profile", "synchronise")) {
-    return()
-  }
-
-  if (!is.null(arg$pull_smartabase)) {
-    if (isTRUE(arg$pull_smartabase)) {
-      filter_fun <- .pull_smartabase_filter
-      option_fun <- .pull_smartabase_option
-    } else {
-      filter_fun <- sb_get_user_filter
-      option_fun <- sb_get_user_option
-    }
-  }
-
-  id_filter_names <- intersect(names(arg$filter), names(filter_fun()))
-  id_filters <- arg$filter[names(arg$filter) %in% id_filter_names]
-  id_option_names <- intersect(names(arg$option), names(option_fun()))
-  id_options <- arg$option[names(arg$option) %in% id_option_names]
-  get_id_flag <- TRUE
-
-  if (!is.null(id_options$include_user_data)) {
-    if (isFALSE(id_options$include_user_data)) {
-      if (!is.null(id_filters$user_key)) {
-        if (id_filters$user_key == "user_id") {
-          if (!is.null(id_filters$user_value)) {
-            get_id_flag <- FALSE
-          }
-        }
-      }
-    }
-  }
-
-  if (isTRUE(get_id_flag)) {
-    id_data <- sb_get_user(
-      url = arg$url,
-      username = arg$username,
-      password = arg$password,
-      filter = do.call(filter_fun, id_filters),
-      option = do.call(option_fun, id_options),
-      endpoints = arg$endpoints,
-      login = arg$login
-    ) %>%
-      dplyr::select(-c(.data$username, .data$email)) %>%
-      dplyr::distinct()
-
-  } else {
-    id_data <- tibble::tibble(user_id = id_filters$user_value)
-  }
-  id_data
-}
