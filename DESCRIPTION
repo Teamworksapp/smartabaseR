@@ -1,6 +1,6 @@
 Package: smartabaseR
 Title: R wrapper for the Smartabase API
-Version: 0.0.9
+Version: 0.0.10
 Authors@R: c(
     person(given = "Zac",
            family = "Pross",
