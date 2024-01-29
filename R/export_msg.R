@@ -26,39 +26,30 @@
   if (arg$type == "event") {
     cli::cli_inform(
       c("i" = "No event data was found in {.field {arg$form}} between \\
-        {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}.",
-        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
-        required to view this data?"
+        {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}."
       ),
-      "i" = "Are any data filters or user filters applied incorrectly?"
+      "i" = "Are any user/data filters applied incorrectly?"
     )
   } else if (arg$type == "profile") {
     cli::cli_inform(
-      c("i" = "No profile data was found in {.field {arg$form}}.",
-        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
-        required to view this data?",
+      c("!" = "No profile data was found in {.field {arg$form}}.",
         "i" = "Are any user filters applied incorrectly?")
     )
   } else if (arg$type == "synchronise") {
     cli::cli_inform(
-      c("i" = "No new data in {.field {arg$form}} since \\
+      c("!" = "No new data in {.field {arg$form}} since \\
         {.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}}."
       )
     )
   } else if (arg$type == "user") {
     cli::cli_inform(
-      c("i" = "No user details found",
-        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
-        required to view this data?",
+      c("!" = "No user details found.",
         "i" = "Are any user filters applied incorrectly?"
-      ),
-      .envir = arg$current_env
+      )
     )
   } else if (arg$type == "group") {
     cli::cli_inform(
-      c("i" = "No group details found",
-        "i" = "Does {.field {arg$username}} have the appropriate perissions \\
-        required to view this data?",
+      c("!" = "No group details found.",
         "i" = "Are any user filters applied incorrectly?"
       )
     )
