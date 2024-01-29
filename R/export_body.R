@@ -96,8 +96,7 @@
 #' @noRd
 #' @keywords internal
 #' @return data
-.build_export_event_body <- function(arg, id_data) {
-  user_id <- id_data %>% dplyr::pull(user_id)
+.build_export_event_body <- function(arg, user_id) {
   data_filters <- arg$filter$data_filter
   filters <- arg$filter
   options <- arg$option
@@ -129,8 +128,7 @@
 #' @noRd
 #' @keywords internal
 #' @return data
-.build_export_profile_body <- function(arg, id_data) {
-  user_id <- id_data %>% dplyr::pull(user_id)
+.build_export_profile_body <- function(arg, user_id) {
   list(
     formNames = arg$form,
     userIds = user_id
@@ -145,8 +143,7 @@
 #' @noRd
 #' @keywords internal
 #' @return data
-.build_export_synchronise_body <- function(arg, id_data) {
-  user_id <- id_data %>% dplyr::pull(user_id)
+.build_export_synchronise_body <- function(arg, user_id) {
   if (is.null(arg$last_sync_time)) {
     body <- list(
       formName = arg$form,
@@ -171,13 +168,13 @@
 #' @noRd
 #' @keywords internal
 #' @return data
-.build_export_body <- function(arg, id_data = NULL) {
+.build_export_body <- function(arg, user_id = NULL) {
   if (arg$type == "synchronise") {
-    .build_export_synchronise_body(arg, id_data)
+    .build_export_synchronise_body(arg, user_id)
   } else if (arg$type == "profile") {
-    .build_export_profile_body(arg, id_data)
+    .build_export_profile_body(arg, user_id)
   } else if (arg$type == "event") {
-    .build_export_event_body(arg, id_data)
+    .build_export_event_body(arg, user_id)
   } else if (arg$type == "user") {
     .build_export_id_body(arg)
   } else if (arg$type == "group") {
