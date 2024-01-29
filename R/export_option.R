@@ -92,7 +92,6 @@ sb_sync_event_option <- function(
 sb_get_event_option <- function(
     interactive_mode = TRUE,
     include_user_data = TRUE,
-    user_info_level = "basic",
     cache = TRUE,
     download_attachment = FALSE,
     include_missing_user = FALSE,
@@ -104,12 +103,10 @@ sb_get_event_option <- function(
     list(
       interactive_mode = interactive_mode,
       include_user_data = include_user_data,
-      user_info_level = user_info_level,
       cache = cache,
       download_attachment = download_attachment,
       include_missing_user = include_missing_user,
-      guess_col_type = guess_col_type,
-      include_uuid = include_uuid
+      guess_col_type = guess_col_type
     )
   )
 }
@@ -163,6 +160,11 @@ sb_get_profile_option <- function(
 #' @title Set option parameters for [sb_get_event()]
 #'
 #' @inheritParams sb_sync_event_option
+#' @param include_all_cols If FALSE, only basic user information is included in
+#' the returned data frame; e.g. user_id, username, about etc. If TRUE, extra
+#' user information like phone, address and date of birth are also returned. If
+#' only one user is returned, roles and groups information about that user is
+#' included.
 #'
 #' @return A list of options with class = "sb_export_option"
 #' @export
@@ -185,23 +187,19 @@ sb_get_profile_option <- function(
 #' }
 sb_get_user_option <- function(
     interactive_mode = TRUE,
-    include_user_data = TRUE,
-    user_info_level = "basic",
+    include_all_cols = FALSE,
     cache = TRUE,
     include_missing_user = FALSE,
-    guess_col_type = TRUE,
-    include_uuid = FALSE
+    guess_col_type = TRUE
 ) {
   structure(
     class = "sb_export_option",
     list(
       interactive_mode = interactive_mode,
-      include_user_data = include_user_data,
-      user_info_level = user_info_level,
+      include_all_cols = include_all_cols,
       cache = cache,
       include_missing_user = include_missing_user,
-      guess_col_type = guess_col_type,
-      include_uuid = include_uuid
+      guess_col_type = guess_col_type
     )
   )
 }
