@@ -1,5 +1,5 @@
 Package: smartabaseR
-Title: R wrapper for the Smartabase API
+Title: R Wrapper for the Smartabase API
 Version: 0.0.10
 Authors@R: c(
     person(given = "Zac",
@@ -9,12 +9,14 @@ Authors@R: c(
     person(given = "James",
            family = "Day",
            role = c("aut"),
-           email = "jday@teamworks.com")
+           email = "jday@teamworks.com"),
+    person("Teamworks", role=c("cph", "fnd"))
            )
 Description: R wrapper for the Smartabase API. Export, import or delete
     Smartabase data from R.
 License: MIT + file LICENSE
 URL: https://teamworksapp.github.io/smartabaseR/, https://github.com/Teamworksapp/smartabaseR
+BugReports: https://github.com/Teamworksapp/smartabaseR/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -4,7 +4,7 @@
 \name{smartabaseR-package}
 \alias{smartabaseR-package}
 \alias{_PACKAGE}
-\title{smartabaseR: R wrapper for the Smartabase API}
+\title{smartabaseR: R Wrapper for the Smartabase API}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
@@ -15,6 +15,7 @@ Useful links:
 \itemize{
   \item \url{https://teamworksapp.github.io/smartabaseR/}
   \item \url{https://github.com/Teamworksapp/smartabaseR}
+  \item Report bugs at \url{https://github.com/Teamworksapp/smartabaseR/issues}
 }
 
 }
@@ -24,6 +25,11 @@ Useful links:
 Authors:
 \itemize{
   \item James Day \email{jday@teamworks.com}
+}
+
+Other contributors:
+\itemize{
+  \item Teamworks [copyright holder, funder]
 }
 
 }
