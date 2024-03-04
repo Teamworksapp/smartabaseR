@@ -1,12 +1,10 @@
-# url:
-
+url: https://teamworksapp.github.io/smartabaseR/
 template:
   bootstrap: 5
   opengraph:
     twitter:
-      creator: "@zac_pross"
+      creator: '@zac_pross'
       card: summary
-
 navbar:
   left:
   - icon: fas fa-home fa-lg
@@ -29,12 +27,11 @@ navbar:
       href: articles/deleting-data.html
     - text: Helper functions
       href: articles/helper-functions.html
-
 authors:
   Zac Pross:
     href: https://au.linkedin.com/in/zac-pross
   James Day:
     href: https://au.linkedin.com/in/james-day-ab648321
-
 toc:
   depth: 4
+
