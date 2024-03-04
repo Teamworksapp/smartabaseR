@@ -17,7 +17,13 @@ learning capabilities.
 
 ## Installation
 
-You can install the development version of `smartabaseR` from
+Install the released version of `smartabaseR` from CRAN:
+
+``` r
+install.packages("smartabaseR")
+```
+
+Or install the development version of `smartabaseR` from
 [GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
 
 ``` r
