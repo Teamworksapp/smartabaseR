@@ -2,49 +2,45 @@ Package: smartabaseR
 Title: R Wrapper for the Smartabase API
 Version: 0.0.10
 Authors@R: c(
-    person(given = "Zac",
-           family = "Pross",
-           role   = c("aut", "cre"),
-           email = "zpross@teamworks.com"),
-    person(given = "James",
-           family = "Day",
-           role = c("aut"),
-           email = "jday@teamworks.com"),
-    person("Teamworks", role=c("cph", "fnd"))
-           )
+    person("Zac", "Pross", , "zpross@teamworks.com", role = c("aut", "cre")),
+    person("James", "Day", , "jday@teamworks.com", role = "aut"),
+    person("Teamworks", role = c("cph", "fnd"))
+  )
 Description: R wrapper for the Smartabase API. Export, import or delete
     Smartabase data from R.
 License: MIT + file LICENSE
-URL: https://teamworksapp.github.io/smartabaseR/, https://github.com/Teamworksapp/smartabaseR
+URL: https://teamworksapp.github.io/smartabaseR/,
+    https://github.com/Teamworksapp/smartabaseR
 BugReports: https://github.com/Teamworksapp/smartabaseR/issues
+Depends: 
+    R (>= 2.10)
+Imports: 
+    cli,
+    dplyr,
+    glue,
+    httr2,
+    lifecycle,
+    lubridate,
+    magrittr,
+    memoise,
+    purrr,
+    readr,
+    rlang,
+    stringr,
+    tibble,
+    tidyjson,
+    tidyr,
+    tidyselect,
+    usethis
+Suggests: 
+    ggplot2,
+    knitr,
+    rmarkdown,
+    scales,
+    testthat
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Imports: 
-    httr2,
-    rlang,
-    tidyjson,
-    readr,
-    dplyr,
-    tidyselect,
-    tibble,
-    tidyr,
-    purrr,
-    stringr,
-    magrittr,
-    lubridate,
-    usethis,
-    memoise,
-    cli,
-    lifecycle,
-    glue
-Suggests: 
-    knitr,
-    rmarkdown,
-    testthat,
-    ggplot2,
-    scales
-VignetteBuilder: knitr
-Depends: 
-    R (>= 2.10)
