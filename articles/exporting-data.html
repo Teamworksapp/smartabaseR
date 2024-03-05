@@ -667,20 +667,21 @@ an input called <code>interactive_mode</code>. If
 screen. This is for when the package is being run in automated
 environments. In these situations you may want to minimise progress
 messages clogging up logs.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
-<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>  )</span>
-<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
-<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>    <span class="at">interactive_mode =</span> <span class="cn">FALSE</span></span>
-<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>  )</span>
-<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
+<span>  form <span class="op">=</span> <span class="st">"Training Log"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="../reference/sb_date_range.html">sb_date_range</a></span><span class="op">(</span><span class="st">"2"</span>, <span class="st">"days"</span><span class="op">)</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span>  username <span class="op">=</span> <span class="st">"example.username"</span>,</span>
+<span>  password <span class="op">=</span> <span class="st">"example_password"</span>,</span>
+<span>  filter <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_filter.html">sb_get_event_filter</a></span><span class="op">(</span></span>
+<span>    user_key <span class="op">=</span> <span class="st">"about"</span>,</span>
+<span>    user_value <span class="op">=</span> <span class="st">"Charlie Thompson"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  option <span class="op">=</span> <span class="fu"><a href="../reference/sb_get_event_option.html">sb_get_event_option</a></span><span class="op">(</span></span>
+<span>    interactive_mode <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
