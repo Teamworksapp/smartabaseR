@@ -4,6 +4,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Teamworksapp/smartabaseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Teamworksapp/smartabaseR/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/smartabaseR)](https://CRAN.R-project.org/package=smartabaseR)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 `smartabaseR` is an R package that lets you connect R to Smartabase. At
