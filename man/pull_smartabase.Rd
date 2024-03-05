@@ -55,9 +55,14 @@ save_credentials()}
 Smartabase data
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{pull_smartabase()} was deprecated in favour of the more explicitly
+named \code{sb_get_event()}, \code{sb_get_profile()} or \code{sb_sync_event()}. Please use
+these instead
+
 Downloads data from a Smartabase event or profile form
-}
-\details{
+
 This function pulls data from a Smartabase event form or profile form using
 the Smartabase API. For more details see the help vignette:
 \code{vignette("pulling-data")}

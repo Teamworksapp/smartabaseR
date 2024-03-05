@@ -1,5 +1,12 @@
 #' push_smartabase
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `push_smartabase()` was deprecated in favour of the more explicitly
+#' named `sb_insert_event()`, `sb_update_event()`, `sb_update_profile()`
+#' or `sb_upsert_event()`. Please use those instead.
+#'
 #' Uploads a data frame to a Smartabase event or profile form
 #'
 #' The push_smartabase() function uses the Smartabase API and imports an R

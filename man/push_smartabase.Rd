@@ -89,9 +89,14 @@ editing events (i.e. for use in non-local, cloud environments)}
 A data frame
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{push_smartabase()} was deprecated in favour of the more explicitly
+named \code{sb_insert_event()}, \code{sb_update_event()}, \code{sb_update_profile()}
+or \code{sb_upsert_event()}. Please use those instead.
+
 Uploads a data frame to a Smartabase event or profile form
-}
-\details{
+
 The push_smartabase() function uses the Smartabase API and imports an R
 data frame into a specific Smartabase event or profile form. Set
 'type' = "profile" to push to a profile form. For more details see the

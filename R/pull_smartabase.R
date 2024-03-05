@@ -1,5 +1,12 @@
 #' pull_smartabase
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `pull_smartabase()` was deprecated in favour of the more explicitly
+#' named `sb_get_event()`, `sb_get_profile()` or `sb_sync_event()`. Please use
+#' these instead
+#'
 #' Downloads data from a Smartabase event or profile form
 #'
 #' This function pulls data from a Smartabase event form or profile form using
@@ -60,6 +67,16 @@ pull_smartabase <- function(
     last_sync_time = NULL,
     shiny_progress_code = NULL,
     dev_mode = FALSE) {
+
+  lifecycle::deprecate_warn(
+    when = "0.0.0.9000",
+    what = "pull_smartabase()",
+    details = glue::glue(
+      "`pull_smartabase()` was deprecated in favour of the more explicitly \\
+      named `sb_get_event()`, `sb_get_profile()` or `sb_sync_event()`."
+    )
+  )
+
   rlang::check_dots_used()
   env <- rlang::current_env()
   if (type == "event" && !is.null(filter_user_key)) {
