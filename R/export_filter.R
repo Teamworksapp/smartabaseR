@@ -7,7 +7,7 @@
 #' @param user_value The specific user value to filter for e.g. if
 #' `user_key = "username"`, then perhaps `user_value = "john.smith"`.
 #'
-#' @return A list of filters with class = "sb_export_filter"
+#' @returns A list of filters with class = "sb_export_filter"
 #' @export
 #'
 #' @family export filter helpers
@@ -53,7 +53,7 @@ sb_sync_event_filter <- function(
 #' ordered by most recent. If not specified or set to NULL, all events will be
 #' retrieved for each athlete
 #'
-#' @return A list of filters with class = "sb_export_filter"
+#' @returns A list of filters with class = "sb_export_filter"
 #' @export
 #'
 #' @family export filter helpers
@@ -110,7 +110,7 @@ sb_get_event_filter <- function(
 #'
 #' @inheritParams sb_sync_event_filter
 #'
-#' @return A list of filters with class = "sb_export_filter"
+#' @returns A list of filters with class = "sb_export_filter"
 #' @export
 #'
 #' @family export filter helpers
@@ -147,7 +147,7 @@ sb_get_profile_filter <- function(
 #'
 #' @inheritParams sb_sync_event_filter
 #'
-#' @return A list of filters with class = "sb_export_filter"
+#' @returns A list of filters with class = "sb_export_filter"
 #' @export
 #'
 #' @family export filter helpers

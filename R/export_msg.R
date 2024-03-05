@@ -1,4 +1,8 @@
-
+#' .generate_export_progress_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing message
 .generate_export_progress_msg <- function(arg) {
   if (arg$type == "event") {
     msg <- paste(
@@ -22,6 +26,11 @@
   cli::cli_progress_message(msg, .envir = arg$current_env)
 }
 
+#' .generate_no_data_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing message
 .generate_no_data_msg <- function(arg) {
   if (arg$type == "event") {
     cli::cli_inform(
@@ -56,13 +65,11 @@
   }
 }
 
-#' .build_attachment_error
+#' .generate_attachment_error_msg
 #'
 #' @noRd
-#'
 #' @keywords internal
-#'
-#' @return data
+#' @returns A character vector containing message
 .generate_attachment_error_msg <- function(attachment_response, arg) {
   if (!is.null(attachment_response$message)) {
     attachment_path_exists <- stringr::str_detect(
@@ -89,13 +96,11 @@
   cli::cli_alert_warning(attachment_message)
 }
 
-#' .build_attachment_success
+#' .generate_attachment_success_msg
 #'
 #' @noRd
-#'
 #' @keywords internal
-#'
-#' @return data
+#' @returns A character vector containing message
 .generate_attachment_success_msg <- function(attachment_response, arg) {
   attachment_message <- attachment_response %>%
     purrr::map_df(~ tibble::tibble(
@@ -126,6 +131,11 @@
   attachment_message
 }
 
+#' .generate_attachment_message
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing message
 .generate_attachment_message <- function(attachment_response, arg) {
   if (any(class(attachment_response) == "error")) {
     .generate_attachment_error_msg(attachment_response, arg)
@@ -134,6 +144,11 @@
   }
 }
 
+#' .generate_export_success_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing message
 .generate_export_success_msg <- function(arg) {
   if (arg$type == "event") {
     msg <- paste(

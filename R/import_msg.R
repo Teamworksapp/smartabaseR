@@ -1,4 +1,8 @@
-
+#' .calculate_import_progress_vals
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A list
 .calculate_import_progress_vals <- function(df, index, arg) {
   ix <- dplyr::if_else(arg$total_length_body > 1, paste0(index, ": "), "")
   n_row <- df %>%
@@ -7,7 +11,11 @@
   list("ix" = ix, "n_row" = n_row)
 }
 
-
+#' .generate_import_progress_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_import_progress_msg <- function(import_action, prog_vals, arg) {
   if (import_action == "update") {
     msg <- paste(
@@ -22,7 +30,11 @@
   }
 }
 
-
+#' .generate_update_confirmation
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_update_confirmation <- function(
     df_list,
     update_nrow,
@@ -56,7 +68,11 @@
   }
 }
 
-
+#' .count_unique_import_records
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A numeric value
 .count_unique_import_records <- function(df_list, import_action, table_field) {
   dfs <- df_list[which(names(df_list) == import_action)]
   if (length(dfs) == 0) {
@@ -83,7 +99,11 @@
   }
 }
 
-
+#' .generate_import_confirmation
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_import_confirmation <- function(df_list, arg) {
   update_nrow <- .count_unique_import_records(
     df_list = df_list,
@@ -117,7 +137,11 @@
   }
 }
 
-
+#' .generate_duplicate_date_user_id_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_duplicate_date_user_id_msg <- function(arg) {
   if (arg$duplicate_date_user_id) {
     cli::cli_div(theme = list(ul = list(`margin-left` = 2, before = "")))
@@ -132,7 +156,11 @@
     cli::cli_end(id = "duplicate_user_date_id")  }
 }
 
-
+#' .generate_import_result_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_import_result_msg <- function(
     content,
     import_action,
@@ -146,6 +174,11 @@
   }
 }
 
+#' .generate_profile_import_result_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_profile_import_result_msg <- function(
     content,
     import_action,
@@ -174,7 +207,11 @@
   }
 }
 
-
+#' .generate_event_import_result_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing the message
 .generate_event_import_result_msg <- function(
     content,
     import_action,
@@ -234,7 +271,11 @@
   }
 }
 
-
+#' .extract_missing_field
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing missing field
 .extract_missing_field <- function(content) {
   missing_field_msg <- stringr::str_extract(
     content$message, .missing_field_pattern()
@@ -252,7 +293,11 @@
   missing_field
 }
 
-
+#' .generate_missing_field_warning
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A warning message
 .generate_missing_field_warning <- function(missing_field, arg) {
   if (length(missing_field) > 1) {
     field_str <- "fields"
@@ -273,7 +318,11 @@
   cli::cli_end(id = "missing_field_id")
 }
 
-
+#' .generate_missing_event_id_warning
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A warning message
 .generate_missing_event_id_warning <- function(arg) {
   cli::cli_div(theme = list(ul = list(`margin-left` = 2, before = "")))
   clear_progress_id()

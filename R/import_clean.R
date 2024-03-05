@@ -2,7 +2,7 @@
 #' .remove_protected_column_names
 #' @noRd
 #' @keywords internal
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .remove_protected_column_names <- function(df) {
   if (any(c("first name", "last name") %in% tolower(names(df)))) {
     warning(
@@ -25,7 +25,7 @@
 #' .replace_na_with_empty_string
 #' @noRd
 #' @keywords internal
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .replace_na_with_empty_string <- function(df) {
   if ("event_id" %in% names(df)) {
     df %>%
@@ -56,7 +56,7 @@
 #' .detect_duplicate_user_ids
 #' @noRd
 #' @keywords internal
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .detect_duplicate_user_ids <- function(id_data, env) {
   if (any(duplicated(id_data$about))) {
     dup_names <- id_data %>%
@@ -83,7 +83,7 @@
 #' .attach_user_id_to_df
 #' @noRd
 #' @keywords internal
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .attach_user_id_to_df <- function(df, arg) {
   id_col <- arg$option$id_col
   if (id_col != "user_id") {
@@ -131,7 +131,7 @@
 #' .get_current_date_time
 #' @noRd
 #' @keywords internal
-#' @return df with metadata attached
+#' @returns df with metadata attached
 .get_current_date_time <- function() {
   current_datetime <- Sys.time()
 
@@ -175,7 +175,7 @@
 #' .insert_current_date_time
 #' @noRd
 #' @keywords internal
-#' @return df with metadata attached
+#' @returns df with metadata attached
 .insert_current_date_time <- function(df, current_datetime, env) {
   df <- df %>% dplyr::mutate(row_num = dplyr::row_number())
 
@@ -249,7 +249,7 @@
 #' current time + 1 hour.
 #' @noRd
 #' @keywords internal
-#' @return df with metadata attached
+#' @returns df with metadata attached
 .insert_date_time <- function(df, current_datetime, env) {
   # Check if end_date or end_time columns exist without start_date/start_time
   if ("end_date" %in% names(df) && !"start_date" %in% names(df)) {
@@ -286,7 +286,7 @@
 #' Convert data frame to required JSON structure for Smartabase API upload#'
 #' @noRd
 #' @keywords internal
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .prepare_import_df <- function(df, arg) {
   df %>%
     .remove_protected_column_names(.) %>%

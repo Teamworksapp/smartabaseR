@@ -12,7 +12,7 @@
 #'
 #' @param df data frame: data to be uploaded to Smartabase
 #'
-#' @return Vector of metadata variable names
+#' @returns Vector of metadata variable names
 #' @export
 #'
 #' @examples
@@ -39,7 +39,11 @@ sb_select_metadata <- function(df) {
   vars[vars %in% names(df)]
 }
 
-
+#' .export_join_cols
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector
 .export_join_cols <- function() {
   c(
     "document.id",
@@ -55,8 +59,8 @@ sb_select_metadata <- function(df) {
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' `get_metadata_names()` was renamed to `sb_select_metadata()` to create a
-#' more consistent API.
+#' `get_metadata_names()` was renamed to `sb_select_metadata()` to create a more consistent API.
+#' @returns A dataframe
 #' @keywords internal
 #' @export
 get_metadata_names <- function(df) {
@@ -77,7 +81,7 @@ get_metadata_names <- function(df) {
 #'
 #' @noRd
 #' @keywords internal
-#' @return url string
+#' @returns url string
 .build_url <- function(url, endpoints, endpoint) {
   base <- paste0(url, "/api/v1")
   endpoint <- endpoints[[endpoint]][["path"]]
@@ -92,7 +96,7 @@ get_metadata_names <- function(df) {
 #'
 #' @keywords internal
 #'
-#' @return string: entered_by_user_id saved in .Renviron
+#' @returns string: entered_by_user_id saved in .Renviron
 .validate_url <- function(url) {
   if (!stringr::str_detect(url, "^https://")) {
     if (stringr::str_detect(url, "^http://")) {
@@ -108,7 +112,11 @@ get_metadata_names <- function(df) {
   url
 }
 
-
+#' .build_http_error_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A message
 .build_http_error_msg <- function(response) {
   code <- response$status_code
   if (code == 400) {
@@ -145,7 +153,7 @@ get_metadata_names <- function(df) {
 #'
 #' Builds up http request using httr2
 #'
-#' @return httr2 request object
+#' @returns httr2 request object
 #' @noRd
 #' @keywords internal
 .build_request <- function(body, arg) {
@@ -164,7 +172,7 @@ get_metadata_names <- function(df) {
 #'
 #' @noRd
 #' @keywords internal
-#' @return Smartabase API response
+#' @returns Smartabase API response
 .make_request <- function(request, arg) {
   response <- request %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
@@ -196,7 +204,7 @@ get_metadata_names <- function(df) {
 #'
 #' @noRd
 #' @keywords internal
-#' @return Aliases for Smartabase API endpoint names
+#' @returns Aliases for Smartabase API endpoint names
 .endpoint_names <- function() {
   c("insert_profile",
     "get_event",
@@ -218,7 +226,7 @@ get_metadata_names <- function(df) {
 #'
 #' @noRd
 #' @keywords internal
-#' @return Error msg
+#' @returns Error msg
 .validate_endpoints <- function(endpoints, url, call) {
   error_flag <- FALSE
   if (!any(class(endpoints) == "list")) {
@@ -243,7 +251,7 @@ get_metadata_names <- function(df) {
 #'
 #' @noRd
 #' @keywords internal
-#' @return Error msg
+#' @returns Error msg
 .convert_unix_time_to_utc <- function(unix) {
   as.character(
     as.POSIXct(unix, origin = '1970-01-01', tz = "UTC"),
@@ -258,7 +266,7 @@ get_metadata_names <- function(df) {
 #'
 #' @noRd
 #' @keywords internal
-#' @return Message
+#' @returns Message
 .missing_field_pattern <- function() {
   paste(
     "\\sThe following names\\s\\[[^\\]]+\\]\\swere",
@@ -273,7 +281,7 @@ get_metadata_names <- function(df) {
 #' used to support other deprecated exported functions like [pull_smartabase()]
 #' and [push_smartabase()]
 #'
-#' @return .Renviron
+#' @returns .Renviron
 #' @export
 #'
 #' @examples
@@ -310,7 +318,7 @@ save_credentials <- function() {
 #'
 #' @noRd
 #' @keywords internal
-#' @return username
+#' @returns username
 .get_username <- function(username = NULL) {
   if (is.null(username)) {
     username <- Sys.getenv("SB_USER")
@@ -338,7 +346,7 @@ save_credentials <- function() {
 #'
 #' @noRd
 #' @keywords internal
-#' @return password
+#' @returns password
 .get_password <- function(password = NULL) {
   if (is.null(password)) {
     password <- Sys.getenv("SB_PASS")
@@ -363,7 +371,7 @@ save_credentials <- function() {
 #'
 #' @noRd
 #' @keywords internal
-#' @return url
+#' @returns url
 .get_url <- function(url = NULL) {
   if (is.null(url)) {
     url <- Sys.getenv("SB_URL")
@@ -375,15 +383,29 @@ save_credentials <- function() {
   url
 }
 
-
+#' set_progress_id
+#'
+#' @noRd
+#' @keywords internal
+#' @returns a progress ID
 set_progress_id <- function(msg_name, progress_id) {
   internal_env[[msg_name]] <- progress_id
 }
 
+#' get_progress_id
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A message
 get_progress_id <- function(msg_name) {
   internal_env[[msg_name]]
 }
 
+#' clear_progress_id
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A message
 clear_progress_id <- function() {
   ids <- ls(envir = internal_env)
   ids <- ids[stringr::str_detect(ids, pattern = "progress_id$")]

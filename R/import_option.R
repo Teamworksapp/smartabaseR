@@ -17,7 +17,7 @@
 #' 'Treat all records for the same user, on the same day as a single record?'
 #' in the Smartabase web app.
 #'
-#' @return A list of options with class = "sb_import_option"
+#' @returns A list of options with class = "sb_import_option"
 #' @export
 #'
 #' @family import option helpers
@@ -61,7 +61,7 @@ sb_insert_event_option <- function(
 #'
 #' @inheritParams sb_insert_event_option
 #'
-#' @return A list of options with class = "sb_import_option"
+#' @returns A list of options with class = "sb_import_option"
 #' @export
 #'
 #' @family import option helpers
@@ -105,7 +105,7 @@ sb_update_event_option <- function(
 #'
 #' @inheritParams sb_insert_event_option
 #'
-#' @return A list of options with class = "sb_import_option"
+#' @returns A list of options with class = "sb_import_option"
 #' @export
 #'
 #' @family import option helpers
@@ -149,7 +149,7 @@ sb_upsert_event_option <- function(
 #'
 #' @inheritParams sb_insert_event_option
 #'
-#' @return A list of options with class = "sb_import_option"
+#' @returns A list of options with class = "sb_import_option"
 #' @export
 #'
 #' @family import option helpers

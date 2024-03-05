@@ -14,7 +14,7 @@
 #' @param option More options accessible via [sb_login_option()] object
 #' calling `sb_login()`
 #'
-#' @return login object
+#' @returns login object
 #' @export
 #'
 #' @examples
@@ -95,7 +95,7 @@ sb_login <- function(
 #' hardcoding the endpoint names into the package itself; rather requires a
 #' login via `sb_login()` first
 #'
-#' @return Smartabase endpoint names
+#' @returns Smartabase endpoint names
 #' @noRd
 #' @keywords internal
 .get_endpoint <- function(

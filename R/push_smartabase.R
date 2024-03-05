@@ -50,6 +50,8 @@
 #' @param cloud_mode boolean: if TRUE, confirmation pop-up will not appear when
 #' editing events (i.e. for use in non-local, cloud environments)
 #'
+#' @returns A data frame
+#'
 #' @keywords internal
 #' @export
 push_smartabase <- function(
@@ -125,7 +127,11 @@ push_smartabase <- function(
 }
 
 
-
+#' .push_smartabase_option
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A list containing options object
 .push_smartabase_option <- function(
     interactive_mode = TRUE,
     id_col = c("user_id", "about", "username", "email"),

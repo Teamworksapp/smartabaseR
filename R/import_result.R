@@ -1,5 +1,9 @@
 
-
+#' .build_import_element_response
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A tibble
 .build_import_element_response <- function(
     response,
     df,
@@ -31,7 +35,11 @@
     )
 }
 
-
+#' .build_import_partial_error_response_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .build_import_partial_error_response_df <- function(df, content) {
   ids <- content %>% purrr::pluck("ids", 1)
   content <- content %>%
@@ -114,6 +122,11 @@
   error_data
 }
 
+#' .build_import_unexpected_error_response_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .build_import_unexpected_error_response_df <- function(df, content) {
   result <- content %>% purrr::pluck("..JSON", "result")
   state <- result$state
@@ -125,7 +138,11 @@
     )
 }
 
-
+#' .build_import_element_response_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .build_import_element_response_df <- function(df, content, arg) {
   if (identical(content, "")) {
     # TODO Manually build 500 response
@@ -189,7 +206,11 @@
   import_response
 }
 
-
+#' .fill_missing_field
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .fill_missing_field <- function(df, arg) {
   missing_field <- df %>%
     dplyr::summarise(dplyr::across(
@@ -207,7 +228,11 @@
   df
 }
 
-
+#' .count_total_records_imported
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .count_total_records_imported <- function(df) {
   df %>%
     dplyr::ungroup() %>%
@@ -234,7 +259,11 @@
     dplyr::ungroup()
 }
 
-
+#' .fill_missing_error_msg
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .fill_missing_error_msg <- function(df, arg) {
   if ("error" %in% names(df)) {
     if (any(df$error == "", na.rm = TRUE)) {
@@ -258,7 +287,11 @@
   df
 }
 
-
+#' .build_import_response_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .build_import_response_df <- function(df, arg) {
   import_result <- .count_total_records_imported(df)
   df <- .fill_missing_error_msg(df, arg) %>%

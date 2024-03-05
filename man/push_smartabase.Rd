@@ -85,6 +85,9 @@ new data}
 \item{cloud_mode}{boolean: if TRUE, confirmation pop-up will not appear when
 editing events (i.e. for use in non-local, cloud environments)}
 }
+\value{
+A data frame
+}
 \description{
 Uploads a data frame to a Smartabase event or profile form
 }

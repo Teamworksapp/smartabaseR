@@ -13,7 +13,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return An error when the table_fields inputs do not exist as columns in the
+#' @returns An error when the table_fields inputs do not exist as columns in the
 #' input data frame
 .validate_table_field <- function(df, table_field, env) {
   if (!is.null(table_field)) {
@@ -38,7 +38,7 @@
 #'
 #' @keywords internal
 #'
-#' @return error if validate_date or validate_time are triggered
+#' @returns error if validate_date or validate_time are triggered
 .validate_id_col <- function(df, arg) {
   if (!any(arg$option$id_col %in% names(df))) {
     clear_progress_id()
@@ -72,7 +72,7 @@
 #'
 #' @keywords internal
 #'
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .build_import_url <- function(arg) {
   if (arg$type == "profile") {
     selected_endpoint <- "insert_profile"
@@ -108,7 +108,7 @@
 #'
 #' @keywords internal
 #'
-#' @return text to appear in confirm message
+#' @returns text to appear in confirm message
 .validate_duplicate_event_id <- function(arg) {
   df <- arg$df
   df <- df %>%
@@ -163,7 +163,7 @@
 #'
 #' @keywords internal
 #'
-#' @return text to appear in confirm message
+#' @returns text to appear in confirm message
 .detect_duplicate_date_user_id <- function(df, arg) {
   if (is.null(arg$option$table_field) && arg$type != "profile") {
     duplicate_flag <- df %>%
@@ -181,7 +181,11 @@
   duplicate_flag
 }
 
-
+#' .check_import_class
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .check_import_class <- function(option, env) {
   fun <- sys.call(1)[[1]]
   if (!is.null(option)) {
@@ -196,6 +200,11 @@
   }
 }
 
+#' .validate_upsert_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_upsert_df <- function(df, env) {
   if (!"event_id" %in% names(df)) {
     clear_progress_id()
@@ -208,6 +217,11 @@
   }
 }
 
+#' .validate_update_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_update_df <- function(df, env) {
   if ("event_id" %in% names(df)) {
     if (any(is.na(df$event_id))) {
@@ -245,6 +259,11 @@
   df
 }
 
+#' .remove_event_id
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .remove_event_id <- function(df) {
   if ("event_id" %in% names(df)) {
     df <- df %>% dplyr::select(-.data$event_id)
@@ -254,6 +273,11 @@
   df
 }
 
+#' .validate_import_df_class
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_import_df_class <- function(df, env) {
   if (isFALSE(is.data.frame(df))) {
     clear_progress_id()
@@ -267,7 +291,11 @@
   }
 }
 
-
+#' .validate_import_time_leading_zero
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_import_time_leading_zero <- function(df, time_var_name, env) {
   df <- df %>%
     dplyr::mutate(
@@ -294,7 +322,11 @@
 }
 
 
-
+#' .validate_import_time_colon
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_import_time_colon <- function(df, time_var_name, env) {
   df <- df %>%
     dplyr::mutate(
@@ -320,7 +352,11 @@
   }
 }
 
-
+#' .validate_import_date_character
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_import_date_character <- function(df, date_var_name, env) {
   if(inherits(df[[date_var_name]], "Date")) {
     clear_progress_id()
@@ -348,7 +384,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns An error message
 .validate_import_time_ampm <- function(df, time_var_name, env) {
   df <- df %>%
     dplyr::mutate(
@@ -386,7 +422,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns An error message
 .validate_import_time_length <- function(df, time_var_name, env) {
   df <- df %>%
     dplyr::mutate(length_test = nchar(!!dplyr::sym(time_var_name))) %>%
@@ -418,7 +454,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns An error message
 .validate_import_date_length <- function(df, date_var_name, env) {
   df <- df %>%
     dplyr::mutate(length_test = nchar(!!dplyr::sym(date_var_name))) %>%
@@ -450,7 +486,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns An error message
 .validate_import_time_hour <- function(df, time_var_name, env) {
   df <- df %>%
     dplyr::mutate(

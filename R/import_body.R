@@ -3,7 +3,7 @@
 #' Convert data frame to required JSON structure for Smartabase API upload#'
 #' @noRd
 #' @keywords internal
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .build_import_key_value <- function(df, n_row, arg) {
   remove_vars <- c(
     "user_id", "about", "form", "username", "email", "start_date", "end_date",
@@ -55,7 +55,7 @@
 #'
 #' @keywords internal
 #'
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .build_import_metadata <- function(df, n_row, import_action, arg) {
   if (arg$type == "profile") {
     metadata <- dplyr::tibble(
@@ -97,7 +97,11 @@
   append(metadata, user_id)
 }
 
-
+#' .append_metadata_key_value_pairs
+#'
+#' @noRd
+#' @keywords internal
+#' @returns JSON data to be uploaded to Smartabase
 .append_metadata_key_value_pairs <- function(df, import_action, arg) {
   df <- .split_df_userid_date(df, arg)
   metadata <- df %>%
@@ -121,7 +125,11 @@
   purrr::map2(metadata, key_value_pairs, ~append(.x, .y))
 }
 
-
+#' .build_import_body
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A list
 .build_import_body <- function(df, import_action, arg) {
   if (arg$type == "profile") {
     make_json_profile <- function(df) {

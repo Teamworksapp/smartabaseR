@@ -41,7 +41,7 @@
 #' @param ... These dots are for future extensions and must be empty
 #' @param option More options accessible via [sb_insert_event_option()] object
 #'
-#' @return Data frame with extra details about import status
+#' @returns Data frame with extra details about import status
 #' @export
 #'
 #' @examples
@@ -130,7 +130,7 @@ sb_insert_event <- function(
 #' @inheritParams sb_insert_event
 #' @param option More options accessible via [sb_update_event_option()] object
 #'
-#' @return Data frame with extra details about import status
+#' @returns Data frame with extra details about import status
 #'
 #' @export
 sb_update_event <- function(
@@ -213,7 +213,7 @@ sb_update_event <- function(
 #' @inheritParams sb_insert_event
 #' @param option More options accessible via [sb_upsert_event_option()] object
 #'
-#' @return Data frame with extra details about import status
+#' @returns Data frame with extra details about import status
 #'
 #' @export
 sb_upsert_event <- function(
@@ -281,7 +281,7 @@ sb_upsert_event <- function(
 #' @inheritParams sb_insert_event
 #' @param option More options accessible via [sb_upsert_profile_option()] object
 #'
-#' @return Data frame with extra details about import status
+#' @returns Data frame with extra details about import status
 #'
 #' @export
 sb_upsert_profile <- function(

@@ -8,7 +8,7 @@
 #'
 #' @param arg list of arguments passed from exposed export functions
 #'
-#' @return tibble: Smartabase event or profile data
+#' @returns A tibble containing Smartabase event or profile data
 #' @noRd
 #' @keywords internal
 .export_handler <- function(arg) {
@@ -80,7 +80,7 @@
 #' @param id_data User data returned from Smartabase
 #' @noRd
 #' @keywords internal
-#' @return tibble
+#' @returns A tibble
 .json_to_df_handler <- function(response, arg, id_data = NULL) {
   data <- .extract_content(response, arg)
   if (nrow(data) == 0) {

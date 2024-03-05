@@ -13,7 +13,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tibble: Smartabase user data
+#' @returns A tibble containing Smartabase user data
 .convert_user_json_to_df <- function(response, data, arg) {
   data <- .flatten_user_export_data(data)
   data <- .clean_user_export(data, arg$option$include_all_cols)
@@ -35,7 +35,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tibble: Smartabase user data
+#' @returns A tibble containing Smartabase user data
 .convert_group_json_to_df <- function(response, data, arg) {
   data <- .flatten_group_export_data(data)
   if (nrow(data) == 0) {
@@ -63,7 +63,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tibble
+#' @returns A tibble
 .convert_export_json_to_df <- function(response, data, id_data, arg) {
   if (arg$type == "synchronise") {
     arg <- .flatten_deleted_event_id(data, arg)

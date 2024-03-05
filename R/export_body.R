@@ -8,7 +8,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [list()]
 .build_export_filter <- function(data_key, data_value, data_condition) {
   data_key <- eval(data_key)
   data_value <- eval(data_value)
@@ -95,7 +95,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A character vector
 .build_export_event_body <- function(arg, user_id) {
   data_filters <- arg$filter$data_filter
   filters <- arg$filter
@@ -127,7 +127,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [list()]
 .build_export_profile_body <- function(arg, user_id) {
   list(
     formNames = arg$form,
@@ -142,7 +142,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A character vector
 .build_export_synchronise_body <- function(arg, user_id) {
   if (is.null(arg$last_sync_time)) {
     body <- list(
@@ -167,7 +167,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A character vector
 .build_export_body <- function(arg, user_id = NULL) {
   if (arg$type == "synchronise") {
     .build_export_synchronise_body(arg, user_id)
@@ -187,7 +187,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A number
 .select_filter_condition <- function(cond) {
   if (cond == "equal_to" | cond == "=") 1
   else if (cond == "not_equal_to" | cond == "!=") 2
@@ -203,7 +203,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [list()]
 .build_export_id_body <- function(arg) {
   user_key <- arg$filter$user_key
   user_value <- arg$filter$user_value
@@ -246,7 +246,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [list()]
 .build_export_group_body <- function(arg) {
   list(name = "")
 }

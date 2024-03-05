@@ -6,10 +6,12 @@
 \usage{
 get_metadata_names(df)
 }
+\value{
+A dataframe
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{get_metadata_names()} was renamed to \code{sb_select_metadata()} to create a
-more consistent API.
+\code{get_metadata_names()} was renamed to \code{sb_select_metadata()} to create a more consistent API.
 }
 \keyword{internal}

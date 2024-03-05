@@ -17,7 +17,7 @@
 #' @param end_date Must be a string in "dd/mm/YYYY" format. Defaults to today's
 #' date.
 #'
-#' @return A vector containing a start date and end date as strings in
+#' @returns A vector containing a start date and end date as strings in
 #' "dd/mm/YYYY" format.
 #' @export
 #'
@@ -110,7 +110,11 @@ sb_date_range <- function(
 }
 
 
-
+#' .validate_date_time_range
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A logical value
 .validate_date_time_range <- function(arg) {
   .validate_date_range(arg$date_range, arg$current_env)
   .validate_time_range(arg$time_range, arg$current_env)
@@ -132,7 +136,11 @@ sb_date_range <- function(
   }
 }
 
-
+#' .validate_date_range
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A logical value
 .validate_date_range <- function(date_range, env) {
   if (length(date_range) != 2) {
     clear_progress_id()
@@ -160,7 +168,11 @@ sb_date_range <- function(
   }
 }
 
-
+#' .validate_time_range
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A logical value
 .validate_time_range <- function(time_range, env) {
   if (length(time_range) != 2) {
     clear_progress_id()
@@ -194,7 +206,7 @@ sb_date_range <- function(
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns error message
 .validate_export_date_character <- function(date, date_var_name, env) {
   if(inherits(date, "Date")) {
     clear_progress_id()
@@ -221,7 +233,7 @@ sb_date_range <- function(
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns error message
 .validate_export_time_colon <- function(time, time_var_name, env) {
   validate_colon <- stringr::str_detect(time, ":")
   if (!validate_colon) {
@@ -241,7 +253,7 @@ sb_date_range <- function(
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns error message
 .validate_export_time_ampm <- function(time, time_var_name, env) {
   pattern <- "(?i).*\\s(?:am|pm)$"
   validate_ampm <- stringr::str_detect(time, pattern)
@@ -262,7 +274,7 @@ sb_date_range <- function(
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns error message
 .validate_export_time_hour <- function(time, time_var_name, env) {
   validate_hour_max <- as.numeric(stringr::str_extract(time, ".*(?=:)")) > 12
   validate_hour_min <- as.numeric(stringr::str_extract(time, ".*(?=:)")) < 0
@@ -286,7 +298,7 @@ sb_date_range <- function(
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns error message
 .validate_export_time_length <- function(time, time_var_name, env) {
   validate_length <- nchar(time) < 7 | nchar(time) > 8
   if (isTRUE(validate_length)) {
@@ -307,7 +319,7 @@ sb_date_range <- function(
 #'
 #' @noRd
 #' @keywords internal
-#' @return error message
+#' @returns error message
 .validate_export_date_length <- function(date, date_var_name, env) {
   validate_length <- nchar(date) == 10
   if (isFALSE(validate_length)) {
@@ -320,6 +332,12 @@ sb_date_range <- function(
   }
 }
 
+#' .validate_export_time_leading_zero
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns error message
 .validate_export_time_leading_zero <- function(time, time_var_name, env) {
   validate_zero <- stringr::str_detect(time, "^0")
   if (isTRUE(validate_zero)) {
@@ -342,7 +360,7 @@ sb_date_range <- function(
 #'
 #' @keywords internal
 #'
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .convert_argument_to_null <- function(arg) {
   filter_arg <- which(
     stringr::str_detect(names(arg), "filter") & arg == ""
@@ -356,7 +374,12 @@ sb_date_range <- function(
 }
 
 
-
+#' .build_export_url
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A charactor containing the URL
 .build_export_url <- function(arg) {
   if (arg$type == "event") {
     if (!is.null(arg$filter$data_key)) {
@@ -398,7 +421,12 @@ sb_date_range <- function(
   )
 }
 
-
+#' .build_id_url
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A charactor containing the URL
 .build_id_url <- function(arg, endpoints) {
   if (is.null(arg$filter_user_key)) {
     selected_endpoint <- "get_user"
@@ -425,7 +453,7 @@ sb_date_range <- function(
 #' Validates that options for export functions have class "sb_export_filter"
 #' and/or "sb_export_option"
 #'
-#' @return error message
+#' @returns error message
 #' @noRd
 #' @keywords internal
 .check_export_class <- function(filter, option, env) {
@@ -452,7 +480,12 @@ sb_date_range <- function(
   }
 }
 
-
+#' .validate_user_key
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_user_key <- function(user_key) {
   if (!is.null(user_key)) {
     if (length(user_key) > 1) {
@@ -479,6 +512,12 @@ sb_date_range <- function(
   }
 }
 
+#' .validate_data_condition
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_data_condition <- function(data_condition) {
   if (!is.null(data_condition)) {
     data_cond_val <- c(
@@ -499,6 +538,12 @@ sb_date_range <- function(
   }
 }
 
+#' .validate_events_per_user
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns An error message
 .validate_events_per_user <- function(events_per_user) {
   events <- events_per_user
   error_flag <- FALSE

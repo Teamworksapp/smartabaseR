@@ -8,7 +8,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tibble
+#' @returns A tibble
 .flatten_export_metadata <- function(json, arg) {
   if (arg$type == "synchronise") {
     json <- json %>%
@@ -25,6 +25,12 @@
   json
 }
 
+
+#' .flatten_user_export_data
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .flatten_user_export_data <- function(data) {
   data %>%
     tidyjson::gather_array("record_number") %>%
@@ -32,6 +38,11 @@
     tidyjson::gather_array("results_number")
 }
 
+#' .flatten_group_user_export_data
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .flatten_group_export_data <- function(data) {
   data <- data %>%
     tidyjson::gather_array("record_number") %>%
@@ -49,7 +60,7 @@
 #' @param nested_data Event data that has been nested for ease of use
 #' @noRd
 #' @keywords internal
-#' @return tibble
+#' @returns A tibble
 .flatten_export_data <- function(nested_data) {
   nested_data %>%
     tidyjson::enter_object("rows") %>%
@@ -85,7 +96,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return list
+#' @returns A list
 .flatten_deleted_event_id <- function(json, arg) {
   deleted_events <- json %>%
     dplyr::filter(.data$export_object == "idsOfDeletedEvents")

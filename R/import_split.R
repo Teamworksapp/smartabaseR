@@ -5,7 +5,7 @@
 #'
 #' @keywords internal
 #'
-#' @return Data to be uploaded to Smartabase - 'JSON'
+#' @returns Data to be uploaded to Smartabase - 'JSON'
 .split_df_userid_date <- function(df, arg) {
   df <- df %>%
     split(.$user_id) %>%
@@ -28,7 +28,7 @@
 #'
 #' @keywords internal
 #'
-#' @return data frame
+#' @returns A data frame
 .split_df_by_unique_date <- function(df, import_action, arg) {
   # Create duplicate_row_id column which iterates the number of rows with same
   # user_id and start_date
@@ -44,7 +44,11 @@
     purrr::set_names(import_action)
 }
 
-
+#' split_df_by_update_insert
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 split_df_by_update_insert <- function(dat, arg) {
   if (arg$type != "profile" && arg$update_event) {
     if ("event_id" %in% names(dat)) {
@@ -69,6 +73,11 @@ split_df_by_update_insert <- function(dat, arg) {
   list("insert" = dat)
 }
 
+#' remove_event_id_if_na
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 remove_event_id_if_na <- function(dat) {
   length_is_na <- dat %>% dplyr::filter(!is.na(.data$event_id)) %>% nrow(.)
  if (length_is_na == 0) {
@@ -78,6 +87,11 @@ remove_event_id_if_na <- function(dat) {
  }
 }
 
+#' .split_import_df
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A data frame
 .split_import_df <- function(df, arg) {
   if (arg$type == "profile") {
     df <- df %>%

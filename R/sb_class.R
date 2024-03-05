@@ -2,8 +2,8 @@
 #' new_sb_tibble
 #'
 #' @noRd
-#'
 #' @keywords internal
+#' @returns A tibble
 new_sb_tibble <- function(response, dat, arg) {
   keep_attr <- c("names", "row.names", "class")
   attributes(dat)[!names(attributes(dat)) %in% keep_attr] <- NULL
@@ -63,11 +63,22 @@ new_sb_tibble <- function(response, dat, arg) {
   tibble::validate_tibble(sb_tibble)
 }
 
-# This print function hides the custom attributes that we attach the objects
+
+
+
+#' print.sb_df
+#'
+#' Hides the custom attributes that we attach the objects
 # returned by the api functions. In particular, the "content" attribute contains
-# the raw content returned by the API, and is very ugly to print. The request
+# the raw content returned by the API, and is very verbose to print. The request
 # and status code are printed at the top, and everything else is printed as
 # normal.
+#'
+#' @param x A smartabase attributes object
+#'
+#' @param ... Reserved for future use
+#' @returns A cleaned message
+#'
 #' @export
 print.sb_df <- function(x, ...) {
   if (!is.null(attr(x, "form"))) {

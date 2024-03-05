@@ -10,7 +10,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [tibble()]
 .clean_export <- function(
     data,
     id_data,
@@ -47,7 +47,12 @@
 
 
 
-
+#' .clean_user_export
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .clean_user_export <- function(data, include_all_cols) {
   if (nrow(data) == 0) return(data)
   if (isTRUE(include_all_cols)) {
@@ -103,6 +108,12 @@
   data
 }
 
+#' .clean_iam_data
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .clean_iam_data <- function(
     data,
     iam = c("group", "role"),
@@ -145,7 +156,12 @@
   data
 }
 
-
+#' .clean_phone_data
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .clean_phone_data <- function(data) {
   phone_df <- data %>%
     tidyjson::enter_object("phoneNumbers") %>%
@@ -187,6 +203,12 @@
 }
 
 
+#' .clean_address_data
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .clean_address_data <- function(data) {
   address_df <- data %>%
     tidyjson::enter_object("addresses") %>%
@@ -236,7 +258,7 @@
 #' @param dat Data returned from Smartabase
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [tibble()]
 .guess_col_type <- function(dat) {
   dat %>%
     readr::type_convert(col_types = readr::cols()) %>%
@@ -255,7 +277,7 @@
 #' @param data Data returned from Smartabase
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [tibble()]
 .handle_null_rows <- function(data) {
   if (!"rows" %in% names(data)) {
     data <- NULL
@@ -280,7 +302,7 @@
 #' @param type Export type
 #' @noRd
 #' @keywords internal
-#' @return tibble: cleaned metadata columns
+#' @returns A [tibble()]
 .rename_export_metadata <- function(data, type) {
   if (type == "profile") {
     data %>%
@@ -315,7 +337,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tibble: user data joined with event/profile data
+#' @returns A [tibble()] containing user data joined with event/profile data
 .join_user_data <- function(data, id_data, arg) {
   options <- arg$option
   if (arg$type != "profile") {
@@ -363,7 +385,12 @@
   data %>% dplyr::select(dplyr::any_of(col_order))
 }
 
-
+#' .join_detailed_user_data
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .join_detailed_user_data <- function(data) {
   athlete_group_df <- .clean_iam_data(data, "group", "athlete")
   coach_group_df <- .clean_iam_data(data, "group", "coach")
@@ -409,13 +436,19 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return list
+#' @returns A list
 .replace_form <- function(inner_list, new_form_value) {
   inner_list$formName <- new_form_value
   return(inner_list)
 }
 
 
+#' .insert_form_data_filter
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
 .insert_form_data_filter <- function(form, data_filter) {
   if (!is.null(data_filter)) {
     data_filter <- data_filter %>%

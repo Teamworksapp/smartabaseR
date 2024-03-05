@@ -3,7 +3,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [tibble()] containing meta data used in other functions
 .build_attachment_metadata <- function(nested_data, id_data) {
   tryCatch({
     nested_data %>%
@@ -35,7 +35,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [tibble()] containing meta data used in other functions
 .process_export_attachment <- function(
     response,
     nested_data,
@@ -71,7 +71,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [tibble()] containing meta data used in other functions
 .join_attachment_metadata <- function(
     attachment_metadata,
     nested_data,
@@ -102,7 +102,7 @@
 #'
 #' @noRd
 #' @keywords internal
-#' @return data
+#' @returns A [list()]
 .get_export_attachment <- function(response, attachment_metadata, arg) {
   if (arg$option$interactive_mode) {
     attachment_progress_id <- cli::cli_progress_message(

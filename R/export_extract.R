@@ -10,7 +10,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tibble_json: event/profile data stored in json column
+#' @returns A tibble_json, event/profile data stored in json column
 .extract_content <- function(response, arg) {
   data <- tryCatch(
     {
@@ -43,7 +43,7 @@
 #' @param arg List of arguments returned from parent function
 #' @noRd
 #' @keywords internal
-#' @return tidyjson::tbl_json
+#' @returns A [tidyjson::tbl_json()]
 .try_tbl_json <- function(data) {
   tryCatch(
     {
@@ -54,7 +54,12 @@
     })
 }
 
-
+#' .extract_new_sync_time
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A character vector containing sync time
 .extract_new_sync_time <- function(json, arg) {
   arg$new_sync_time <- json %>%
     dplyr::filter(.data$export_object == "lastSynchronisationTimeOnServer") %>%

@@ -11,7 +11,7 @@
 #' @param df data frame being imported to Smartabase
 #' @param arg list of arguments passed from exposed import functions
 #'
-#' @return tibble: Smartabase event or profile data
+#' @returns tibble: Smartabase event or profile data
 #'
 #' @noRd
 #'
@@ -70,7 +70,11 @@
   .build_import_response_df(df, arg)
 }
 
-
+#' .import_df_list_element
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A charcter vector containing the response
 .import_df_list_element <- function(df, import_action, index, arg) {
   prog_vals <- .calculate_import_progress_vals(df, index, arg)
   if (isTRUE(arg$option$interactive_mode)) {

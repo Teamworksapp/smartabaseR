@@ -20,7 +20,7 @@
 #' @param start_date string: 'dd/mm/yyyy'
 #' @param end_date string: 'dd/mm/yyyy'
 #'
-#' @return Smartabase data
+#' @returns Smartabase data
 #'
 #' @examples
 #' \dontrun{
@@ -128,7 +128,11 @@ pull_smartabase <- function(
 }
 
 
-
+#' .pull_smartabase_filter
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A list containing filter object
 .pull_smartabase_filter <- function(
     user_key = c(
       "about", "username", "email", "group", "current_group"
@@ -168,7 +172,11 @@ pull_smartabase <- function(
   )
 }
 
-
+#' .pull_smartabase_option
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A list containing options object
 .pull_smartabase_option <- function(
     interactive_mode = TRUE,
     cache = TRUE,

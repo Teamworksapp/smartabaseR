@@ -7,7 +7,7 @@
 #' set to FALSE in automated environments to ensure logs aren't clogged up with
 #' progress messages.
 #'
-#' @return list of named export options
+#' @returns list of named export options
 #' @export
 sb_login_option <- function(interactive_mode = TRUE) {
   structure(
