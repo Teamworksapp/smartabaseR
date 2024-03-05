@@ -1,4 +1,3 @@
-
 #' .remove_protected_column_names
 #' @noRd
 #' @keywords internal
@@ -73,7 +72,7 @@
         first and last names: {paste(dup_names, collapse = ", ")}",
         "i" = "Try running `sb_get_user(...)` to find and match the correct \\
         user IDs manually."
-        ),
+      ),
       call = env
     )
   }
@@ -87,7 +86,6 @@
 .attach_user_id_to_df <- function(df, arg) {
   id_col <- arg$option$id_col
   if (id_col != "user_id") {
-
     # Remove user_id, if it exists, since we are about to join user_id below
     if ("user_id" %in% names(df) | "userid" %in% names(df)) {
       df <- df[!names(df) %in% c("user_id", "userid")]
@@ -113,7 +111,6 @@
 
     .detect_duplicate_user_ids(id_data, arg$current_env)
     df <- dplyr::left_join(df, id_data, by = id_col)
-
   } else {
     if (!"user_id" %in% names(df)) {
       clear_progress_id()
@@ -255,10 +252,12 @@
   if ("end_date" %in% names(df) && !"start_date" %in% names(df)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "Can't find {.field start_date} column.",
+      c(
+        "!" = "Can't find {.field start_date} column.",
         "x" = "{.field end_date} is present but not {.field start_date}.",
         "i" = "Either remove {.field end_date} from the data frame, or add a \\
-        {.field start_date} column."),
+        {.field start_date} column."
+      ),
       call = env
     )
   }
@@ -266,10 +265,12 @@
   if ("end_time" %in% names(df) && !"start_time" %in% names(df)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "Can't find {.field start_time} column.",
+      c(
+        "!" = "Can't find {.field start_time} column.",
         "x" = "{.field end_time} is present but not {.field start_time}.",
         "i" = "Either remove {.field end_time} from the data frame, or add a \\
-        {.field start_time} column."),
+        {.field start_time} column."
+      ),
       call = env
     )
   }
@@ -294,4 +295,3 @@
     .convert_id_names_to_lower(.) %>%
     .split_import_df(., arg)
 }
-

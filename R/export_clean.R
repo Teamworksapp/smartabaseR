@@ -1,5 +1,3 @@
-
-
 #' .clean_export
 #'
 #' Final steps to ready export for display to the user, including re-arranging
@@ -14,8 +12,7 @@
 .clean_export <- function(
     data,
     id_data,
-    arg
-) {
+    arg) {
   options <- arg$option
   if (!is.null(options$include_user_data)) {
     if (isTRUE(options$include_user_data)) {
@@ -54,7 +51,9 @@
 #' @keywords internal
 #' @returns A [tibble()]
 .clean_user_export <- function(data, include_all_cols) {
-  if (nrow(data) == 0) return(data)
+  if (nrow(data) == 0) {
+    return(data)
+  }
   if (isTRUE(include_all_cols)) {
     data <- .join_detailed_user_data(data)
   } else {
@@ -117,8 +116,7 @@
 .clean_iam_data <- function(
     data,
     iam = c("group", "role"),
-    user_type = c("athlete", "coach")
-) {
+    user_type = c("athlete", "coach")) {
   data <- data %>%
     tidyjson::enter_object("groupsAndRoles")
 
@@ -151,7 +149,8 @@
         !!dplyr::sym(list_name) := c(
           !!id_var,
           !!name_var
-        ))
+        )
+      )
   }
   data
 }
@@ -232,7 +231,7 @@
         dplyr::across(
           .data$address_type,
           ~ tolower(glue::glue("address_{address_type}")) %>% as.character(.)
-          )
+        )
       ) %>%
       dplyr::select(-dplyr::any_of("addresses")) %>%
       dplyr::group_by(.data$address_type) %>%
@@ -407,12 +406,12 @@
   )
 
   length_test <- detailed_list %>%
-    purrr::map_lgl(~nrow(.) > 0) %>%
+    purrr::map_lgl(~ nrow(.) > 0) %>%
     any(isTRUE(.))
 
   if (length_test) {
     detailed_df <- detailed_list %>%
-      purrr::discard(~nrow(.) == 0) %>%
+      purrr::discard(~ nrow(.) == 0) %>%
       purrr::reduce(dplyr::full_join, by = .export_join_cols())
   } else {
     detailed_df <- NULL
@@ -456,4 +455,3 @@
   }
   data_filter
 }
-

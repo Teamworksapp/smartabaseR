@@ -14,8 +14,8 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-collapse = TRUE,
-comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -71,7 +71,6 @@ Note: `phone` and `address` are returned as lists of tibbles.
 Note #2: if only a single athlete is returned in the payload, then `group` and `role` columns (lists of tibbles) are also returned.
 
 ```{r option_example1_data, include = FALSE}
-
 athlete_group_list <- list(
   tibble::tibble(
     athlete_group_id = c(1, 9),
@@ -110,12 +109,12 @@ address_list <- list(
     address_type_count = c(1, 1, 2),
     address_type = c(
       "address_primary",
-      "address_alternative", 
+      "address_alternative",
       "address_alternative"
     ),
     address = c(
       "North Tower, Level 1/339 Coronation Dr, Milton QLD 4064",
-      "76 Neon St Sumner QLD 4064",  
+      "76 Neon St Sumner QLD 4064",
       "76 Neon St Sumner QLD 4064"
     )
   )

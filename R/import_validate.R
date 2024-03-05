@@ -21,10 +21,12 @@
       missing_field <- table_field[!table_field %in% names(df)]
       clear_progress_id()
       cli::cli_abort(
-        c("!" = "All elements of {.arg table_field} must match column names of
+        c(
+          "!" = "All elements of {.arg table_field} must match column names of
           {.arg df}.",
           "i" = "There is no column in {.arg df} called \\
-          {.field {table_field[[1]]}}."),
+          {.field {table_field[[1]]}}."
+        ),
         call = env
       )
     }
@@ -209,9 +211,11 @@
   if (!"event_id" %in% names(df)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "No {.field event_id} column exists in the data frame.",
+      c(
+        "!" = "No {.field event_id} column exists in the data frame.",
         "x" = "You cannot update events without {.field event_id}.",
-        "i" = "Did you mean to use {.fun sb_insert_df}?"),
+        "i" = "Did you mean to use {.fun sb_insert_df}?"
+      ),
       call = env
     )
   }
@@ -231,19 +235,23 @@
 
       clear_progress_id()
       cli::cli_abort(
-        c("!" = "{nrow_na} row{?s} with missing event IDs {?was/were} \\
+        c(
+          "!" = "{nrow_na} row{?s} with missing event IDs {?was/were} \\
           detected.",
           "x" = "You cannot update events without {.field event_id}.",
-          "i" = "Did you mean to use {.fun sb_upsert_df}?"),
+          "i" = "Did you mean to use {.fun sb_upsert_df}?"
+        ),
         call = env
       )
     }
   } else {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "No {.field event_id} column exists in the data frame.",
+      c(
+        "!" = "No {.field event_id} column exists in the data frame.",
         "x" = "You cannot update events without {.field event_id}.",
-        "i" = "Did you mean to use {.fun sb_insert_df}?"),
+        "i" = "Did you mean to use {.fun sb_insert_df}?"
+      ),
       call = env
     )
   }
@@ -252,8 +260,8 @@
     df <- df %>% dplyr::select(-.data$event_id)
     clear_progress_id()
     cli::cli_alert_warning(c(
-     "!" = "No event ID column was detected.",
-     "i" = "All events will be inserted as new events."
+      "!" = "No event ID column was detected.",
+      "i" = "All events will be inserted as new events."
     ))
   }
   df
@@ -311,13 +319,15 @@
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
     clear_progress_id()
-    cli::cli_abort(c(
-      "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
+    cli::cli_abort(
+      c(
+        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
       {.field {row_num}}.",
-      "!" = "You supplied {.field {time}}.",
-      "i" = "There should be no leading zero."
-    ),
-    call = env)
+        "!" = "You supplied {.field {time}}.",
+        "i" = "There should be no leading zero."
+      ),
+      call = env
+    )
   }
 }
 
@@ -342,13 +352,15 @@
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
     clear_progress_id()
-    cli::cli_abort(c(
-      "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
+    cli::cli_abort(
+      c(
+        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
       {.field {row_num}}.",
-      "!" = "You supplied {.field {time}}.",
-      "i" = "There should be a colon after the hour value."
-    ),
-    call = env)
+        "!" = "You supplied {.field {time}}.",
+        "i" = "There should be a colon after the hour value."
+      ),
+      call = env
+    )
   }
 }
 
@@ -358,20 +370,24 @@
 #' @keywords internal
 #' @returns An error message
 .validate_import_date_character <- function(df, date_var_name, env) {
-  if(inherits(df[[date_var_name]], "Date")) {
+  if (inherits(df[[date_var_name]], "Date")) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.field {date_var_name}} column must be type 'character'.",
+      c(
+        "!" = "{.field {date_var_name}} column must be type 'character'.",
         "!" = "Your supplied {.field {date_var_name}} column is class \\
-        {.field Date}."),
+        {.field Date}."
+      ),
       call = env
     )
   }
   if (typeof(df[[date_var_name]]) != "character") {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.field {date_var_name}} column must be type 'character'.",
-        "!" = "You supplied type: {.field {class(df[[date_var_name]])}}."),
+      c(
+        "!" = "{.field {date_var_name}} column must be type 'character'.",
+        "!" = "You supplied type: {.field {class(df[[date_var_name]])}}."
+      ),
       call = env
     )
   }
@@ -403,14 +419,16 @@
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
 
     clear_progress_id()
-    cli::cli_abort(c(
-      "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
+    cli::cli_abort(
+      c(
+        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
       {.field {row_num}}.",
-      "!" = "You supplied {.field {time}}.",
-      "i" = "{.arg {time_var_name}} must contain {.field am} or \\
+        "!" = "You supplied {.field {time}}.",
+        "i" = "{.arg {time_var_name}} must contain {.field am} or \\
         {.field pm}."
-    ),
-    call = env)
+      ),
+      call = env
+    )
   }
 }
 
@@ -437,11 +455,13 @@
 
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
+      c(
+        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
         {.field {row_num}}.",
         "!" = "{.arg {time_var_name}} must be less than 7 characters and \\
         no more than 8 characters.",
-        "!" = "You supplied {.field {date}}."),
+        "!" = "You supplied {.field {date}}."
+      ),
       call = env
     )
   }
@@ -469,10 +489,12 @@
 
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "Incorrect {.field {date_var_name}} value supplied at row: \\
+      c(
+        "!" = "Incorrect {.field {date_var_name}} value supplied at row: \\
         {.field {row_num}}.",
         "!" = "{.arg {date_var_name}} must be 10 characters.",
-        "!" = "You supplied {.field {date}}."),
+        "!" = "You supplied {.field {date}}."
+      ),
       call = env
     )
   }
@@ -504,13 +526,14 @@
     time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
+      c(
+        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
         {.field {row_num}}.",
         "!" = "{.arg {time_var_name}} must be in 12-hour format \\
         (hours must be > 0 and <= 12).",
-        "!" = "You supplied {.field {time}}."),
+        "!" = "You supplied {.field {time}}."
+      ),
       call = env
     )
   }
 }
-

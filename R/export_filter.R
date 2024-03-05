@@ -1,4 +1,3 @@
-
 #' @title
 #' Set filter parameters for [sb_sync_event()]
 #'
@@ -27,8 +26,7 @@
 #' }
 sb_sync_event_filter <- function(
     user_key = NULL,
-    user_value = NULL
-) {
+    user_value = NULL) {
   .validate_user_key(user_key)
   structure(
     class = "sb_export_filter",
@@ -77,8 +75,7 @@ sb_get_event_filter <- function(
     data_key = NULL,
     data_value = NULL,
     data_condition = NULL,
-    events_per_user = NULL
-) {
+    events_per_user = NULL) {
   .validate_user_key(user_key)
   .validate_data_condition(data_condition)
   .validate_events_per_user(events_per_user)
@@ -130,8 +127,7 @@ sb_get_event_filter <- function(
 #' }
 sb_get_profile_filter <- function(
     user_key = NULL,
-    user_value = NULL
-) {
+    user_value = NULL) {
   .validate_user_key(user_key)
   structure(
     class = "sb_export_filter",
@@ -167,8 +163,7 @@ sb_get_profile_filter <- function(
 #' }
 sb_get_user_filter <- function(
     user_key = NULL,
-    user_value = NULL
-) {
+    user_value = NULL) {
   .validate_user_key(user_key)
   structure(
     class = "sb_export_filter",

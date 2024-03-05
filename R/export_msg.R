@@ -11,7 +11,6 @@
     )
   } else if (arg$type == "profile") {
     msg <- "Initiating {.field {arg$form}} export..."
-
   } else if (arg$type == "synchronise") {
     msg <- paste(
       "Initiating sync with {.field {arg$form}} from ",
@@ -19,7 +18,6 @@
     )
   } else if (arg$type == "group") {
     msg <- "Initiating group name export..."
-
   } else if (arg$type == "user") {
     msg <- "Initiating user export..."
   }
@@ -35,30 +33,32 @@
   if (arg$type == "event") {
     cli::cli_inform(
       c("i" = "No event data was found in {.field {arg$form}} between \\
-        {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}."
-      ),
+        {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}."),
       "i" = "Are any user/data filters applied incorrectly?"
     )
   } else if (arg$type == "profile") {
     cli::cli_inform(
-      c("!" = "No profile data was found in {.field {arg$form}}.",
-        "i" = "Are any user filters applied incorrectly?")
+      c(
+        "!" = "No profile data was found in {.field {arg$form}}.",
+        "i" = "Are any user filters applied incorrectly?"
+      )
     )
   } else if (arg$type == "synchronise") {
     cli::cli_inform(
       c("!" = "No new data in {.field {arg$form}} since \\
-        {.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}}."
-      )
+        {.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}}.")
     )
   } else if (arg$type == "user") {
     cli::cli_inform(
-      c("!" = "No user details found.",
+      c(
+        "!" = "No user details found.",
         "i" = "Are any user filters applied incorrectly?"
       )
     )
   } else if (arg$type == "group") {
     cli::cli_inform(
-      c("!" = "No group details found.",
+      c(
+        "!" = "No group details found.",
         "i" = "Are any user filters applied incorrectly?"
       )
     )
@@ -173,4 +173,3 @@
   clear_progress_id()
   cli::cli_alert_success(msg)
 }
-

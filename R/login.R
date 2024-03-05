@@ -30,8 +30,7 @@ sb_login <- function(
     username,
     password,
     ...,
-    option = sb_login_option()
-) {
+    option = sb_login_option()) {
   if (isTRUE(option$interactive_mode)) {
     login_progress_id <- cli::cli_progress_message(
       "Logging {.field {username}} into {.field {url}}..."
@@ -106,8 +105,7 @@ sb_login <- function(
     interactive_mode,
     cache,
     env,
-    endpoints = NULL
-) {
+    endpoints = NULL) {
   if (!is.null(endpoints)) {
     return(endpoints)
   }
@@ -130,4 +128,3 @@ sb_login <- function(
   .validate_endpoints(endpoints, url)
   endpoints
 }
-

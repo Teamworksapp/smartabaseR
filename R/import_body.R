@@ -122,7 +122,7 @@
           })
       )
     })
-  purrr::map2(metadata, key_value_pairs, ~append(.x, .y))
+  purrr::map2(metadata, key_value_pairs, ~ append(.x, .y))
 }
 
 #' .build_import_body
@@ -148,4 +148,3 @@
     )
   )) %>% purrr::reduce(., append)
 }
-

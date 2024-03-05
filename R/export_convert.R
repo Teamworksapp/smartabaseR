@@ -1,4 +1,3 @@
-
 #' .convert_user_json_to_df
 #'
 #' Takes Smartabase user json returned by Smartabase API and wrangles into a
@@ -103,4 +102,3 @@
   export_data <- .clean_export(data = export_data, id_data, arg)
   new_sb_tibble(response, export_data, arg)
 }
-

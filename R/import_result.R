@@ -1,4 +1,3 @@
-
 #' .build_import_element_response
 #'
 #' @noRd
@@ -9,8 +8,7 @@
     df,
     import_action,
     index,
-    arg
-) {
+    arg) {
   prog_vals <- .calculate_import_progress_vals(df, index, arg)
   content <- .extract_content(response, arg)
   # TODO for profile
@@ -49,9 +47,9 @@
   # content <- content %>% purrr::pluck("error") %>% purrr::flatten(.)
   error_data <- seq_len(length(content)) %>%
     purrr::map_df(
-      ~content[[.x]] %>%
+      ~ content[[.x]] %>%
         purrr::pluck("pairs") %>%
-        purrr::map_df(~ .x) %>%
+        purrr::map_df(~.x) %>%
         dplyr::mutate(event_order = as.character(.x)) %>%
         tidyr::pivot_wider(
           names_from = "key",
@@ -116,7 +114,8 @@
       by = intersect(names(non_error_data), names(error_data))
     ) %>%
       dplyr::full_join(
-        ., df, by = intersect(names(.), names(df))
+        ., df,
+        by = intersect(names(.), names(df))
       )
   }
   error_data
@@ -166,7 +165,7 @@
 
   if (arg$type == "profile") {
     content <- purrr::pluck(content, "..JSON")
-  } else if (arg$type == "event")  {
+  } else if (arg$type == "event") {
     content <- purrr::pluck(
       .x = content,
       "..JSON",
@@ -215,7 +214,7 @@
   missing_field <- df %>%
     dplyr::summarise(dplyr::across(
       dplyr::everything(),
-      ~sum(. == "FIELD DOES NOT EXIST", na.rm = TRUE)
+      ~ sum(. == "FIELD DOES NOT EXIST", na.rm = TRUE)
     )) %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
     dplyr::filter(.data$value > 0) %>%
@@ -241,7 +240,7 @@
     dplyr::ungroup() %>%
     dplyr::mutate(
       dplyr::across(
-        .data$import_result, ~dplyr::case_when(
+        .data$import_result, ~ dplyr::case_when(
           stringr::str_detect(., "ERROR") ~ NA_character_,
           TRUE ~ .
         )
@@ -252,7 +251,7 @@
     dplyr::summarise(
       dplyr::across(
         .data$n_records_success:.data$n_records_attempted,
-        ~sum(., na.rm = TRUE)
+        ~ sum(., na.rm = TRUE)
       ),
       .groups = "drop"
     ) %>%
@@ -274,7 +273,7 @@
       dplyr::mutate(
         dplyr::across(
           .data$error,
-          ~dplyr::if_else(
+          ~ dplyr::if_else(
             . == "",
             paste("Please check import status in", arg$form),
             .
@@ -306,5 +305,3 @@
   )
   new_sb_tibble(import_response, df, arg)
 }
-
-

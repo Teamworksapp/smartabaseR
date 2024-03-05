@@ -48,8 +48,7 @@ sb_sync_event_option <- function(
     cache = TRUE,
     include_missing_user = FALSE,
     guess_col_type = TRUE,
-    include_uuid = FALSE
-) {
+    include_uuid = FALSE) {
   structure(
     class = "sb_export_option",
     list(
@@ -96,8 +95,7 @@ sb_get_event_option <- function(
     download_attachment = FALSE,
     include_missing_user = FALSE,
     guess_col_type = TRUE,
-    include_uuid = FALSE
-) {
+    include_uuid = FALSE) {
   structure(
     class = "sb_export_option",
     list(
@@ -141,8 +139,7 @@ sb_get_profile_option <- function(
     cache = TRUE,
     include_missing_user = FALSE,
     guess_col_type = TRUE,
-    include_uuid = FALSE
-) {
+    include_uuid = FALSE) {
   structure(
     class = "sb_export_option",
     list(
@@ -190,8 +187,7 @@ sb_get_user_option <- function(
     include_all_cols = FALSE,
     cache = TRUE,
     include_missing_user = FALSE,
-    guess_col_type = TRUE
-) {
+    guess_col_type = TRUE) {
   structure(
     class = "sb_export_option",
     list(
@@ -230,8 +226,7 @@ sb_get_user_option <- function(
 #' }
 sb_get_group_option <- function(
     guess_col_type = TRUE,
-    interactive_mode = TRUE
-) {
+    interactive_mode = TRUE) {
   structure(
     class = "sb_export_option",
     list(

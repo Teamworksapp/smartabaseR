@@ -54,12 +54,12 @@ split_df_by_update_insert <- function(dat, arg) {
     if ("event_id" %in% names(dat)) {
       dat <- dat %>%
         dplyr::mutate(event_id_flag = dplyr::if_else(
-          is.na(.data$event_id), 1, 0)
-        ) %>%
+          is.na(.data$event_id), 1, 0
+        )) %>%
         split(.$event_id_flag) %>%
-        purrr::discard(~nrow(.x) == 0) %>%
+        purrr::discard(~ nrow(.x) == 0) %>%
         purrr::map(~ remove_event_id_if_na(.x) %>%
-                     dplyr::select(-.data$event_id_flag))
+          dplyr::select(-.data$event_id_flag))
 
       list_names <- dat %>%
         purrr::map(~ dplyr::if_else(
@@ -79,12 +79,14 @@ split_df_by_update_insert <- function(dat, arg) {
 #' @keywords internal
 #' @returns A data frame
 remove_event_id_if_na <- function(dat) {
-  length_is_na <- dat %>% dplyr::filter(!is.na(.data$event_id)) %>% nrow(.)
- if (length_is_na == 0) {
-   dat %>% dplyr::select(-.data$event_id)
- } else {
-   dat
- }
+  length_is_na <- dat %>%
+    dplyr::filter(!is.na(.data$event_id)) %>%
+    nrow(.)
+  if (length_is_na == 0) {
+    dat %>% dplyr::select(-.data$event_id)
+  } else {
+    dat
+  }
 }
 
 #' .split_import_df

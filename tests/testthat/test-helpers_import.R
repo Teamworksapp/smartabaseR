@@ -1,4 +1,3 @@
-
 test_that(".detect_duplicate_user_ids", {
   expect_error(
     .detect_duplicate_user_ids(
@@ -57,4 +56,3 @@ test_that("check .convert_id_names_to_lower", {
     )
   )
 })
-

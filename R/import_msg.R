@@ -39,14 +39,13 @@
     df_list,
     update_nrow,
     insert_nrow,
-    arg
-) {
+    arg) {
   cli::cli_h1("WARNING")
   cli::cli_inform(c(
     "!" = "You are about to UPDATE {.val {update_nrow}} record{?s} in \\
       {.field {arg$form}}.",
     "i" = "Please be aware the incoming data will overwrite the existing data."
-    ))
+  ))
   if (insert_nrow > 0) {
     cli::cli_inform(
       c("i" = "You will also INSERT {.val {insert_nrow}} new record{?s}.")
@@ -80,14 +79,13 @@
   }
 
   if (!is.null(table_field)) {
-  dfs %>%
-    purrr::map(
-      ~ .x %>%
-        dplyr::select(.data$user_id, .data$start_date)%>%
-        dplyr::n_distinct()
-    ) %>%
-    purrr::reduce(sum)
-
+    dfs %>%
+      purrr::map(
+        ~ .x %>%
+          dplyr::select(.data$user_id, .data$start_date) %>%
+          dplyr::n_distinct()
+      ) %>%
+      purrr::reduce(sum)
   } else {
     dfs %>%
       purrr::map(
@@ -117,15 +115,14 @@
   )
   if (update_nrow > 0) {
     .generate_update_confirmation(df_list, update_nrow, insert_nrow, arg)
-
   } else if (update_nrow == 0 && insert_nrow > 0) {
     df_len <- length(df_list)
     if (df_len > 0) {
       msg <- paste(
-          "INSERTING {.val {insert_nrow}} record{?s} into",
-          "{.field {arg$form}} over {.val {df_len}} calls to the",
-          "Smartabase API..."
-        )
+        "INSERTING {.val {insert_nrow}} record{?s} into",
+        "{.field {arg$form}} over {.val {df_len}} calls to the",
+        "Smartabase API..."
+      )
     } else {
       msg <- paste(
         "INSERTING {.val {insert_nrow}} record{?s} into",
@@ -153,7 +150,8 @@
       "These rows will be imported separately since",
       "{.field table_field} = NULL"
     ))
-    cli::cli_end(id = "duplicate_user_date_id")  }
+    cli::cli_end(id = "duplicate_user_date_id")
+  }
 }
 
 #' .generate_import_result_msg
@@ -165,8 +163,7 @@
     content,
     import_action,
     prog_vals,
-    arg
-) {
+    arg) {
   if (arg$type == "event") {
     .generate_event_import_result_msg(content, import_action, prog_vals, arg)
   } else if (arg$type == "profile") {
@@ -183,8 +180,7 @@
     content,
     import_action,
     prog_vals,
-    arg
-) {
+    arg) {
   message <- content %>% purrr::pluck("..JSON", "message")
   state <- content %>% purrr::pluck("..JSON", "state")
   cli_msg <- "{prog_vals[['ix']]}{state}: {message}"
@@ -216,8 +212,7 @@
     content,
     import_action,
     prog_vals,
-    arg
-) {
+    arg) {
   result <- content$..JSON$result
   state <- result$state
   cli_msg <- "{prog_vals[['ix']]}{state}: {message}"
@@ -264,7 +259,6 @@
   if (stringr::str_detect(state, "SUCCESS")) {
     clear_progress_id()
     cli::cli_alert_success(cli_msg)
-
   } else if (stringr::str_detect(state, "ERROR")) {
     clear_progress_id()
     cli::cli_alert_warning(cli_msg)

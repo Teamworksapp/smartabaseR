@@ -72,8 +72,10 @@
       value = tidyjson::jstring("value")
     ) %>%
     tibble::as_tibble(.) %>%
-    dplyr::select(.data$record_number, .data$row_number,
-                  dplyr::everything()) %>%
+    dplyr::select(
+      .data$record_number, .data$row_number,
+      dplyr::everything()
+    ) %>%
     dplyr::select(-dplyr::any_of(c(
       "document.id",
       "row_number_long",

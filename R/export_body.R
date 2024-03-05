@@ -189,13 +189,19 @@
 #' @keywords internal
 #' @returns A number
 .select_filter_condition <- function(cond) {
-  if (cond == "equal_to" | cond == "=") 1
-  else if (cond == "not_equal_to" | cond == "!=") 2
-  else if (cond == "contains" | cond == "%in%") 3
-  else if (cond == "less_than" | cond == "<") 4
-  else if (cond == "greater_than" | cond == ">") 5
-  else if (cond == "less_than_or_equal_to" | cond == "<=") 6
-  else if (cond == "greater_than_or_equal_to" | cond == ">=") 7
+  if (cond == "equal_to" | cond == "=") {
+    1
+  } else if (cond == "not_equal_to" | cond == "!=") {
+    2
+  } else if (cond == "contains" | cond == "%in%") {
+    3
+  } else if (cond == "less_than" | cond == "<") {
+    4
+  } else if (cond == "greater_than" | cond == ">") {
+    5
+  } else if (cond == "less_than_or_equal_to" | cond == "<=") {
+    6
+  } else if (cond == "greater_than_or_equal_to" | cond == ">=") 7
 }
 
 

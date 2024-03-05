@@ -1,4 +1,3 @@
-
 #' .extract_content
 #'
 #' Safely extracts event json from http response
@@ -51,7 +50,8 @@
     },
     error = function(e) {
       return(tibble::tibble())
-    })
+    }
+  )
 }
 
 #' .extract_new_sync_time

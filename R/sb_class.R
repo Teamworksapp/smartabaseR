@@ -1,4 +1,3 @@
-
 #' new_sb_tibble
 #'
 #' @noRd
@@ -38,10 +37,9 @@ new_sb_tibble <- function(response, dat, arg) {
     if (arg$type == "synchronise" && !is.null(arg$last_sync_time)) {
       attr(sb_tibble, "new_sync_time") <- arg$new_sync_time
     }
-    if (arg$type == "synchronise"  && "deleted_event_id" %in% names(arg)) {
+    if (arg$type == "synchronise" && "deleted_event_id" %in% names(arg)) {
       attr(sb_tibble, "deleted_event_id") <- arg$deleted_event_id
     }
-
   } else if (arg$action == "import") {
     if (!is.null(response$import_time)) {
       attr(sb_tibble, "import_time") <- response$import_time
@@ -114,13 +112,13 @@ print.sb_df <- function(x, ...) {
   if (!is.null(attr(x, "export_time"))) {
     cli::cli_inform(c("i" = paste(
       "Export time:",
-      .convert_unix_time_to_utc(attr(x, "export_time")/1000)
+      .convert_unix_time_to_utc(attr(x, "export_time") / 1000)
     )))
   }
   if (!is.null(attr(x, "sync_time"))) {
     cli::cli_inform(c("i" = paste(
       "Last synchronised:",
-      .convert_unix_time_to_utc(attr(x, "sync_time")/1000)
+      .convert_unix_time_to_utc(attr(x, "sync_time") / 1000)
     )))
   }
   if (!is.null(attr(x, "records"))) {

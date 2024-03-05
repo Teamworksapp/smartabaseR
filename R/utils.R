@@ -1,4 +1,3 @@
-
 #' sb_select_metadata
 #'
 #' Returns vector of metadata variables present in data frame
@@ -186,8 +185,8 @@ get_metadata_names <- function(df) {
 
   response_time <- response$headers$Date %>%
     as.POSIXct(., format = "%a, %d %b %Y %H:%M:%S") %>%
-    as.numeric()*1000 %>%
-    purrr::set_names(glue::glue("{arg$action}_time"))
+    as.numeric() * 1000 %>%
+      purrr::set_names(glue::glue("{arg$action}_time"))
 
   response_list <- list(
     "response" = response,
@@ -206,7 +205,8 @@ get_metadata_names <- function(df) {
 #' @keywords internal
 #' @returns Aliases for Smartabase API endpoint names
 .endpoint_names <- function() {
-  c("insert_profile",
+  c(
+    "insert_profile",
     "get_event",
     "get_user",
     "get_group",
@@ -231,17 +231,20 @@ get_metadata_names <- function(df) {
   error_flag <- FALSE
   if (!any(class(endpoints) == "list")) {
     error_flag <- TRUE
-  } else if (any(!.endpoint_names() %in% names(endpoints)))  {
+  } else if (any(!.endpoint_names() %in% names(endpoints))) {
     error_flag <- TRUE
   }
 
   if (error_flag) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "Could not retrieve endpoint names.",
+      c(
+        "!" = "Could not retrieve endpoint names.",
         "i" = "Is {.url {url}} up and responsive?",
         "i" = "Is {.url {url}} on at least version 6.14.0 or greater?"
-      ), call = rlang::caller_env())
+      ),
+      call = rlang::caller_env()
+    )
   }
 }
 
@@ -254,7 +257,7 @@ get_metadata_names <- function(df) {
 #' @returns Error msg
 .convert_unix_time_to_utc <- function(unix) {
   as.character(
-    as.POSIXct(unix, origin = '1970-01-01', tz = "UTC"),
+    as.POSIXct(unix, origin = "1970-01-01", tz = "UTC"),
     usetz = TRUE
   )
 }
@@ -296,7 +299,8 @@ save_credentials <- function() {
       "save_credentials() was deprecated in favour of more explicit \\
       credential strategies. Please see \\
       {.code vignette(\"credentials\")}"
-    ))
+    )
+  )
   # writes message similar to brows_github_path()
   message("('.Renviron') file opened.\n")
   message("Store your Smartabase credentials in four lines like\n")
@@ -352,7 +356,8 @@ save_credentials <- function() {
     password <- Sys.getenv("SB_PASS")
     if (identical(password, "")) {
       stop("'password' not supplied nor set via 'save_credentials()'",
-           call. = FALSE)
+        call. = FALSE
+      )
     }
   }
   password
@@ -377,7 +382,8 @@ save_credentials <- function() {
     url <- Sys.getenv("SB_URL")
     if (identical(url, "")) {
       stop("'url' not supplied nor set via 'save_credentials()'",
-           call. = FALSE)
+        call. = FALSE
+      )
     }
   }
   url

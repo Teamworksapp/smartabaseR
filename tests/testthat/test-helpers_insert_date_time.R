@@ -281,4 +281,3 @@ test_that("Check .insert_date_time() works", {
     )
   )
 })
-

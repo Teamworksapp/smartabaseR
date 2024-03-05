@@ -73,8 +73,7 @@ sb_insert_event <- function(
     username,
     password,
     ...,
-    option = sb_insert_event_option()
-) {
+    option = sb_insert_event_option()) {
   env <- rlang::current_env()
   .validate_import_df_class(df, env)
   .validate_table_field(df, option$table_field, env)
@@ -140,8 +139,7 @@ sb_update_event <- function(
     username,
     password,
     ...,
-    option = sb_update_event_option()
-) {
+    option = sb_update_event_option()) {
   env <- rlang::current_env()
   .validate_import_df_class(df, env)
   .check_import_class(option, env)
@@ -223,8 +221,7 @@ sb_upsert_event <- function(
     username,
     password,
     ...,
-    option = sb_insert_event_option()
-) {
+    option = sb_insert_event_option()) {
   env <- rlang::current_env()
   .validate_import_df_class(df, env)
   .check_import_class(option, env)
@@ -291,10 +288,9 @@ sb_upsert_profile <- function(
     username,
     password,
     ...,
-    option = sb_upsert_profile_option()
-) {
+    option = sb_upsert_profile_option()) {
   env <- rlang::current_env()
-     .validate_import_df_class(df, env)
+  .validate_import_df_class(df, env)
   .check_import_class(option, env)
   rlang::check_dots_used()
   df <- df %>% dplyr::mutate(row_num = dplyr::row_number())
@@ -319,5 +315,3 @@ sb_upsert_profile <- function(
   }
   .import_handler(df, arg)
 }
-
-

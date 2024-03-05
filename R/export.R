@@ -1,4 +1,3 @@
-
 #' @title
 #' Export event data
 #'
@@ -108,8 +107,7 @@ sb_get_event <- function(
     ...,
     filter = sb_get_event_filter(),
     option = sb_get_event_option(),
-    time_range = c("12:00 am", "11:59 pm")
-) {
+    time_range = c("12:00 am", "11:59 pm")) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -223,8 +221,7 @@ sb_sync_event <- function(
     password,
     ...,
     filter = sb_sync_event_filter(),
-    option = sb_sync_event_option()
-) {
+    option = sb_sync_event_option()) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -242,14 +239,14 @@ sb_sync_event <- function(
     pull_smartabase = FALSE,
     ...
   )
-   .validate_filter_user_key(arg)
-   arg$url <- .validate_url(url)
+  .validate_filter_user_key(arg)
+  arg$url <- .validate_url(url)
 
-   if (!is.null(arg$dev_mode)) {
-     if (isTRUE(arg$dev_mode)) {
-       return(arg)
-     }
-   }
+  if (!is.null(arg$dev_mode)) {
+    if (isTRUE(arg$dev_mode)) {
+      return(arg)
+    }
+  }
   .export_handler(arg)
 }
 
@@ -312,8 +309,7 @@ sb_get_profile <- function(
     password,
     ...,
     filter = sb_get_profile_filter(),
-    option = sb_get_profile_option()
-) {
+    option = sb_get_profile_option()) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -330,13 +326,13 @@ sb_get_profile <- function(
     pull_smartabase = FALSE,
     ...
   )
-   .validate_filter_user_key(arg)
-   arg$url <- .validate_url(url)
-   if (!is.null(arg$dev_mode)) {
-     if (isTRUE(arg$dev_mode)) {
-       return(arg)
-     }
-   }
+  .validate_filter_user_key(arg)
+  arg$url <- .validate_url(url)
+  if (!is.null(arg$dev_mode)) {
+    if (isTRUE(arg$dev_mode)) {
+      return(arg)
+    }
+  }
   .export_handler(arg)
 }
 
@@ -380,8 +376,7 @@ sb_get_group <- function(
     username,
     password,
     ...,
-    option = sb_get_group_option()
-) {
+    option = sb_get_group_option()) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter = NULL, option, env)
@@ -444,7 +439,7 @@ sb_get_group <- function(
 #'   filter = sb_get_event_filter(
 #'     user_key = "about",
 #'     user_value = "Jamie Anderson"
-#'  )
+#'   )
 #' )
 #'
 #' # Return all user columns:
@@ -469,8 +464,7 @@ sb_get_user <- function(
     password,
     ...,
     filter = sb_get_user_filter(),
-    option = sb_get_user_option()
-) {
+    option = sb_get_user_option()) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -484,13 +478,13 @@ sb_get_user <- function(
     current_env = env,
     ...
   )
-   .validate_filter_user_key(arg)
+  .validate_filter_user_key(arg)
 
-   if (!is.null(arg$dev_mode)) {
-     if (isTRUE(arg$dev_mode)) {
-       return(arg)
-     }
-   }
+  if (!is.null(arg$dev_mode)) {
+    if (isTRUE(arg$dev_mode)) {
+      return(arg)
+    }
+  }
   .export_handler(arg)
 }
 
@@ -555,7 +549,6 @@ sb_get_user <- function(
     ) %>%
       dplyr::select(-c(.data$username, .data$email)) %>%
       dplyr::distinct()
-
   } else {
     id_data <- tibble::tibble(user_id = id_filters$user_value)
   }

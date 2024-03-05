@@ -63,7 +63,7 @@ user_data <- sb_get_user(
   filter = sb_get_event_filter(
     user_key = "about",
     user_value = "Jamie Anderson"
- )
+  )
 )
 
 # Return all user columns:

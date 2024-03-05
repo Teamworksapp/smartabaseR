@@ -599,7 +599,7 @@ sb_get_event(
   filter = sb_get_event_filter(
     user_key = "about",
     user_value = "Charlie Thompson"
-  )
+  ),
   option = sb_get_event_option(
     interactive_mode = FALSE
   )

@@ -106,8 +106,8 @@ Notice that the field `Team Average Distance` is currently empty. Let's imagine 
 ```{r team_avg_calc, message = FALSE}
 library(dplyr)
 
-avg_dist_data <- training_data %>% 
-  mutate(across("Team Average Distance", ~round(mean(Distance), 0)))
+avg_dist_data <- training_data %>%
+  mutate(across("Team Average Distance", ~ round(mean(Distance), 0)))
 
 avg_dist_data
 ```
@@ -186,8 +186,8 @@ Let's say that we want to update this data in Smartabase such that the `Distance
 ```{r round_down}
 library(dplyr)
 
-training_data <- training_data %>% 
-  mutate(across(Distance, ~round(., digits = -2)))
+training_data <- training_data %>%
+  mutate(across(Distance, ~ round(., digits = -2)))
 
 training_data
 ```
@@ -280,8 +280,10 @@ sb_upsert_profile(
 ```
 
 ```{r profile_upsert_success, echo = FALSE}
-msg <- paste("✔ SUCCESSFULLY_INSERTED: 1 out of 1 records successfully",
-             "inserted into Example Profile Form.")
+msg <- paste(
+  "✔ SUCCESSFULLY_INSERTED: 1 out of 1 records successfully",
+  "inserted into Example Profile Form."
+)
 cli::cli_alert_success(
   "SUCCESSFULLY_INSERTED: 1 out of 1 records successfully inserted into \\
   Example Profile Form."
@@ -387,11 +389,15 @@ strength_data <- sb_get_event(
 strength_data <- dplyr::tibble(
   start_date = rep("15/04/2023", 6),
   user_id = c(37204, 37204, 37204, 37201, 37201, 37201),
-  about = c("Aiden Thomas", "Aiden Thomas", "Aiden Thomas",
-            "Jamie Anderson", "Jamie Anderson", "Jamie Anderson"),
+  about = c(
+    "Aiden Thomas", "Aiden Thomas", "Aiden Thomas",
+    "Jamie Anderson", "Jamie Anderson", "Jamie Anderson"
+  ),
   `Session RPE` = c(7, NA, NA, 8, NA, NA),
-  Exercise = c("Bench Press", "Bench Press", "Bench Press",
-               "Back Squat", "Back Squat", "Back Squat"),
+  Exercise = c(
+    "Bench Press", "Bench Press", "Bench Press",
+    "Back Squat", "Back Squat", "Back Squat"
+  ),
   Load = c(120, 115, 110, 170, 165, 185),
   Repetition = c(3, 3, 3, 3, 3, 3),
   event_id = c(2381840, 2381840, 2381840, 2382033, 2382033, 2382033)
@@ -429,13 +435,19 @@ For example, let's say we have the following data set
 
 ```{r non_table_duplicate_example, echo = FALSE}
 strength_data <- dplyr::tibble(
-  start_date = c("15/04/2023", "15/04/2023", "16/04/2023",
-                 "15/04/2023", "15/04/2023", "15/04/2023"),
+  start_date = c(
+    "15/04/2023", "15/04/2023", "16/04/2023",
+    "15/04/2023", "15/04/2023", "15/04/2023"
+  ),
   user_id = c(37204, 37204, 37204, 37201, 37201, 37201),
-  about = c("Aiden Thomas", "Aiden Thomas", "Aiden Thomas",
-            "Jamie Anderson", "Jamie Anderson", "Jamie Anderson"),
-  exercise = c("Bench Press", "Bench Press", "Bench Press",
-               "Back Squat", "Back Squat", "Back Squat"),
+  about = c(
+    "Aiden Thomas", "Aiden Thomas", "Aiden Thomas",
+    "Jamie Anderson", "Jamie Anderson", "Jamie Anderson"
+  ),
+  exercise = c(
+    "Bench Press", "Bench Press", "Bench Press",
+    "Back Squat", "Back Squat", "Back Squat"
+  ),
   load = c(120, 115, 110, 170, 165, 165)
 ) %>%
   dplyr::arrange(start_date, user_id)

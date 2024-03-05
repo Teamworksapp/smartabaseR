@@ -14,8 +14,8 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-collapse = TRUE,
-comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -35,11 +35,15 @@ The above call to `sb_sync_event()` will return a tibble with all of the events 
 
 ```{r sync_example2, echo = FALSE}
 sync_example <- dplyr::tibble(
-  about = c("Charlie Thompson", "Jack Williams", "Jamie Anderson", 
-            "Liam Walker"),
+  about = c(
+    "Charlie Thompson", "Jack Williams", "Jamie Anderson",
+    "Liam Walker"
+  ),
   user_id = c(31808, 31811, 37201, 37204),
-  form = c("Example event form", "Example event form", "Example event form",
-           "Example event form"),
+  form = c(
+    "Example event form", "Example event form", "Example event form",
+    "Example event form"
+  ),
   start_date = c("15/04/2023", "15/04/2023", "15/04/2023", "15/04/2023"),
   Distance = c(5411, 2374, 1600, 2564),
   RPE = c(7, 3, 6, 5),

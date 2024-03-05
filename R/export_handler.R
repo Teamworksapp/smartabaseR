@@ -1,4 +1,3 @@
-
 #' .export_handler
 #'
 #' Builds http requests to the Smartabase event export API

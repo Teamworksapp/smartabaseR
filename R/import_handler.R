@@ -1,6 +1,3 @@
-
-
-
 #' .import_handler
 #'
 #' Builds http requests to the Smartabase event export API
@@ -99,7 +96,5 @@
     import_action = import_action,
     index = index,
     arg = arg
-
   )
 }
-

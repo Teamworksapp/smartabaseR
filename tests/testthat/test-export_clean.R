@@ -1,5 +1,3 @@
-
-
 test_that("user export cleaning functions", {
   user_export <- user_json %>%
     tidyjson::gather_object("export_object") %>%
@@ -53,4 +51,3 @@ test_that("user export cleaning functions", {
   expect_equal(nrow(user_data_detailed), 1)
   expect_equal(user_data_detailed, user_data_joined)
 })
-

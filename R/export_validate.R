@@ -1,4 +1,3 @@
-
 #' @title
 #' Generates a date range relative to a supplied end date.
 #'
@@ -32,8 +31,7 @@
 sb_date_range <- function(
     duration_value,
     duration_unit = c("days", "weeks", "months", "years"),
-    end_date = format(lubridate::today(), "%d/%m/%Y")
-) {
+    end_date = format(lubridate::today(), "%d/%m/%Y")) {
   duration_unit <- rlang::arg_match(duration_unit)
   duration_unit <- dplyr::if_else(
     duration_unit == "months",
@@ -78,7 +76,8 @@ sb_date_range <- function(
         clear_progress_id()
         cli::cli_abort(
           call = arg$current_env,
-          c("!" = "`user_key` must equal {.val user_id} when \\
+          c(
+            "!" = "`user_key` must equal {.val user_id} when \\
               include_user_data equals {.val FALSE}.",
             "x" = suggestion
           )
@@ -124,7 +123,7 @@ sb_date_range <- function(
     purrr::set_names(c("start_date", "end_date"))
 
   start_date <- date_time_range["start_date"][[1]]
-  end_date <-  date_time_range["end_date"][[1]]
+  end_date <- date_time_range["end_date"][[1]]
   order_test <- start_date > end_date
 
   if (isTRUE(order_test)) {
@@ -196,7 +195,6 @@ sb_date_range <- function(
   .validate_export_time_hour(end_time, "end_time", env)
   .validate_export_time_length(end_time, "end_time", env)
   .validate_export_time_leading_zero(end_time, "end_time", env)
-
 }
 
 
@@ -208,19 +206,23 @@ sb_date_range <- function(
 #' @keywords internal
 #' @returns error message
 .validate_export_date_character <- function(date, date_var_name, env) {
-  if(inherits(date, "Date")) {
+  if (inherits(date, "Date")) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {date_var_name}} must be type 'character'.",
-        "!" = "You supplied {.arg {date_var_name}} as class {.field Date}."),
+      c(
+        "!" = "{.arg {date_var_name}} must be type 'character'.",
+        "!" = "You supplied {.arg {date_var_name}} as class {.field Date}."
+      ),
       call = env
     )
   }
   if (typeof(date) != "character") {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {date_var_name}} must be type 'character'.",
-        "!" = "You supplied class: {.field {class(date)[[1]]}}."),
+      c(
+        "!" = "{.arg {date_var_name}} must be type 'character'.",
+        "!" = "You supplied class: {.field {class(date)[[1]]}}."
+      ),
       call = env
     )
   }
@@ -239,8 +241,10 @@ sb_date_range <- function(
   if (!validate_colon) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {time_var_name}} must contain a colon.",
-        "!" = "You supplied {.field {time}}." ),
+      c(
+        "!" = "{.arg {time_var_name}} must contain a colon.",
+        "!" = "You supplied {.field {time}}."
+      ),
       call = env
     )
   }
@@ -260,9 +264,11 @@ sb_date_range <- function(
   if (isFALSE(validate_ampm)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {time_var_name}} must contain {.field am} or \\
+      c(
+        "!" = "{.arg {time_var_name}} must contain {.field am} or \\
         {.field pm}.",
-        "!" = "You supplied {.field {time}}."),
+        "!" = "You supplied {.field {time}}."
+      ),
       call = env
     )
   }
@@ -282,9 +288,11 @@ sb_date_range <- function(
   if (any(validate_hour_max) | any(validate_hour_min)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {time_var_name}} must be in 12-hour format \\
+      c(
+        "!" = "{.arg {time_var_name}} must be in 12-hour format \\
         (hours must be > 0 and <= 12).",
-        "!" = "You supplied {.field {time}}."),
+        "!" = "You supplied {.field {time}}."
+      ),
       call = env
     )
   }
@@ -304,9 +312,11 @@ sb_date_range <- function(
   if (isTRUE(validate_length)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {time_var_name}} must be less than 7 characters and \\
+      c(
+        "!" = "{.arg {time_var_name}} must be less than 7 characters and \\
         no more than 8 characters.",
-        "!" = "You supplied {.field {time}}."),
+        "!" = "You supplied {.field {time}}."
+      ),
       call = env
     )
   }
@@ -325,8 +335,10 @@ sb_date_range <- function(
   if (isFALSE(validate_length)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg {time_var_name}} must be 10 characters.",
-        "!" = "You supplied {.field {date}}."),
+      c(
+        "!" = "{.arg {time_var_name}} must be 10 characters.",
+        "!" = "You supplied {.field {date}}."
+      ),
       call = env
     )
   }
@@ -343,8 +355,10 @@ sb_date_range <- function(
   if (isTRUE(validate_zero)) {
     clear_progress_id()
     cli::cli_abort(
-      c("!" = "{.arg time_var_name} cannot start with a zero",
-        "!" = "You supplied {.field {time}}."),
+      c(
+        "!" = "{.arg time_var_name} cannot start with a zero",
+        "!" = "You supplied {.field {time}}."
+      ),
       call = env
     )
   }
@@ -384,27 +398,21 @@ sb_date_range <- function(
   if (arg$type == "event") {
     if (!is.null(arg$filter$data_key)) {
       selected_endpoint <- "get_filtered_event"
-
     } else {
       selected_endpoint <- "get_event"
     }
   } else if (arg$type == "synchronise") {
     selected_endpoint <- "synchronise_event"
-
   } else if (arg$type == "profile") {
     selected_endpoint <- "get_profile"
-
   } else if (arg$type == "user") {
     if (is.null(arg$filter$user_key)) {
       selected_endpoint <- "get_user"
-
     } else {
       if (arg$filter$user_key == "current_group") {
         selected_endpoint <- "get_current"
-
       } else if (arg$filter$user_key == "group") {
         selected_endpoint <- "get_group"
-
       } else {
         selected_endpoint <- "get_user"
       }
@@ -490,11 +498,13 @@ sb_date_range <- function(
   if (!is.null(user_key)) {
     if (length(user_key) > 1) {
       clear_progress_id()
-      cli::cli_abort(c(
-        "{.var user_key} must only contain one value.",
-        "x" = "You supplied {length(user_key)} {.var user_key} values."
+      cli::cli_abort(
+        c(
+          "{.var user_key} must only contain one value.",
+          "x" = "You supplied {length(user_key)} {.var user_key} values."
         ),
-        call = parent.frame())
+        call = parent.frame()
+      )
     }
     user_key_val <- c(
       "user_id", "about", "username", "email", "group", "current_group"
@@ -502,12 +512,14 @@ sb_date_range <- function(
     if (!all(user_key %in% user_key_val)) {
       wrong_user_key <- user_key[!user_key %in% user_key_val]
       clear_progress_id()
-      cli::cli_abort(c(
-        "{.var user_key} must be one of \\
+      cli::cli_abort(
+        c(
+          "{.var user_key} must be one of \\
       {cli::ansi_collapse(user_key_val, last = ' or ')}.",
-        "x" = "You supplied {.val {wrong_user_key}}."
-      ),
-      call = parent.frame())
+          "x" = "You supplied {.val {wrong_user_key}}."
+        ),
+        call = parent.frame()
+      )
     }
   }
 }
@@ -528,12 +540,14 @@ sb_date_range <- function(
     if (!all(data_condition %in% data_cond_val)) {
       wrong_data_condition <- data_condition[!data_condition %in% data_cond_val]
       clear_progress_id()
-      cli::cli_abort(c(
-        "{.var data_condition} must only contain these values: \\
+      cli::cli_abort(
+        c(
+          "{.var data_condition} must only contain these values: \\
         {cli::ansi_collapse(data_cond_val, last = ' or ')}.",
-        "x" = "You supplied {.val {wrong_data_condition}}."
-      ),
-      call = parent.frame())
+          "x" = "You supplied {.val {wrong_data_condition}}."
+        ),
+        call = parent.frame()
+      )
     }
   }
 }
@@ -562,14 +576,12 @@ sb_date_range <- function(
   }
   if (isTRUE(error_flag)) {
     clear_progress_id()
-    cli::cli_abort(c(
-      "{.var events_per_user} must be numeric.",
-      "x" = "You supplied {.val {events_per_user}}."
-    ),
-    call = parent.frame()
+    cli::cli_abort(
+      c(
+        "{.var events_per_user} must be numeric.",
+        "x" = "You supplied {.val {events_per_user}}."
+      ),
+      call = parent.frame()
     )
   }
 }
-
-
-

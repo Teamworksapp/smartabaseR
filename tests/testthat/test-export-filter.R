@@ -1,4 +1,3 @@
-
 test_that(".validate_filter_user_key", {
   fun_list <- list(
     sb_get_event_filter,
@@ -6,19 +5,19 @@ test_that(".validate_filter_user_key", {
     sb_get_event_filter
   )
 
-  purrr::walk(fun_list, ~expect_error(
+  purrr::walk(fun_list, ~ expect_error(
     .x(
       user_key = c("about", "username"),
       user_value = "Jamie Anderson"
     )
   ))
 
-  purrr::walk(fun_list, ~expect_error(
+  purrr::walk(fun_list, ~ expect_error(
     .x(
       user_key = "about1",
       user_value = "Jamie Anderson"
-    ))
-  )
+    )
+  ))
 })
 
 test_that(".validate_filter_data_condition", {

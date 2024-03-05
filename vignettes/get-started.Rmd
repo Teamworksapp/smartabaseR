@@ -52,7 +52,7 @@ sb_get_event(
 cli::cli_alert_success(
   "Successfully logged example.username into example.smartabase.com/site."
 )
-cli::cli_alert_success("User details export successful.")      
+cli::cli_alert_success("User details export successful.")
 cli::cli_alert_success(
   "Training Log export successful (Mar 03 2020 - Mar 07 2023)."
 )
@@ -87,8 +87,8 @@ First, to calculate the team average:
 # Need to load dplyr
 library(dplyr)
 
-rpe_average <- training_data %>% 
-  select(-entered_by_user_id) %>% 
+rpe_average <- training_data %>%
+  select(-entered_by_user_id) %>%
   mutate(team_rpe = round(mean(rpe), 1))
 
 rpe_average

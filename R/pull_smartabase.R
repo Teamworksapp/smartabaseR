@@ -1,5 +1,3 @@
-
-
 #' pull_smartabase
 #'
 #' Downloads data from a Smartabase event or profile form
@@ -61,8 +59,7 @@ pull_smartabase <- function(
     cloud_mode = FALSE,
     last_sync_time = NULL,
     shiny_progress_code = NULL,
-    dev_mode = FALSE
-) {
+    dev_mode = FALSE) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   if (type == "event" && !is.null(filter_user_key)) {
@@ -70,7 +67,7 @@ pull_smartabase <- function(
   }
   username <- .get_username(username)
   password <- .get_password(password)
-  url <-.get_url(url)
+  url <- .get_url(url)
 
   filter <- .pull_smartabase_filter(
     user_key = filter_user_key,
@@ -143,8 +140,7 @@ pull_smartabase <- function(
     data_condition = c(
       "equal_to", "not_equal_to", "contains", "less_than",
       "greater_than", "less_than_or_equal_to", "greater_than_or_equal_to"
-    )
-) {
+    )) {
   if (!is.null(user_key)) {
     user_key <- rlang::arg_match(user_key)
   }
@@ -183,8 +179,7 @@ pull_smartabase <- function(
     include_missing_user = FALSE,
     guess_col_type = TRUE,
     include_uuid = FALSE,
-    download_attachment = FALSE
-) {
+    download_attachment = FALSE) {
   structure(
     class = "sb_export_option",
     list(

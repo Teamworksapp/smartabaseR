@@ -1,4 +1,3 @@
-
 #' push_smartabase
 #'
 #' Uploads a data frame to a Smartabase event or profile form
@@ -67,15 +66,14 @@ push_smartabase <- function(
     match_id_to_column = NULL,
     table_fields = NULL,
     start_date = NULL,
-    end_date   = NULL,
+    end_date = NULL,
     current_date_format = NULL,
     start_time = NULL,
-    end_time   = NULL,
+    end_time = NULL,
     edit_event = FALSE,
     cloud_mode = FALSE,
     shiny_progress_code = NULL,
-    cache = TRUE
-) {
+    cache = TRUE) {
   lifecycle::deprecate_warn(
     when = "0.0.0.9000",
     what = "push_smartabase()",
@@ -83,14 +81,15 @@ push_smartabase <- function(
       "push_smartabase()` was deprecated in favour of the more explicitly \\
       named `sb_insert_event()`, `sb_update_event()`, `sb_update_profile()`, \\
       or `sb_upsert_event()`"
-  ))
+    )
+  )
 
   env <- rlang::current_env()
   rlang::check_dots_used()
   .validate_import_df_class(df, env)
   username <- .get_username(username)
   password <- .get_password(password)
-  url <-.get_url(url)
+  url <- .get_url(url)
 
   if (is.null(match_id_to_column)) {
     match_id_to_column <- "user_id"
@@ -136,8 +135,7 @@ push_smartabase <- function(
     interactive_mode = TRUE,
     id_col = c("user_id", "about", "username", "email"),
     table_field = NULL,
-    cache = TRUE
-) {
+    cache = TRUE) {
   id_col <- rlang::arg_match(id_col)
   structure(
     class = "sb_import_option",
@@ -149,5 +147,3 @@ push_smartabase <- function(
     )
   )
 }
-
-

@@ -1,4 +1,3 @@
-
 #' @title
 #' Export event data
 #'
@@ -37,8 +36,7 @@ sb_delete_event <- function(
     username,
     password,
     ...,
-    option = sb_delete_event_option()
-) {
+    option = sb_delete_event_option()) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_delete_class(option, env)
@@ -97,7 +95,7 @@ sb_delete_event <- function(
   )
 
   arg$smartabase_url <- .build_export_url(arg)
-  body <-  list(eventId = arg$event_id)
+  body <- list(eventId = arg$event_id)
   request <- .build_request(body, arg)
   resp <- .make_request(request, arg)
   content <- .extract_content(resp, arg)
