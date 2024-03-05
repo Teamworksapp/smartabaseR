@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="R wrapper for the Smartabase API. Export, import or delete
     Smartabase data from R.">
-<title>R wrapper for the Smartabase API • smartabaseR</title>
+<title>R Wrapper for the Smartabase API • smartabaseR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -19,10 +19,10 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="R wrapper for the Smartabase API">
+<meta property="og:title" content="R Wrapper for the Smartabase API">
 <meta property="og:description" content="R wrapper for the Smartabase API. Export, import or delete
     Smartabase data from R.">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://teamworksapp.github.io/smartabaseR/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@zac_pross">
 <meta name="twitter:site" content="@zac_pross">
@@ -103,8 +103,11 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>smartabaseR</code> from <a href="https://github.com/Teamworksapp/smartabaseR/" class="external-link">GitHub</a> with:</p>
+<p>Install the released version of <code>smartabaseR</code> from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"smartabaseR"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version of <code>smartabaseR</code> from <a href="https://github.com/Teamworksapp/smartabaseR/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Teamworksapp/smartabaseR"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -138,7 +141,7 @@
 <h4 id="sb_get_event">sb_get_event()<a class="anchor" aria-label="anchor" href="#sb_get_event"></a>
 </h4>
 <p>The <code><a href="reference/sb_get_event.html">sb_get_event()</a></code> function allows you to export data from a specific Smartabase form into an R session:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
@@ -151,7 +154,7 @@
 <h4 id="sb_insert_event">sb_insert_event()<a class="anchor" aria-label="anchor" href="#sb_insert_event"></a>
 </h4>
 <p>The <code><a href="reference/sb_insert_event.html">sb_insert_event()</a></code> function allows you to send data back to a Smartabase form:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sb_insert_event.html">sb_insert_event</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
@@ -176,6 +179,7 @@
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/Teamworksapp/smartabaseR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/Teamworksapp/smartabaseR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -209,6 +213,7 @@
 <a href="https://au.linkedin.com/in/zac-pross" class="external-link">Zac Pross</a> <br><small class="roles"> Author, maintainer </small>  </li>
 <li>
 <a href="https://au.linkedin.com/in/james-day-ab648321" class="external-link">James Day</a> <br><small class="roles"> Author </small>  </li>
+<li>Teamworks <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 
@@ -225,7 +230,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="https://au.linkedin.com/in/zac-pross" class="external-link">Zac Pross</a>, <a href="https://au.linkedin.com/in/james-day-ab648321" class="external-link">James Day</a>.</p>
+<p>Developed by <a href="https://au.linkedin.com/in/zac-pross" class="external-link">Zac Pross</a>, <a href="https://au.linkedin.com/in/james-day-ab648321" class="external-link">James Day</a>, Teamworks.</p>
 </div>
 
 <div class="pkgdown-footer-right">

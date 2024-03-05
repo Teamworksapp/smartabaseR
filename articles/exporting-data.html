@@ -20,7 +20,7 @@
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Exporting Data">
 <meta property="og:description" content="smartabaseR">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://teamworksapp.github.io/smartabaseR/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@zac_pross">
 <meta name="twitter:site" content="@zac_pross">
@@ -567,20 +567,20 @@ have no data stored against them. For instance, let’s say we want to get
 data from “Training Log” for the last 2 days and include all athletes
 from the “Demo Group”, irrespective if they have data in “Training Log”
 for those 2 days:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"group"</span>,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Demo Group"</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">include_missing_users =</span> <span class="cn">TRUE</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"group"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Demo Group"</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  )</span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>    <span class="at">include_missing_users =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>  )</span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 8</span></span></span>
 <span><span class="co">#&gt;   about      user_id form  start_date Distance   RPE entered_by_user_id event_id</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -598,20 +598,20 @@ prove relevant information for data quality reporting.</p>
 <p>By default, <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> and
 <code><a href="../reference/sb_get_profile.html">sb_get_profile()</a></code> guess the data type of each column. For
 example, setting <code>guess_col_type = TRUE</code>:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">guess_col_type =</span> <span class="cn">TRUE</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>  )</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>    <span class="at">guess_col_type =</span> <span class="cn">TRUE</span></span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>  )</span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">#&gt;   about            user_id form      start_date `Date of Session` Distance   RPE</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -625,20 +625,20 @@ data.</p>
 <p>However, if you don’t want <code><a href="../reference/sb_get_event.html">sb_get_event()</a></code> to guess the
 column types, and you’d prefer each column to come through as character
 types, set <code>guess_col_type = FALSE</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">guess_col_type =</span> <span class="cn">FALSE</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  )</span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>    <span class="at">guess_col_type =</span> <span class="cn">FALSE</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  )</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
 <span><span class="co">#&gt;   about       user_id form  start_date end_date `Date of Session` Distance RPE  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -667,20 +667,20 @@ an input called <code>interactive_mode</code>. If
 screen. This is for when the package is being run in automated
 environments. In these situations you may want to minimise progress
 messages clogging up logs.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">interactive_mode =</span> <span class="cn">FALSE</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">sb_get_event</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="at">form =</span> <span class="st">"Training Log"</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="at">date_range =</span> <span class="fu">sb_date_range</span>(<span class="st">"2"</span>, <span class="st">"days"</span>),</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"example.smartabase.com/site"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"example.username"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"example_password"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>  <span class="at">filter =</span> <span class="fu">sb_get_event_filter</span>(</span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>    <span class="at">user_key =</span> <span class="st">"about"</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>    <span class="at">user_value =</span> <span class="st">"Charlie Thompson"</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>  )</span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>  <span class="at">option =</span> <span class="fu">sb_get_event_option</span>(</span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a>    <span class="at">interactive_mode =</span> <span class="cn">FALSE</span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>  )</span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -691,7 +691,7 @@ messages clogging up logs.</p>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="https://au.linkedin.com/in/zac-pross" class="external-link">Zac Pross</a>, <a href="https://au.linkedin.com/in/james-day-ab648321" class="external-link">James Day</a>.</p>
+<p>Developed by <a href="https://au.linkedin.com/in/zac-pross" class="external-link">Zac Pross</a>, <a href="https://au.linkedin.com/in/james-day-ab648321" class="external-link">James Day</a>, Teamworks.</p>
 </div>
 
 <div class="pkgdown-footer-right">
