@@ -35,7 +35,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="index.html">smartabaseR</a>
 
@@ -103,19 +103,23 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the released version of <code>smartabaseR</code> from CRAN:</p>
+<p>Install the development version of <code>smartabaseR</code> from <a href="https://github.com/Teamworksapp/smartabaseR/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"smartabaseR"</span><span class="op">)</span></span></code></pre></div>
-<p>Or install the development version of <code>smartabaseR</code> from <a href="https://github.com/Teamworksapp/smartabaseR/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Teamworksapp/smartabaseR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
 </h2>
+<ul>
+<li>
 <p><code>smartabaseR</code> can only be used on Smartabase versions <strong>6.14</strong> or greater (if your account has <code>superadmin</code> or <code>site owner</code> privileges, then <code>smartabaseR</code> can also be used with <strong>v6.13</strong>).</p>
-<p>In 2023, Smartabase switched to <a href="https://calver.org/" class="external-link">calendar versioning</a>. <code>smartabaseR</code> can be used on any site that uses calendar versioning e.g. <strong>2023.1</strong>, <strong>2023.2</strong> etc.</p>
+<ul>
+<li>In 2023, Smartabase switched to <a href="https://calver.org/" class="external-link">calendar versioning</a>. <code>smartabaseR</code> can be used on any site that uses calendar versioning e.g. <strong>2023.1</strong>, <strong>2023.2</strong> etc.</li>
+</ul>
+</li>
+<li><p>Smartabase email addresses and Smartabase usernames are NOT interchangeable when logging into Smartabase via <code>smartabaseR</code>. You must always supply a valid Smartabase username when prompted in <code>smartabaseR</code>.</p></li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="security">Security<a class="anchor" aria-label="anchor" href="#security"></a>
@@ -141,7 +145,7 @@
 <h4 id="sb_get_event">sb_get_event()<a class="anchor" aria-label="anchor" href="#sb_get_event"></a>
 </h4>
 <p>The <code><a href="reference/sb_get_event.html">sb_get_event()</a></code> function allows you to export data from a specific Smartabase form into an R session:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sb_get_event.html">sb_get_event</a></span><span class="op">(</span></span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/03/2023"</span>, <span class="st">"07/03/2023"</span><span class="op">)</span>,</span>
@@ -154,7 +158,7 @@
 <h4 id="sb_insert_event">sb_insert_event()<a class="anchor" aria-label="anchor" href="#sb_insert_event"></a>
 </h4>
 <p>The <code><a href="reference/sb_insert_event.html">sb_insert_event()</a></code> function allows you to send data back to a Smartabase form:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sb_insert_event.html">sb_insert_event</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  form <span class="op">=</span> <span class="st">"Example Form"</span>,</span>
