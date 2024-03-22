@@ -1,7 +1,6 @@
 url: https://teamworksapp.github.io/smartabaseR/
 template:
   bootstrap: 5
-  bootswatch: flatly
   opengraph:
     twitter:
       creator: '@zac_pross'

@@ -21,13 +21,7 @@ learning capabilities.
 
 ## Installation
 
-Install the released version of `smartabaseR` from CRAN:
-
-``` r
-install.packages("smartabaseR")
-```
-
-Or install the development version of `smartabaseR` from
+Install the development version of `smartabaseR` from
 [GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
 
 ``` r
@@ -37,13 +31,18 @@ devtools::install_github("Teamworksapp/smartabaseR")
 
 ## Requirements
 
-`smartabaseR` can only be used on Smartabase versions **6.14** or
-greater (if your account has `superadmin` or `site owner` privileges,
-then `smartabaseR` can also be used with **v6.13**).
+- `smartabaseR` can only be used on Smartabase versions **6.14** or
+  greater (if your account has `superadmin` or `site owner` privileges,
+  then `smartabaseR` can also be used with **v6.13**).
 
-In 2023, Smartabase switched to [calendar
-versioning](https://calver.org/). `smartabaseR` can be used on any site
-that uses calendar versioning e.g. **2023.1**, **2023.2** etc.
+  - In 2023, Smartabase switched to [calendar
+    versioning](https://calver.org/). `smartabaseR` can be used on any
+    site that uses calendar versioning e.g. **2023.1**, **2023.2** etc.
+
+- Smartabase email addresses and Smartabase usernames are NOT
+  interchangeable when logging into Smartabase via `smartabaseR`. You
+  must always supply a valid Smartabase username when prompted in
+  `smartabaseR`.
 
 ## Security
 
