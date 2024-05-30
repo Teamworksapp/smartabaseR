@@ -166,7 +166,7 @@ tidyr::unnest(user_data, athlete_group)
 `sb_get_group()` returns a list of Smartabase groups available to your account. It's arguments are `username`, `password` and `url`.
 
 ```{r, get_group, eval = FALSE}
-get_group(
+sb_get_group(
   url = "example.smartabase.com/site",
   username = "example.username",
   password = "example_password"
