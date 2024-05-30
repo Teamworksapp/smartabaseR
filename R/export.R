@@ -113,6 +113,14 @@ sb_get_event <- function(
   .check_export_class(filter, option, env)
   filter$data_filter <- .insert_form_data_filter(form, filter$data_filter)
 
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    msg <- glue::glue(
+      "WARNING: In the next major release, user_key and user_value must be \\
+      supplied to sb_get_event_filter()."
+    )
+    cli::cli_alert_warning(msg, wrap = TRUE)
+  }
+
   arg <- list(
     form = form,
     url = .validate_url(url),
@@ -225,6 +233,13 @@ sb_sync_event <- function(
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    msg <- glue::glue(
+      "WARNING: In the next major release, user_key and user_value must be \\
+      supplied to sb_sync_event_filter()."
+    )
+    cli::cli_alert_warning(msg, wrap = TRUE)
+  }
 
   arg <- list(
     form = form,
@@ -313,6 +328,13 @@ sb_get_profile <- function(
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    msg <- glue::glue(
+      "WARNING: In the next major release, user_key and user_value must be \\
+      supplied to sb_get_profile_filter()."
+    )
+    cli::cli_alert_warning(msg, wrap = TRUE)
+  }
 
   arg <- list(
     form = form,
