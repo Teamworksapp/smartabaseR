@@ -116,7 +116,7 @@ sb_get_event <- function(
   if (is.null(filter$user_key) || is.null(filter$user_value)) {
     msg <- glue::glue(
       "WARNING: In the next major release, user_key and user_value must be \\
-      supplied to sb_get_event_filter()."
+      supplied to the filter argument via sb_get_event_filter()."
     )
     cli::cli_alert_warning(msg, wrap = TRUE)
   }
@@ -236,7 +236,7 @@ sb_sync_event <- function(
   if (is.null(filter$user_key) || is.null(filter$user_value)) {
     msg <- glue::glue(
       "WARNING: In the next major release, user_key and user_value must be \\
-      supplied to sb_sync_event_filter()."
+      supplied to the filter argument via sb_sync_event_filter()."
     )
     cli::cli_alert_warning(msg, wrap = TRUE)
   }
@@ -331,7 +331,7 @@ sb_get_profile <- function(
   if (is.null(filter$user_key) || is.null(filter$user_value)) {
     msg <- glue::glue(
       "WARNING: In the next major release, user_key and user_value must be \\
-      supplied to sb_get_profile_filter()."
+      supplied to the filter argument via sb_get_profile_filter()."
     )
     cli::cli_alert_warning(msg, wrap = TRUE)
   }
@@ -490,6 +490,13 @@ sb_get_user <- function(
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    msg <- glue::glue(
+      "WARNING: In the next major release, user_key and user_value must be \\
+      supplied to the filter argument via sb_get_user_filter()."
+    )
+    cli::cli_alert_warning(msg, wrap = TRUE)
+  }
   arg <- list(
     url = .validate_url(url),
     username = username,
