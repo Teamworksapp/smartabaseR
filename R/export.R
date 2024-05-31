@@ -112,6 +112,14 @@ sb_get_event <- function(
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
   filter$data_filter <- .insert_form_data_filter(form, filter$data_filter)
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      what = "sb_get_event_filter(user_key = 'will be required')",
+      details = "In the next major release, user_key and user_value \\
+      must be supplied to the filter argument via sb_get_event_filter()."
+    )
+  }
 
   arg <- list(
     form = form,
@@ -225,6 +233,14 @@ sb_sync_event <- function(
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      what = "sb_sync_event_filter(user_key = 'will be required')",
+      details = "In the next major release, user_key and user_value \\
+      must be supplied to the filter argument via sb_sync_event_filter()."
+    )
+  }
 
   arg <- list(
     form = form,
@@ -313,6 +329,14 @@ sb_get_profile <- function(
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
+  if (is.null(filter$user_key) || is.null(filter$user_value)) {
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      what = "sb_get_profile_filter(user_key = 'will be required')",
+      details = "In the next major release, user_key and user_value \\
+      must be supplied to the filter argument via sb_get_profile_filter()."
+    )
+  }
 
   arg <- list(
     form = form,
