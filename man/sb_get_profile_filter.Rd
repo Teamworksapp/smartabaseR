@@ -4,7 +4,7 @@
 \alias{sb_get_profile_filter}
 \title{Set filter parameters for \code{\link[=sb_get_profile]{sb_get_profile()}}}
 \usage{
-sb_get_profile_filter(user_key = NULL, user_value = NULL)
+sb_get_profile_filter(user_key, user_value)
 }
 \arguments{
 \item{user_key}{The type of user variable to filter by. The possible values

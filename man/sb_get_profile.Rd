@@ -9,8 +9,8 @@ sb_get_profile(
   url,
   username,
   password,
+  filter,
   ...,
-  filter = sb_get_profile_filter(),
   option = sb_get_profile_option()
 )
 }
@@ -23,9 +23,9 @@ sb_get_profile(
 
 \item{password}{Smartabase password}
 
-\item{...}{These dots are for future extensions and must be empty}
-
 \item{filter}{More filters accessible via \code{\link[=sb_get_profile_filter]{sb_get_profile_filter()}}}
+
+\item{...}{These dots are for future extensions and must be empty}
 
 \item{option}{More options accessible via \code{\link[=sb_get_profile_option]{sb_get_profile_option()}}}
 }

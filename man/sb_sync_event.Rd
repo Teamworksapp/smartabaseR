@@ -10,8 +10,8 @@ sb_sync_event(
   url,
   username,
   password,
+  filter,
   ...,
-  filter = sb_sync_event_filter(),
   option = sb_sync_event_option()
 )
 }
@@ -27,9 +27,9 @@ an integer}
 
 \item{password}{Smartabase password}
 
-\item{...}{These dots are for future extensions and must be empty}
-
 \item{filter}{More filters accessible via \code{\link[=sb_sync_event_filter]{sb_sync_event_filter()}} object}
+
+\item{...}{These dots are for future extensions and must be empty}
 
 \item{option}{More options accessible via \code{\link[=sb_sync_event_option]{sb_sync_event_option()}} object}
 }

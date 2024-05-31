@@ -10,8 +10,8 @@ sb_get_event(
   url,
   username,
   password,
+  filter,
   ...,
-  filter = sb_get_event_filter(),
   option = sb_get_event_option(),
   time_range = c("12:00 am", "11:59 pm")
 )
@@ -28,9 +28,9 @@ end_date (dd/mm/YYYY) character values}
 
 \item{password}{Smartabase password}
 
-\item{...}{These dots are for future extensions and must be empty}
-
 \item{filter}{More filters accessible via \code{\link[=sb_get_event_filter]{sb_get_event_filter()}} object}
+
+\item{...}{These dots are for future extensions and must be empty}
 
 \item{option}{More options accessible via \code{\link[=sb_get_event_option]{sb_get_event_option()}} object}
 

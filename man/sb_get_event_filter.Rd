@@ -5,8 +5,8 @@
 \title{Set filter parameters for \code{\link[=sb_get_event]{sb_get_event()}}}
 \usage{
 sb_get_event_filter(
-  user_key = NULL,
-  user_value = NULL,
+  user_key,
+  user_value,
   data_key = NULL,
   data_value = NULL,
   data_condition = NULL,

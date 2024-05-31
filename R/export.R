@@ -104,10 +104,11 @@ sb_get_event <- function(
     url,
     username,
     password,
+    filter,
     ...,
-    filter = sb_get_event_filter(),
     option = sb_get_event_option(),
-    time_range = c("12:00 am", "11:59 pm")) {
+    time_range = c("12:00 am", "11:59 pm")
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -219,9 +220,10 @@ sb_sync_event <- function(
     url,
     username,
     password,
+    filter,
     ...,
-    filter = sb_sync_event_filter(),
-    option = sb_sync_event_option()) {
+    option = sb_sync_event_option()
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -307,9 +309,10 @@ sb_get_profile <- function(
     url,
     username,
     password,
+    filter,
     ...,
-    filter = sb_get_profile_filter(),
-    option = sb_get_profile_option()) {
+    option = sb_get_profile_option()
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -376,7 +379,8 @@ sb_get_group <- function(
     username,
     password,
     ...,
-    option = sb_get_group_option()) {
+    option = sb_get_group_option()
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter = NULL, option, env)
@@ -462,9 +466,10 @@ sb_get_user <- function(
     url,
     username,
     password,
+    filter,
     ...,
-    filter = sb_get_user_filter(),
-    option = sb_get_user_option()) {
+    option = sb_get_user_option()
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -487,8 +492,6 @@ sb_get_user <- function(
   }
   .export_handler(arg)
 }
-
-
 
 
 #' .get_user_id_for_export_body
@@ -517,10 +520,15 @@ sb_get_user <- function(
     } else {
       filter_fun <- sb_get_user_filter
       option_fun <- sb_get_user_option
+      user_key = arg$filter$user_key
+      user_value = arg$filter$user_value
     }
   }
 
-  id_filter_names <- intersect(names(arg$filter), names(filter_fun()))
+  id_filter_names <- intersect(
+    names(arg$filter),
+    names(filter_fun(user_key, user_value))
+  )
   id_filters <- arg$filter[names(arg$filter) %in% id_filter_names]
   id_option_names <- intersect(names(arg$option), names(option_fun()))
   id_options <- arg$option[names(arg$option) %in% id_option_names]
