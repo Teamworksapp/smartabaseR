@@ -48,7 +48,7 @@ sb_delete_event <- function(
     username = username,
     password = password,
     option = option,
-    type = "delete",
+    endpoint = "deleteevent",
     action = "delete",
     current_env = env,
     ...

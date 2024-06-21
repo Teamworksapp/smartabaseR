@@ -14,28 +14,13 @@
 #'
 #' @keywords internal
 .import_handler <- function(df, arg) {
-  if (is.null(arg$login)) {
-    arg$login <- sb_login(
-      url = arg$url,
-      username = arg$username,
-      password = arg$password,
-      option = arg$option
-    )
-  }
-  if (is.null(arg$endpoints)) {
-    arg$endpoints <- .get_endpoint(
-      login = arg$login,
-      url = arg$url,
-      username = arg$username,
-      password = arg$password,
-      interactive_mode = arg$interactive_mode,
-      cache = arg$cache,
-      env = arg$current_env,
-      endpoints = NULL
-    )
-  }
   arg$entered_by_user_id <- arg$login$user$id
-  arg$smartabase_url <- .build_import_url(arg)
+  table_field_exists <- exists("arg$option$table_field")
+  empty_table_field <- identical(arg$option$table_field, "")
+  if (table_field_exists && empty_table_field) {
+    arg$option$table_field <- NULL
+  }
+  arg$smartabase_url <- .build_url(arg)
   arg$dry_run <- FALSE
   arg$action <- "import"
 
@@ -81,7 +66,7 @@
     id_name <- glue::glue("{import_action}_{prog_vals$ix}_progress_id")
     set_progress_id(id_name, progress_msg)
   }
-  if (arg$type == "profile") {
+  if (arg$endpoint == "profilesearch") {
     body <- .build_import_body(df, import_action, arg)
   } else {
     body <- list(

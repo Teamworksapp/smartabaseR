@@ -74,7 +74,7 @@ sb_get_event_filter <- function(
     user_value = NULL,
     data_key = NULL,
     data_value = NULL,
-    data_condition = NULL,
+    data_condition = "equal_to",
     events_per_user = NULL) {
   .validate_user_key(user_key)
   .validate_data_condition(data_condition)

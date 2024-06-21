@@ -64,7 +64,7 @@
 #' @keywords internal
 #' @returns A tibble
 .convert_export_json_to_df <- function(response, data, id_data, arg) {
-  if (arg$type == "synchronise") {
+  if (arg$endpoint == "synchronise") {
     arg <- .flatten_deleted_event_id(data, arg)
     arg <- .extract_new_sync_time(data, arg)
   }
@@ -84,7 +84,7 @@
       "document.id", "export_object", "record_number", "array.index"
     )))
 
-  if (!arg$type %in% c("profile", "synchronise")) {
+  if (!arg$endpoint %in% c("profilesearch", "synchronise")) {
     if (arg$option$download_attachment) {
       export_data <- .process_export_attachment(
         response = response,

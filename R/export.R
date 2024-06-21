@@ -107,12 +107,17 @@ sb_get_event <- function(
     ...,
     filter = sb_get_event_filter(),
     option = sb_get_event_option(),
-    time_range = c("12:00 am", "11:59 pm")) {
+    time_range = c("12:00 am", "11:59 pm")
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
   filter$data_filter <- .insert_form_data_filter(form, filter$data_filter)
-
+  if (!is.null(filter$data_filter)) {
+    endpoint <- "filteredeventsearch"
+  } else {
+    endpoint <- "eventsearch"
+  }
   arg <- list(
     form = form,
     url = .validate_url(url),
@@ -122,12 +127,11 @@ sb_get_event <- function(
     time_range = time_range,
     filter = filter,
     option = option,
-    type = "event",
+    endpoint = endpoint,
     current_env = env,
     pull_smartabase = FALSE,
     ...
   )
-
   .validate_filter_user_key(arg)
   .validate_date_time_range(arg)
   arg$start_date_clean <- format(lubridate::dmy(date_range[[1]]), "%b %d %Y")
@@ -221,7 +225,8 @@ sb_sync_event <- function(
     password,
     ...,
     filter = sb_sync_event_filter(),
-    option = sb_sync_event_option()) {
+    option = sb_sync_event_option()
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
@@ -234,7 +239,7 @@ sb_sync_event <- function(
     password = password,
     filter = filter,
     option = option,
-    type = "synchronise",
+    endpoint = "synchronise",
     current_env = env,
     pull_smartabase = FALSE,
     ...
@@ -321,7 +326,7 @@ sb_get_profile <- function(
     password = password,
     filter = filter,
     option = option,
-    type = "profile",
+    endpoint = "profilesearch",
     current_env = rlang::current_env(),
     pull_smartabase = FALSE,
     ...
@@ -385,7 +390,7 @@ sb_get_group <- function(
     username = username,
     password = password,
     option = option,
-    type = "group",
+    endpoint = "listgroups",
     current_env = rlang::current_env(),
     pull_smartabase = FALSE,
     ...
@@ -474,7 +479,7 @@ sb_get_user <- function(
     password = password,
     filter = filter,
     option = option,
-    type = "user",
+    endpoint = "usersearch",
     current_env = env,
     ...
   )
@@ -506,7 +511,7 @@ sb_get_user <- function(
 #'
 #' @keywords internal
 .get_user_id_for_export_body <- function(arg) {
-  if (!arg$type %in% c("event", "profile", "synchronise")) {
+  if (!arg$endpoint %in% c("eventsearch", "profilesearch", "synchronise")) {
     return()
   }
 
@@ -544,7 +549,7 @@ sb_get_user <- function(
       password = arg$password,
       filter = do.call(filter_fun, id_filters),
       option = do.call(option_fun, id_options),
-      endpoints = arg$endpoints,
+      endpoint = "usersearch",
       login = arg$login
     ) %>%
       dplyr::select(-c(.data$username, .data$email)) %>%

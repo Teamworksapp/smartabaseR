@@ -388,47 +388,6 @@ sb_date_range <- function(
 }
 
 
-#' .build_export_url
-#'
-#'
-#' @noRd
-#' @keywords internal
-#' @returns A charactor containing the URL
-.build_export_url <- function(arg) {
-  if (arg$type == "event") {
-    if (!is.null(arg$filter$data_key)) {
-      selected_endpoint <- "get_filtered_event"
-    } else {
-      selected_endpoint <- "get_event"
-    }
-  } else if (arg$type == "synchronise") {
-    selected_endpoint <- "synchronise_event"
-  } else if (arg$type == "profile") {
-    selected_endpoint <- "get_profile"
-  } else if (arg$type == "user") {
-    if (is.null(arg$filter$user_key)) {
-      selected_endpoint <- "get_user"
-    } else {
-      if (arg$filter$user_key == "current_group") {
-        selected_endpoint <- "get_current"
-      } else if (arg$filter$user_key == "group") {
-        selected_endpoint <- "get_group"
-      } else {
-        selected_endpoint <- "get_user"
-      }
-    }
-  } else if (arg$type == "group") {
-    selected_endpoint <- "get_group_names"
-  } else if (arg$type == "delete") {
-    selected_endpoint <- "delete_event"
-  }
-  .build_url(
-    url = arg$url,
-    endpoints = arg$endpoints,
-    endpoint = selected_endpoint
-  )
-}
-
 #' .build_id_url
 #'
 #'
