@@ -23,7 +23,7 @@ cache_function <- function(function_name) {
 .onLoad <- function(libname, pkgname) {
   internal_env <<- new.env()
   purrr::map(
-    c("sb_login", "sb_get_user", ".get_endpoint"),
+    c("sb_login", "sb_get_user"),
     ~ cache_function(.x)
   )
 }

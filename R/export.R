@@ -511,7 +511,14 @@ sb_get_user <- function(
 #'
 #' @keywords internal
 .get_user_id_for_export_body <- function(arg) {
-  if (!arg$endpoint %in% c("eventsearch", "profilesearch", "synchronise")) {
+  relevant_endpoints <- c(
+    "eventsearch",
+    "filteredeventsearch",
+    "profilesearch",
+    "synchronise"
+  )
+
+  if (!arg$endpoint %in% relevant_endpoints) {
     return()
   }
 
@@ -548,9 +555,7 @@ sb_get_user <- function(
       username = arg$username,
       password = arg$password,
       filter = do.call(filter_fun, id_filters),
-      option = do.call(option_fun, id_options),
-      endpoint = "usersearch",
-      login = arg$login
+      option = do.call(option_fun, id_options)
     ) %>%
       dplyr::select(-c(.data$username, .data$email)) %>%
       dplyr::distinct()

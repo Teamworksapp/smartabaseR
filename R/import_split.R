@@ -50,7 +50,7 @@
 #' @keywords internal
 #' @returns A data frame
 split_df_by_update_insert <- function(dat, arg) {
-  if (arg$endpoint != "profilesearch" && arg$update_event) {
+  if (arg$endpoint != "profileimport" && arg$update_event) {
     if ("event_id" %in% names(dat)) {
       dat <- dat %>%
         dplyr::mutate(event_id_flag = dplyr::if_else(
@@ -95,7 +95,7 @@ remove_event_id_if_na <- function(dat) {
 #' @keywords internal
 #' @returns A data frame
 .split_import_df <- function(df, arg) {
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     df <- df %>%
       dplyr::mutate(row_num = dplyr::row_number()) %>%
       split(.$row_num) %>%

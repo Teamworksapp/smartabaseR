@@ -14,7 +14,7 @@
   # TODO for profile
   .generate_import_result_msg(content, import_action, prog_vals, arg)
 
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     result <- content %>% purrr::pluck("..JSON", "state")
   } else {
     result <- content %>% purrr::pluck("..JSON", "result", "state")
@@ -147,9 +147,9 @@
     # TODO Manually build 500 response
   }
 
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     result <- content %>% purrr::pluck("..JSON", "state")
-  } else if (arg$endpoint == "eventsearch") {
+  } else if (arg$endpoint == "eventsimport") {
     result <- content %>% purrr::pluck("..JSON", "result", "state")
   }
 
@@ -163,9 +163,9 @@
     return(df)
   }
 
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     content <- purrr::pluck(content, "..JSON")
-  } else if (arg$endpoint == "eventsearch") {
+  } else if (arg$endpoint == "eventsimport") {
     content <- purrr::pluck(
       .x = content,
       "..JSON",

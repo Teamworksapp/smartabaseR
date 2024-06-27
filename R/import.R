@@ -87,7 +87,7 @@ sb_insert_event <- function(
     username = username,
     password = password,
     option = option,
-    endpoint = "eventimport",
+    endpoint = "eventsimport",
     update_event = FALSE,
     current_env = env,
     ...
@@ -151,7 +151,7 @@ sb_update_event <- function(
     username = username,
     password = password,
     option = option,
-    endpoint = "eventimport",
+    endpoint = "eventsimport",
     update_event = TRUE,
     current_env = env,
     ...
@@ -233,7 +233,7 @@ sb_upsert_event <- function(
     username = username,
     password = password,
     option = option,
-    endpoint = "eventimport",
+    endpoint = "eventsimport",
     update_event = TRUE,
     current_env = env,
     ...

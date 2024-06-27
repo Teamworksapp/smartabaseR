@@ -57,7 +57,7 @@
 #'
 #' @returns Data to be uploaded to Smartabase - 'JSON'
 .build_import_metadata <- function(df, n_row, import_action, arg) {
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     metadata <- dplyr::tibble(
       formName = arg[["form"]],
       enteredByUserId = as.numeric(arg$entered_by_user_id)
@@ -131,7 +131,7 @@
 #' @keywords internal
 #' @returns A list
 .build_import_body <- function(df, import_action, arg) {
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     make_json_profile <- function(df) {
       .append_metadata_key_value_pairs(df, import_action, arg) %>%
         purrr::flatten()

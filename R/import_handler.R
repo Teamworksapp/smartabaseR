@@ -14,6 +14,14 @@
 #'
 #' @keywords internal
 .import_handler <- function(df, arg) {
+  if (is.null(arg$login)) {
+    arg$login <- sb_login(
+      url = arg$url,
+      username = arg$username,
+      password = arg$password,
+      option = arg$option
+    )
+  }
   arg$entered_by_user_id <- arg$login$user$id
   table_field_exists <- exists("arg$option$table_field")
   empty_table_field <- identical(arg$option$table_field, "")
@@ -66,7 +74,7 @@
     id_name <- glue::glue("{import_action}_{prog_vals$ix}_progress_id")
     set_progress_id(id_name, progress_msg)
   }
-  if (arg$endpoint == "profilesearch") {
+  if (arg$endpoint == "profileimport") {
     body <- .build_import_body(df, import_action, arg)
   } else {
     body <- list(

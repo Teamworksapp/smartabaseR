@@ -135,7 +135,7 @@
 #'
 #' @returns text to appear in confirm message
 .detect_duplicate_date_user_id <- function(df, arg) {
-  if (is.null(arg$option$table_field) && arg$endpoint != "profilesearch") {
+  if (is.null(arg$option$table_field) && arg$endpoint != "profileimport") {
     duplicate_flag <- df %>%
       dplyr::group_by(.data$start_date, .data$user_id) %>%
       dplyr::summarise(duplicate_date = dplyr::n(), .groups = "drop") %>%
