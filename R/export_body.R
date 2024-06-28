@@ -175,7 +175,7 @@
     .build_export_profile_body(arg, user_id)
   } else if (arg$endpoint %in% c("eventsearch", "filteredeventsearch")) {
     .build_export_event_body(arg, user_id)
-  } else if (arg$endpoint == "usersearch") {
+  } else if (arg$endpoint %in% c("groupmembers","usersearch","currentgroup")) {
     .build_export_id_body(arg)
   } else if (arg$endpoint == "listgroups") {
     .build_export_group_body(arg)

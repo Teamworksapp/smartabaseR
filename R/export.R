@@ -128,6 +128,7 @@ sb_get_event <- function(
     filter = filter,
     option = option,
     endpoint = endpoint,
+    endpoint_type = "event",
     current_env = env,
     pull_smartabase = FALSE,
     ...
@@ -240,6 +241,7 @@ sb_sync_event <- function(
     filter = filter,
     option = option,
     endpoint = "synchronise",
+    endpoint_type = "event",
     current_env = env,
     pull_smartabase = FALSE,
     ...
@@ -327,6 +329,7 @@ sb_get_profile <- function(
     filter = filter,
     option = option,
     endpoint = "profilesearch",
+    endpoint_type = "profile",
     current_env = rlang::current_env(),
     pull_smartabase = FALSE,
     ...
@@ -391,6 +394,7 @@ sb_get_group <- function(
     password = password,
     option = option,
     endpoint = "listgroups",
+    endpoint_type = "group",
     current_env = rlang::current_env(),
     pull_smartabase = FALSE,
     ...
@@ -469,17 +473,32 @@ sb_get_user <- function(
     password,
     ...,
     filter = sb_get_user_filter(),
-    option = sb_get_user_option()) {
+    option = sb_get_user_option()
+) {
   rlang::check_dots_used()
   env <- rlang::current_env()
   .check_export_class(filter, option, env)
+
+  if (!is.null(filter$user_key)) {
+    if (filter$user_key == "current_group") {
+      endpoint <- "currentgroup"
+    } else if (filter$user_key == "group") {
+      endpoint <- "groupmembers"
+    } else {
+      endpoint <- "usersearch"
+    }
+  } else {
+    endpoint <- "usersearch"
+  }
+
   arg <- list(
     url = .validate_url(url),
     username = username,
     password = password,
     filter = filter,
     option = option,
-    endpoint = "usersearch",
+    endpoint = endpoint,
+    endpoint_type = "user",
     current_env = env,
     ...
   )

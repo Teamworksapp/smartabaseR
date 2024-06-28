@@ -11,7 +11,7 @@
 #' @noRd
 #' @keywords internal
 .export_handler <- function(arg) {
-  if (arg$endpoint %in% c("listgroups", "usersearch")) {
+  if (arg$endpoint %in% c("groupmembers", "usersearch", "currentgroup")) {
     id_data <- NULL
     user_id <- NULL
   } else {
@@ -31,8 +31,7 @@
 
   if (isTRUE(arg$option$interactive_mode)) {
     export_request_progress_id <- cli::cli_progress_message(
-      "Requesting {stringr::str_remove_all(arg$endpoint,'filtered|search')} \\
-      data from Smartabase...",
+      "Requesting {arg$endpoint_type} data from Smartabase...",
       .envir = arg$current_env
     )
     set_progress_id("export_request_progress_id", export_request_progress_id)
@@ -40,8 +39,7 @@
   response <- .make_request(request, arg)
   if (isTRUE(arg$option$interactive_mode)) {
     export_wrangle_progress_id <- cli::cli_progress_message(
-      "Wrangling {stringr::str_remove_all(arg$endpoint, 'filtered|search')} \\
-      data...",
+      "Wrangling {arg$endpoint_type} data from Smartabase...",
       .envir = arg$current_env
     )
     set_progress_id("export_wrangle_progress_id", export_wrangle_progress_id)
@@ -67,7 +65,7 @@
     clear_progress_id()
     return(new_sb_tibble(response, data, arg))
   }
-  if (arg$endpoint == "usersearch") {
+  if (arg$endpoint %in% c("usersearch", "currentgroup", "groupmembers")) {
     data <- .convert_user_json_to_df(response, data, arg)
   } else if (arg$endpoint == "listgroups") {
     data <- .convert_group_json_to_df(response, data, arg)

@@ -165,7 +165,7 @@
       "(data modified after",
       "{.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}})"
     )
-  } else if (arg$endpoint == "usersearch") {
+  } else if (arg$endpoint %in% c("usersearch","currentgroup","groupmembers")) {
     msg <- "User details export successful."
   } else if (arg$endpoint == "listgroups") {
     msg <- "Group export successful."
