@@ -6,7 +6,7 @@
 \usage{
 sb_get_user_option(
   interactive_mode = TRUE,
-  include_all_cols = FALSE,
+  include_all_cols = TRUE,
   cache = TRUE,
   include_missing_user = FALSE,
   guess_col_type = TRUE

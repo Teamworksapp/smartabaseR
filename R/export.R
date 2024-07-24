@@ -538,12 +538,14 @@ sb_get_user <- function(
   }
 
   if (isTRUE(get_id_flag)) {
+    options <- do.call(option_fun, id_options)
+    options$include_all_cols <- FALSE
     id_data <- sb_get_user(
       url = arg$url,
       username = arg$username,
       password = arg$password,
       filter = do.call(filter_fun, id_filters),
-      option = do.call(option_fun, id_options),
+      option = options,
       endpoints = arg$endpoints,
       login = arg$login
     ) %>%

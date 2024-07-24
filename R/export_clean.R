@@ -74,7 +74,10 @@
       email = .data$emailAddress,
       uuid = .data$uuid,
       middle_name = .data$middleName,
-      known_as = .data$knownAs
+      known_as = .data$knownAs,
+      dob = .data$dob,
+      sex = .data$sex,
+      uuid = .data$uuid
     ) %>%
     tidyr::unite(
       col = "about",
@@ -87,10 +90,10 @@
       .data$user_id,
       .data$about,
       .data$first_name,
+      .data$middle_name,
       .data$last_name,
       .data$username,
-      .data$email,
-      .data$uuid
+      .data$email
     )
 
   if (isFALSE(include_all_cols)) {
