@@ -1,0 +1,90 @@
+---
+title: "Caching user data"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+editor_options:
+  chunk_output_type: console
+vignette: >
+  %\VignetteIndexEntry{Caching User Data}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+If you haven't already, please read the `vignette("get-started")` vignette before proceeding.
+
+Multiple `smartabaseR` export and import functions internally call `sb_get_user()`. But user data (e.g. athlete names, usernames, emails etc.) is generally slow changing in Smartabase, so for performance benefits it makes sense to store the user data in a temporary folder. If you call `sb_get_user()` multiple times in a given R session, the user data will be loaded from the cache rather than being downloaded from Smartabase again.
+
+However, perhaps you know that some user data will be changing in Smartabase while your R script is running. In this case, you might want to turn caching off so that `smartabaseR` always reaches out to Smartabase to get the most up-to-date user data.
+
+## Enabling Caching
+
+Use `sb_toggle_cache(TRUE)` to enable caching and `sb_toggle_cache(FALSE)` to disable it. By default, caching is enabled when you load `smartabaseR`.
+
+```{r screen_toggle_cache, warning = FALSE, message = FALSE, eval = FALSE}
+sb_toggle_cache(TRUE)
+
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+```{r screen_prompt_up_cache, echo = FALSE}
+cli::cli_alert_success("Successfully logged fusion.support into https://example.smartabase.com/example")
+cli::cli_alert_success("User details export successful.")
+cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
+```
+
+You can see how `smartabaseR` first logs into Smartabase, then exports user details, and finally exports the event data. If we run `sb_get_event()` again we'll see that only the event data is requested again:
+
+```{r screen_toggle_cache2, warning = FALSE, message = FALSE, eval = FALSE}
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+```{r screen_prompt_up_cache2, echo = FALSE}
+cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
+```
+
+
+## Disabling Caching
+
+Now let's disable caching and see what happens when we run `sb_get_event()` again:
+
+```{r screen_toggle_cache_off, warning = FALSE, message = FALSE, eval = FALSE}
+sb_toggle_cache(FALSE)
+
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+
+```{r screen_prompt_up_cache3, echo = FALSE}
+cli::cli_alert_success("Successfully logged fusion.support into https://example.smartabase.com/example")
+cli::cli_alert_success("User details export successful.")
+cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
+```
+
+The user data is requested again because caching is disabled.
