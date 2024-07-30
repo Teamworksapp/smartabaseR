@@ -395,7 +395,7 @@ save_credentials <- function() {
 #' @keywords internal
 #' @returns a progress ID
 set_progress_id <- function(msg_name, progress_id) {
-  internal_env[[msg_name]] <- progress_id
+  sb_internal_env[[msg_name]] <- progress_id
 }
 
 #' get_progress_id
@@ -404,7 +404,7 @@ set_progress_id <- function(msg_name, progress_id) {
 #' @keywords internal
 #' @returns A message
 get_progress_id <- function(msg_name) {
-  internal_env[[msg_name]]
+  sb_internal_env[[msg_name]]
 }
 
 #' clear_progress_id
@@ -413,14 +413,14 @@ get_progress_id <- function(msg_name) {
 #' @keywords internal
 #' @returns A message
 clear_progress_id <- function() {
-  ids <- ls(envir = internal_env)
+  ids <- ls(envir = sb_internal_env)
   ids <- ids[stringr::str_detect(ids, pattern = "progress_id$")]
 
   purrr::walk(
     ids,
     ~ cli::cli_progress_done(
-      id = get(.x, envir = internal_env)
+      id = get(.x, envir = sb_internal_env)
     )
   )
-  rm(list = ids, envir = internal_env)
+  rm(list = ids, envir = sb_internal_env)
 }
