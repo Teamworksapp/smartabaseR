@@ -4,16 +4,16 @@
 \alias{sb_login}
 \title{Log into Smartabase using credentials}
 \usage{
-sb_login(...)
+sb_login(url, username, password, ..., option = sb_get_user_option())
 }
 \arguments{
-\item{...}{These dots are for future extensions and must be empty}
-
 \item{url}{Smartabase url e.g. "example.smartabase.com/site"}
 
 \item{username}{Smartabase username}
 
 \item{password}{Smartabase password}
+
+\item{...}{These dots are for future extensions and must be empty}
 
 \item{option}{More options accessible via \code{\link[=sb_login_option]{sb_login_option()}} object
 calling \code{sb_login()}}

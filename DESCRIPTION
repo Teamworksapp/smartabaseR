@@ -14,7 +14,8 @@ URL: https://teamworksapp.github.io/smartabaseR/,
 BugReports: https://github.com/Teamworksapp/smartabaseR/issues
 Depends: 
     R (>= 2.10)
-Imports: 
+Imports:
+    cachem,
     cli,
     dplyr,
     glue,
