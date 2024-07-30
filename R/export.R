@@ -464,28 +464,9 @@ sb_get_user <- function(
     password,
     ...,
     filter = sb_get_user_filter(),
-    option = sb_get_user_option()) {
-  rlang::check_dots_used()
-  env <- rlang::current_env()
-  .check_export_class(filter, option, env)
-  arg <- list(
-    url = .validate_url(url),
-    username = username,
-    password = password,
-    filter = filter,
-    option = option,
-    type = "user",
-    current_env = env,
-    ...
-  )
-  .validate_filter_user_key(arg)
-
-  if (!is.null(arg$dev_mode)) {
-    if (isTRUE(arg$dev_mode)) {
-      return(arg)
-    }
-  }
-  .export_handler(arg)
+    option = sb_get_user_option()
+) {
+  .sb_get_user(url, username, password, ..., filter, option)
 }
 
 
