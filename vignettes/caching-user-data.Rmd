@@ -21,16 +21,16 @@ comment = "#>"
 
 If you haven't already, please read the `vignette("get-started")` vignette before proceeding.
 
-Multiple `smartabaseR` export and import functions internally call `sb_get_user()`. But user data (e.g. athlete names, usernames, emails etc.) is generally slow changing in Smartabase, so for performance benefits it makes sense to store the user data in a temporary folder. If you call `sb_get_user()` multiple times in a given R session, the user data will be loaded from the cache rather than being downloaded from Smartabase again.
+Multiple `smartabaseR` export and import functions internally call `sb_get_user()`. But user data (e.g. athlete names, usernames, emails etc.) is generally slow changing in Smartabase, so rather than repeatedly downloading the same user data in a given R session, we can cache that data locally to speed up subsequent export/import calls.
 
-However, perhaps you know that some user data will be changing in Smartabase while your R script is running. In this case, you might want to turn caching off so that `smartabaseR` always reaches out to Smartabase to get the most up-to-date user data.
+If enabled, the cache will be invalidated if you restart your R session, or a user filter is changed. 
 
-## Enabling Caching
+## Enabling caching
 
-Use `sb_toggle_cache(TRUE)` to enable caching and `sb_toggle_cache(FALSE)` to disable it. By default, caching is enabled when you load `smartabaseR`.
+By default, caching is enabled when you load `smartabaseR`. Nonetheless, to manually enable caching use `sb_enable_user_cache()`.
 
 ```{r screen_toggle_cache, warning = FALSE, message = FALSE, eval = FALSE}
-sb_toggle_cache(TRUE)
+sb_enable_user_cache()
 
 sb_get_event(
   form = "Example Form",
@@ -42,7 +42,7 @@ sb_get_event(
 ```
 
 ```{r screen_prompt_up_cache, echo = FALSE}
-cli::cli_alert_success("Successfully logged fusion.support into https://example.smartabase.com/example")
+cli::cli_alert_success("Successfully logged example.username into https://example.smartabase.com/example")
 cli::cli_alert_success("User details export successful.")
 cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
 ```
@@ -63,13 +63,12 @@ sb_get_event(
 cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
 ```
 
+## Disabling caching
 
-## Disabling Caching
-
-Now let's disable caching and see what happens when we run `sb_get_event()` again:
+Perhaps you know that some user data will be changing in Smartabase while your R script is running. In this case, you might want to turn caching off so that `smartabaseR` always reaches out to Smartabase to get the most up-to-date user data.
 
 ```{r screen_toggle_cache_off, warning = FALSE, message = FALSE, eval = FALSE}
-sb_toggle_cache(FALSE)
+sb_disable_user_cache()
 
 sb_get_event(
   form = "Example Form",
@@ -82,9 +81,89 @@ sb_get_event(
 
 
 ```{r screen_prompt_up_cache3, echo = FALSE}
-cli::cli_alert_success("Successfully logged fusion.support into https://example.smartabase.com/example")
+cli::cli_alert_success("Successfully logged example.username into https://example.smartabase.com/example")
 cli::cli_alert_success("User details export successful.")
 cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
 ```
 
 The user data is requested again because caching is disabled.
+
+## Invalidating the cache
+
+We can also invalidate the cache by changing the user filter. This will force `smartabaseR` to download the user data again.
+
+```{r invalidate1, warning = FALSE, message = FALSE, eval = FALSE}
+sb_disable_user_cache()
+```
+
+Let's now get event data for Jamie Anderson:
+
+```{r invalidate2, warning = FALSE, message = FALSE, eval = FALSE}
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password",
+  filter = sb_get_event_filter(
+    user_key = "about",
+    user_value = "Jamie Anderson"
+  )
+)
+```
+
+```{r invalidate3, echo = FALSE}
+cli::cli_alert_success("Successfully logged example.username into https://example.smartabase.com/example")
+cli::cli_alert_success("User details export successful.")
+cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
+```
+
+If we run the same `sb_get_event()` call we'll see that the user data is not re-downloaded:
+
+```{r invalidate4, warning = FALSE, message = FALSE, eval = FALSE}
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password",
+  filter = sb_get_event_filter(
+    user_key = "about",
+    user_value = "Jamie Anderson"
+  )
+)
+```
+
+```{r invalidate5, echo = FALSE}
+cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
+```
+
+Now, if we change the user filter to export data for Aiden Thomas we'll see that the user data is indeed re-downloaded:
+
+```{r invalidate6, eval = FALSE}
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password",
+  filter = sb_get_event_filter(
+    user_key = "about",
+    user_value = "Aiden Thomas"
+  )
+)
+```
+
+```{r invalidate7, echo = FALSE}
+cli::cli_alert_success("Successfully logged example.username into https://example.smartabase.com/example")
+cli::cli_alert_success("User details export successful.")
+cli::cli_alert_success("Example Form export successful (01 Mar 2023 - 07 Mar 2023).")
+```
+
+## Changing the cache timeout
+
+By default, the cache will invalidate after 2 hours within a given R session. We can change this via the `timeout` argument in `sb_enable_user_cache()`, which is measured in seconds. For instance, to change the timeout to 30 seconds:
+
+```{r cache_timeout, eval = FALSE}
+sb_enable_user_cache(timeout = 30)
+```
