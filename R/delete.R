@@ -63,6 +63,43 @@ sb_delete_event <- function(
   .delete_handler(arg)
 }
 
+.delete_event <- function(arg, event_id) {
+  if (isTRUE(arg$option$interactive_mode)) {
+    delete_request_progress_id <- cli::cli_progress_message(
+      "Deleting event_id = {event_id} from Smartabase..."
+    )
+    set_progress_id("delete_request_progress_id", delete_request_progress_id)
+  }
+  response <- .make_request(request, arg)
+
+  body <- list(eventId = event_id)
+  request <- .build_request(body, arg)
+  resp <- .make_request(request, arg)
+  content <- .extract_content(resp, arg)
+  msg_list <- content %>% dplyr::pull(.data$..JSON)
+  msg <- glue::glue("{msg_list$state}: {msg_list$message}")
+  if (msg_list$state == "FAILURE") {
+    clear_progress_id()
+    cli::cli_alert_warning(msg)
+  } else {
+    clear_progress_id()
+    cli::cli_alert_success(msg)
+  }
+  if (is.null(resp$delete_time)) {
+    delete_time <- NA
+  } else {
+    delete_time <- resp$delete_time
+  }
+
+  tibble::tibble(
+    event_id = event_id,
+    state = msg_list$state,
+    result = msg_list$message,
+    delete_time = .convert_unix_time_to_utc(delete_time/1000)
+
+  )
+}
+
 
 #' .delete_handler
 #'
@@ -95,19 +132,8 @@ sb_delete_event <- function(
   )
 
   arg$smartabase_url <- .build_export_url(arg)
-  body <- list(eventId = arg$event_id)
-  request <- .build_request(body, arg)
-  resp <- .make_request(request, arg)
-  content <- .extract_content(resp, arg)
-  msg_list <- content %>% dplyr::pull(.data$..JSON)
-  msg <- glue::glue("{msg_list$state}: {msg_list$message}")
-  if (msg_list$state == "FAILURE") {
-    clear_progress_id()
-    cli::cli_alert_warning(msg)
-  } else {
-    clear_progress_id()
-    cli::cli_alert_success(msg)
-  }
+  purrr::map(arg$event_id, ~.delete_event(arg, event_id = .x)) %>%
+    purrr::reduce(dplyr::bind_rows)
 }
 
 #' .check_delete_class
