@@ -104,15 +104,26 @@ remove_event_id_if_na <- function(dat) {
   }
   df <- split_df_by_update_insert(df, arg)
 
-  if (!is.null(arg$duplicate_date_user_id)) {
-    if (isTRUE(arg$duplicate_date_user_id) && is.null(arg$option$table_field)) {
-      import_action <- names(df)
-      df <- seq_len(length(df)) %>%
-        purrr::map(
-          ~ .split_df_by_unique_date(df[[.x]], import_action[[.x]], arg)
-        ) %>%
-        purrr::flatten()
+  if (arg$option$import_mode == "single") {
+    df <- df %>%
+      purrr::map(~.split_df_userid_date(.x, arg))
+
+    df <- df %>%
+      purrr::imap(~ purrr::set_names(.x, rep(.y, length(.x)))) %>%
+      purrr::flatten()
+
+  } else if (arg$option$import_mode == "batch") {
+    if (!is.null(arg$duplicate_date_user_id)) {
+      if (isTRUE(arg$duplicate_date_user_id) && is.null(arg$option$table_field)) {
+        import_action <- names(df)
+        df <- seq_len(length(df)) %>%
+          purrr::map(
+            ~ .split_df_by_unique_date(df[[.x]], import_action[[.x]], arg)
+          ) %>%
+          purrr::flatten()
+      }
     }
   }
+
   df
 }

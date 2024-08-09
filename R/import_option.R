@@ -42,15 +42,19 @@ sb_insert_event_option <- function(
     interactive_mode = TRUE,
     id_col = c("user_id", "about", "username", "email"),
     table_field = NULL,
-    cache = TRUE) {
+    cache = TRUE,
+    import_mode = c("batch", "single")
+) {
   id_col <- rlang::arg_match(id_col)
+  import_mode <- rlang::arg_match(import_mode)
   structure(
     class = "sb_import_option",
     list(
       interactive_mode = interactive_mode,
       id_col = id_col,
       table_field = table_field,
-      cache = cache
+      cache = cache,
+      import_mode = import_mode
     )
   )
 }
@@ -85,15 +89,19 @@ sb_update_event_option <- function(
     interactive_mode = TRUE,
     id_col = c("user_id", "about", "username", "email"),
     table_field = NULL,
-    cache = TRUE) {
+    cache = TRUE,
+    import_mode = c("batch", "single")
+) {
   id_col <- rlang::arg_match(id_col)
+  import_mode <- rlang::arg_match(import_mode)
   structure(
     class = "sb_import_option",
     list(
       interactive_mode = interactive_mode,
       id_col = id_col,
       table_field = table_field,
-      cache = cache
+      cache = cache,
+      import_mode = import_mode
     )
   )
 }
@@ -128,15 +136,19 @@ sb_upsert_event_option <- function(
     interactive_mode = TRUE,
     id_col = c("user_id", "about", "username", "email"),
     table_field = NULL,
-    cache = TRUE) {
+    cache = TRUE,
+    import_mode = c("batch", "single")
+) {
   id_col <- rlang::arg_match(id_col)
+  import_mode <- rlang::arg_match(import_mode)
   structure(
     class = "sb_import_option",
     list(
       interactive_mode = interactive_mode,
       id_col = id_col,
       table_field = table_field,
-      cache = cache
+      cache = cache,
+      import_mode = import_mode
     )
   )
 }
@@ -171,7 +183,8 @@ sb_upsert_profile_option <- function(
     interactive_mode = TRUE,
     id_col = c("user_id", "about", "username", "email"),
     table_field = NULL,
-    cache = TRUE) {
+    cache = TRUE
+) {
   id_col <- rlang::arg_match(id_col)
   structure(
     class = "sb_import_option",

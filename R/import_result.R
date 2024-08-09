@@ -24,7 +24,7 @@
     response$import_time <- NA
   }
 
-  df <- .build_import_element_response_df(df, content, arg) %>%
+  .build_import_element_response_df(df, content, arg) %>%
     dplyr::mutate(
       import_action = import_action,
       import_result = result,
@@ -132,7 +132,7 @@
   message <- result$message
   df %>%
     dplyr::mutate(
-      result = state,
+      # result = state,
       error = message
     )
 }
