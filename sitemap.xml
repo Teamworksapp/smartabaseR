@@ -1,165 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/credentials.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/deleting-data.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/exporting-data.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/get-started.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/helper-functions.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/importing-data.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/articles/synchronising-with-smartabase.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/get_metadata_names.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/print.sb_df.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/pull_smartabase.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/push_smartabase.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/save_credentials.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_date_range.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_group.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_group_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_user.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_user_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_user_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_login.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_login_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_select_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_update_event.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_update_event_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile_option.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/smartabaseR-package.html</loc>
-  </url>
-  <url>
-    <loc>https://teamworksapp.github.io/smartabaseR/reference/smartabaseR.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://teamworksapp.github.io/smartabaseR/404.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/CONTRIBUTING.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/LICENSE-text.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/LICENSE.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/credentials.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/deleting-data.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/exporting-data.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/get-started.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/helper-functions.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/importing-data.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/index.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/articles/synchronising-with-smartabase.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/authors.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/index.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/news/index.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/get_metadata_names.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/index.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/pipe.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/print.sb_df.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/pull_smartabase.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/push_smartabase.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/save_credentials.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_date_range.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_filter.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_group.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_group_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile_filter.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_user.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_user_filter.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_get_user_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_login.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_login_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_select_metadata.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event_filter.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_update_event.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_update_event_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile_option.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/smartabaseR-package.html</loc></url>
+<url><loc>https://teamworksapp.github.io/smartabaseR/reference/smartabaseR.html</loc></url>
 </urlset>
+
