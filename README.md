@@ -1,5 +1,5 @@
 
-# smartabaseR: An R wrapper for the Smartabase API <img src="man/figures/logo.png" align="right" height="100" style="float:right; height:100px; width:100px">
+# smartabaseR: An R wrapper for the Teamworks AMS API (formerly Smartabase API) <img src="man/figures/logo.png" align="right" height="100" style="float:right; height:100px; width:100px">
 
 <!-- badges: start -->
 
@@ -10,10 +10,12 @@ status](https://www.r-pkg.org/badges/version/smartabaseR)](https://CRAN.R-projec
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
-`smartabaseR` is an R package that lets you connect R to Smartabase. At
-its core, `smartabaseR` acts as a wrapper for the Smartabase API.
+`smartabaseR` is an R package that lets you connect R to Teamworks AMS
+(formerly known as Smartabase). At its core, `smartabaseR` acts as a
+wrapper for the Teamworks AMS API (formerly known as the Smartabase
+API).
 
-`sb_get_event()` returns a flat export of your Smartabase data. From
+`sb_get_event()` returns a flat export of your Teamworks AMS data. From
 there you can leverage R’s rich data wrangling, statistics and machine
 learning capabilities.
 
