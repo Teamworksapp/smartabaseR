@@ -48,7 +48,11 @@
 .convert_id_names_to_lower <- function(df) {
   id_cols <- c("about", "user_id", "username", "email", "event_id")
 
-  df %>% dplyr::rename_at(dplyr::vars(dplyr::matches(id_cols)), ~ tolower(.))
+  df %>%
+    dplyr::rename_with(
+      .fn = ~ ifelse(tolower(.) %in% id_cols, tolower(.), .),
+      .cols = dplyr::everything()
+    )
 }
 
 
