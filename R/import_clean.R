@@ -281,6 +281,21 @@
 }
 
 
+#' .convert_12am_time
+#'
+#' Converts 12 AM start/end times to 00 AM start times
+#' @noRd
+#' @keywords internal
+.convert_12am_time <- function(df) {
+  df %>%
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::all_of(c("start_time", "end_time")),
+        ~ stringr::str_replace(., "^12:(\\d{2}) (?i)am$", "00:\\1 AM")
+      )
+    )
+}
+
 
 #' .prepare_import_df
 #'
