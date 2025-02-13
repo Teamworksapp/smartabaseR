@@ -281,3 +281,24 @@ test_that("Check .insert_date_time() works", {
     )
   )
 })
+
+
+test_that("Check .convert_12am_time() converts 12 AM to 00 AM", {
+  df <- tibble::tibble(
+    start_time = "12:00 AM",
+    end_time = "12:30 AM"
+  ) %>%
+    .convert_12am_time(.)
+
+  expect_equal(df$start_time[[1]], "00:00 AM")
+  expect_equal(df$end_time[[1]], "00:30 AM")
+
+  df <- tibble::tibble(
+    start_time = "12:00 PM",
+    end_time = "12:30 PM"
+  ) %>%
+    .convert_12am_time(.)
+
+  expect_equal(df$start_time[[1]], "12:00 PM")
+  expect_equal(df$end_time[[1]], "12:30 PM")
+})
