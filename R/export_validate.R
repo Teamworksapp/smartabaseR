@@ -388,33 +388,6 @@ sb_date_range <- function(
 }
 
 
-#' .build_id_url
-#'
-#'
-#' @noRd
-#' @keywords internal
-#' @returns A charactor containing the URL
-.build_id_url <- function(arg, endpoints) {
-  if (is.null(arg$filter_user_key)) {
-    selected_endpoint <- "get_user"
-  } else {
-    if (arg$filter_user_key == "current_group") {
-      selected_endpoint <- "get_current"
-    } else if (arg$filter_user_key == "group") {
-      selected_endpoint <- "get_group"
-    } else {
-      selected_endpoint <- "get_user"
-    }
-  }
-  arg$smartabase_url <- .build_url(
-    url = arg$url,
-    endpoints = endpoints,
-    endpoint = selected_endpoint
-  )
-  arg
-}
-
-
 #' .check_export_class
 #'
 #' Validates that options for export functions have class "sb_export_filter"

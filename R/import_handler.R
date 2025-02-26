@@ -35,6 +35,7 @@
   df <- df %>%
     dplyr::ungroup() %>%
     .insert_date_time(., arg$current_env) %>%
+    .convert_12am_time(.) %>%
     .attach_user_id_to_df(., arg)
 
   arg$duplicate_date_user_id <- .detect_duplicate_date_user_id(df, arg)
