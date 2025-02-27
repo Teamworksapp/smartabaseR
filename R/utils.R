@@ -81,11 +81,11 @@ get_metadata_names <- function(df) {
 #' @noRd
 #' @keywords internal
 #' @returns url string
-.build_url <- function(url, endpoints, endpoint) {
-  base <- paste0(url, "/api/v1")
-  endpoint <- endpoints[[endpoint]][["path"]]
+.build_url <- function(arg) {
+  base <- paste0(arg$url, "/api/v1")
+  endpoint <- arg$endpoint
   params <- "informat=json&format=json"
-  paste0(base, endpoint, "?", params)
+  glue::glue("{base}/{endpoint}?{params}")
 }
 
 

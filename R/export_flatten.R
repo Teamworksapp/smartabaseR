@@ -10,7 +10,7 @@
 #' @keywords internal
 #' @returns A tibble
 .flatten_export_metadata <- function(json, arg) {
-  if (arg$type == "synchronise") {
+  if (arg$endpoint == "synchronise") {
     json <- json %>%
       dplyr::filter(.data$export_object == "export") %>%
       tidyjson::enter_object("events")
@@ -20,7 +20,7 @@
     json <- json %>%
       tidyjson::gather_array("record_number") %>%
       tidyjson::spread_all() %>%
-      .rename_export_metadata(., arg$type)
+      .rename_export_metadata(., arg$endpoint)
   }
   json
 }

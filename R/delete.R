@@ -48,7 +48,8 @@ sb_delete_event <- function(
     username = username,
     password = password,
     option = option,
-    type = "delete",
+    endpoint = "deleteevent",
+    endpoint_type = "delete",
     action = "delete",
     current_env = env,
     ...
@@ -77,24 +78,7 @@ sb_delete_event <- function(
 #' @noRd
 #' @keywords internal
 .delete_handler <- function(arg) {
-  login <- sb_login(
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    option = arg$option
-  )
-  arg$endpoints <- .get_endpoint(
-    login = login,
-    url = arg$url,
-    username = arg$username,
-    password = arg$password,
-    interactive_mode = arg$interactive_mode,
-    cache = arg$cache,
-    env = arg$current_env,
-    endpoints = NULL
-  )
-
-  arg$smartabase_url <- .build_export_url(arg)
+  arg$smartabase_url <- .build_url(arg)
   body <- list(eventId = arg$event_id)
   request <- .build_request(body, arg)
   resp <- .make_request(request, arg)

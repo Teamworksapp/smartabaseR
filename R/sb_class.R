@@ -34,10 +34,10 @@ new_sb_tibble <- function(response, dat, arg) {
         dplyr::n_distinct()
     }
 
-    if (arg$type == "synchronise" && !is.null(arg$last_sync_time)) {
+    if (arg$endpoint == "synchronise" && !is.null(arg$last_sync_time)) {
       attr(sb_tibble, "new_sync_time") <- arg$new_sync_time
     }
-    if (arg$type == "synchronise" && "deleted_event_id" %in% names(arg)) {
+    if (arg$endpoint == "synchronise" && "deleted_event_id" %in% names(arg)) {
       attr(sb_tibble, "deleted_event_id") <- arg$deleted_event_id
     }
   } else if (arg$action == "import") {

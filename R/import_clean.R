@@ -179,7 +179,6 @@
   if (!"start_time" %in% names(df)) {
     df <- df %>% dplyr::mutate(start_time = current_datetime[["start_time"]])
   } else {
-    .validate_import_time_leading_zero(df, "start_time", env)
     .validate_import_time_colon(df, "start_time", env)
     .validate_import_time_ampm(df, "start_time", env)
     .validate_import_time_length(df, "start_time", env)
@@ -194,7 +193,6 @@
   }
 
   if ("end_time" %in% names(df)) {
-    .validate_import_time_leading_zero(df, "end_time", env)
     .validate_import_time_colon(df, "end_time", env)
     .validate_import_time_ampm(df, "end_time", env)
     .validate_import_time_length(df, "end_time", env)

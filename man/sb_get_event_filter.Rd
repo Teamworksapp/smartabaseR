@@ -9,7 +9,7 @@ sb_get_event_filter(
   user_value = NULL,
   data_key = NULL,
   data_value = NULL,
-  data_condition = NULL,
+  data_condition = "equal_to",
   events_per_user = NULL
 )
 }
