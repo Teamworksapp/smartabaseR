@@ -188,13 +188,11 @@ sb_date_range <- function(
   .validate_export_time_ampm(start_time, "start_time", env)
   .validate_export_time_hour(start_time, "start_time", env)
   .validate_export_time_length(start_time, "start_time", env)
-  .validate_export_time_leading_zero(start_time, "start_time", env)
 
   .validate_export_time_colon(end_time, "end_time", env)
   .validate_export_time_ampm(end_time, "end_time", env)
   .validate_export_time_hour(end_time, "end_time", env)
   .validate_export_time_length(end_time, "end_time", env)
-  .validate_export_time_leading_zero(end_time, "end_time", env)
 }
 
 
@@ -338,26 +336,6 @@ sb_date_range <- function(
       c(
         "!" = "{.arg {time_var_name}} must be 10 characters.",
         "!" = "You supplied {.field {date}}."
-      ),
-      call = env
-    )
-  }
-}
-
-#' .validate_export_time_leading_zero
-#'
-#'
-#' @noRd
-#' @keywords internal
-#' @returns error message
-.validate_export_time_leading_zero <- function(time, time_var_name, env) {
-  validate_zero <- stringr::str_detect(time, "^0")
-  if (isTRUE(validate_zero)) {
-    clear_progress_id()
-    cli::cli_abort(
-      c(
-        "!" = "{.arg time_var_name} cannot start with a zero",
-        "!" = "You supplied {.field {time}}."
       ),
       call = env
     )

@@ -267,39 +267,6 @@
   }
 }
 
-#' .validate_import_time_leading_zero
-#'
-#' @noRd
-#' @keywords internal
-#' @returns An error message
-.validate_import_time_leading_zero <- function(df, time_var_name, env) {
-  df <- df %>%
-    dplyr::mutate(
-      leading_zero_test = stringr::str_detect(!!dplyr::sym(time_var_name), "^0")
-    ) %>%
-    dplyr::filter(.data$leading_zero_test)
-
-  if (nrow(df) > 0) {
-    error <- df %>%
-      dplyr::slice(1)
-
-    row_num <- error %>% dplyr::pull(.data$row_num)
-    time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
-
-    clear_progress_id()
-    cli::cli_abort(
-      c(
-        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
-      {.field {row_num}}.",
-        "!" = "You supplied {.field {time}}.",
-        "i" = "There should be no leading zero."
-      ),
-      call = env
-    )
-  }
-}
-
-
 #' .validate_import_time_colon
 #'
 #' @noRd
