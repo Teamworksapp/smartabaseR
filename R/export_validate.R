@@ -188,13 +188,11 @@ sb_date_range <- function(
   .validate_export_time_ampm(start_time, "start_time", env)
   .validate_export_time_hour(start_time, "start_time", env)
   .validate_export_time_length(start_time, "start_time", env)
-  .validate_export_time_leading_zero(start_time, "start_time", env)
 
   .validate_export_time_colon(end_time, "end_time", env)
   .validate_export_time_ampm(end_time, "end_time", env)
   .validate_export_time_hour(end_time, "end_time", env)
   .validate_export_time_length(end_time, "end_time", env)
-  .validate_export_time_leading_zero(end_time, "end_time", env)
 }
 
 
@@ -344,26 +342,6 @@ sb_date_range <- function(
   }
 }
 
-#' .validate_export_time_leading_zero
-#'
-#'
-#' @noRd
-#' @keywords internal
-#' @returns error message
-.validate_export_time_leading_zero <- function(time, time_var_name, env) {
-  validate_zero <- stringr::str_detect(time, "^0")
-  if (isTRUE(validate_zero)) {
-    clear_progress_id()
-    cli::cli_abort(
-      c(
-        "!" = "{.arg time_var_name} cannot start with a zero",
-        "!" = "You supplied {.field {time}}."
-      ),
-      call = env
-    )
-  }
-}
-
 
 #' .convert_argument_to_null
 #'
@@ -384,74 +362,6 @@ sb_date_range <- function(
     arg[filter_arg[[1]]] <- list(NULL)
   }
 
-  arg
-}
-
-
-#' .build_export_url
-#'
-#'
-#' @noRd
-#' @keywords internal
-#' @returns A charactor containing the URL
-.build_export_url <- function(arg) {
-  if (arg$type == "event") {
-    if (!is.null(arg$filter$data_key)) {
-      selected_endpoint <- "get_filtered_event"
-    } else {
-      selected_endpoint <- "get_event"
-    }
-  } else if (arg$type == "synchronise") {
-    selected_endpoint <- "synchronise_event"
-  } else if (arg$type == "profile") {
-    selected_endpoint <- "get_profile"
-  } else if (arg$type == "user") {
-    if (is.null(arg$filter$user_key)) {
-      selected_endpoint <- "get_user"
-    } else {
-      if (arg$filter$user_key == "current_group") {
-        selected_endpoint <- "get_current"
-      } else if (arg$filter$user_key == "group") {
-        selected_endpoint <- "get_group"
-      } else {
-        selected_endpoint <- "get_user"
-      }
-    }
-  } else if (arg$type == "group") {
-    selected_endpoint <- "get_group_names"
-  } else if (arg$type == "delete") {
-    selected_endpoint <- "delete_event"
-  }
-  .build_url(
-    url = arg$url,
-    endpoints = arg$endpoints,
-    endpoint = selected_endpoint
-  )
-}
-
-#' .build_id_url
-#'
-#'
-#' @noRd
-#' @keywords internal
-#' @returns A charactor containing the URL
-.build_id_url <- function(arg, endpoints) {
-  if (is.null(arg$filter_user_key)) {
-    selected_endpoint <- "get_user"
-  } else {
-    if (arg$filter_user_key == "current_group") {
-      selected_endpoint <- "get_current"
-    } else if (arg$filter_user_key == "group") {
-      selected_endpoint <- "get_group"
-    } else {
-      selected_endpoint <- "get_user"
-    }
-  }
-  arg$smartabase_url <- .build_url(
-    url = arg$url,
-    endpoints = endpoints,
-    endpoint = selected_endpoint
-  )
   arg
 }
 

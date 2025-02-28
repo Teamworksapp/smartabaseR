@@ -163,21 +163,21 @@
 #' .build_export_body
 #'
 #' Helper that encapsulates logic for passing to correct build function based
-#' on arg$type
+#' on arg$endpoint
 #'
 #' @noRd
 #' @keywords internal
 #' @returns A character vector
 .build_export_body <- function(arg, user_id = NULL) {
-  if (arg$type == "synchronise") {
+  if (arg$endpoint == "synchronise") {
     .build_export_synchronise_body(arg, user_id)
-  } else if (arg$type == "profile") {
+  } else if (arg$endpoint == "profilesearch") {
     .build_export_profile_body(arg, user_id)
-  } else if (arg$type == "event") {
+  } else if (arg$endpoint %in% c("eventsearch", "filteredeventsearch")) {
     .build_export_event_body(arg, user_id)
-  } else if (arg$type == "user") {
+  } else if (arg$endpoint %in% c("groupmembers","usersearch","currentgroup")) {
     .build_export_id_body(arg)
-  } else if (arg$type == "group") {
+  } else if (arg$endpoint == "listgroups") {
     .build_export_group_body(arg)
   }
 }

@@ -69,38 +69,6 @@
 }
 
 
-#' .build_import_url
-#' @noRd
-#'
-#' @keywords internal
-#'
-#' @returns Data to be uploaded to Smartabase - 'JSON'
-.build_import_url <- function(arg) {
-  if (arg$type == "profile") {
-    selected_endpoint <- "insert_profile"
-    arg$response_msg <- NULL
-  } else {
-    selected_endpoint <- "insert_event"
-    arg$response_msg <- list(
-      "eventImportResultForForm",
-      "eventImportResults"
-    )
-  }
-
-  table_field_exists <- exists("arg$option$table_field")
-  empty_table_field <- identical(arg$option$table_field, "")
-  if (table_field_exists && empty_table_field) {
-    arg$option$table_field <- NULL
-  }
-
-  .build_url(
-    url = arg$url,
-    endpoints = arg$endpoints,
-    endpoint = selected_endpoint
-  )
-}
-
-
 #' .validate_duplicate_event_id
 #'
 #' Create the text that will appear in the confirmation message when
@@ -167,7 +135,7 @@
 #'
 #' @returns text to appear in confirm message
 .detect_duplicate_date_user_id <- function(df, arg) {
-  if (is.null(arg$option$table_field) && arg$type != "profile") {
+  if (is.null(arg$option$table_field) && arg$endpoint != "profileimport") {
     duplicate_flag <- df %>%
       dplyr::group_by(.data$start_date, .data$user_id) %>%
       dplyr::summarise(duplicate_date = dplyr::n(), .groups = "drop") %>%
@@ -298,39 +266,6 @@
     )
   }
 }
-
-#' .validate_import_time_leading_zero
-#'
-#' @noRd
-#' @keywords internal
-#' @returns An error message
-.validate_import_time_leading_zero <- function(df, time_var_name, env) {
-  df <- df %>%
-    dplyr::mutate(
-      leading_zero_test = stringr::str_detect(!!dplyr::sym(time_var_name), "^0")
-    ) %>%
-    dplyr::filter(.data$leading_zero_test)
-
-  if (nrow(df) > 0) {
-    error <- df %>%
-      dplyr::slice(1)
-
-    row_num <- error %>% dplyr::pull(.data$row_num)
-    time <- error %>% dplyr::pull(!!dplyr::sym(time_var_name))
-
-    clear_progress_id()
-    cli::cli_abort(
-      c(
-        "!" = "Incorrect {.field {time_var_name}} value supplied at row: \\
-      {.field {row_num}}.",
-        "!" = "You supplied {.field {time}}.",
-        "i" = "There should be no leading zero."
-      ),
-      call = env
-    )
-  }
-}
-
 
 #' .validate_import_time_colon
 #'

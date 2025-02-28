@@ -164,9 +164,9 @@
     import_action,
     prog_vals,
     arg) {
-  if (arg$type == "event") {
+  if (arg$endpoint == "eventsimport") {
     .generate_event_import_result_msg(content, import_action, prog_vals, arg)
-  } else if (arg$type == "profile") {
+  } else if (arg$endpoint == "profileimport") {
     .generate_profile_import_result_msg(content, import_action, prog_vals, arg)
   }
 }

@@ -4,21 +4,21 @@
 #' @keywords internal
 #' @returns A character vector containing message
 .generate_export_progress_msg <- function(arg) {
-  if (arg$type == "event") {
+  if (arg$endpoint %in% c("eventsearch", "filteredeventsearch")) {
     msg <- paste(
       "Initiating {.field {arg$form}} export between",
       "{.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}..."
     )
-  } else if (arg$type == "profile") {
+  } else if (arg$endpoint == "profilesearch") {
     msg <- "Initiating {.field {arg$form}} export..."
-  } else if (arg$type == "synchronise") {
+  } else if (arg$endpoint == "synchronise") {
     msg <- paste(
       "Initiating sync with {.field {arg$form}} from ",
       "{.field {.convert_unix_time_to_utc(arg$last_sync_time/1000)}} onwards..."
     )
-  } else if (arg$type == "group") {
+  } else if (arg$endpoint == "listgroups") {
     msg <- "Initiating group name export..."
-  } else if (arg$type == "user") {
+  } else if (arg$endpoint == "usersearch") {
     msg <- "Initiating user export..."
   }
   cli::cli_progress_message(msg, .envir = arg$current_env)
@@ -30,32 +30,32 @@
 #' @keywords internal
 #' @returns A character vector containing message
 .generate_no_data_msg <- function(arg) {
-  if (arg$type == "event") {
+  if (arg$endpoint == "eventsearch") {
     cli::cli_inform(
       c("i" = "No event data was found in {.field {arg$form}} between \\
         {.field {arg$start_date_clean}} - {.field {arg$end_date_clean}}."),
       "i" = "Are any user/data filters applied incorrectly?"
     )
-  } else if (arg$type == "profile") {
+  } else if (arg$endpoint == "profilesearch") {
     cli::cli_inform(
       c(
         "!" = "No profile data was found in {.field {arg$form}}.",
         "i" = "Are any user filters applied incorrectly?"
       )
     )
-  } else if (arg$type == "synchronise") {
+  } else if (arg$endpoint == "synchronise") {
     cli::cli_inform(
       c("!" = "No new data in {.field {arg$form}} since \\
         {.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}}.")
     )
-  } else if (arg$type == "user") {
+  } else if (arg$endpoint == "usersearch") {
     cli::cli_inform(
       c(
         "!" = "No user details found.",
         "i" = "Are any user filters applied incorrectly?"
       )
     )
-  } else if (arg$type == "group") {
+  } else if (arg$endpoint == "listgroups") {
     cli::cli_inform(
       c(
         "!" = "No group details found.",
@@ -150,24 +150,24 @@
 #' @keywords internal
 #' @returns A character vector containing message
 .generate_export_success_msg <- function(arg) {
-  if (arg$type == "event") {
+  if (arg$endpoint %in% c("eventsearch", "filteredeventsearch")) {
     msg <- paste(
       "{.field {arg$form}} export successful",
       "({.field {arg$start_date_clean}} - {.field {arg$end_date_clean}})."
     )
-  } else if (arg$type == "profile") {
+  } else if (arg$endpoint == "profilesearch") {
     msg <- paste(
       "{.field {arg$form}} export successful."
     )
-  } else if (arg$type == "synchronise") {
+  } else if (arg$endpoint == "synchronise") {
     msg <- paste(
       "{.field {arg$form}} synchronise successful",
       "(data modified after",
       "{.field { .convert_unix_time_to_utc(arg$last_sync_time/1000)}})"
     )
-  } else if (arg$type == "user") {
+  } else if (arg$endpoint %in% c("usersearch","currentgroup","groupmembers")) {
     msg <- "User details export successful."
-  } else if (arg$type == "group") {
+  } else if (arg$endpoint == "listgroups") {
     msg <- "Group export successful."
   }
   clear_progress_id()

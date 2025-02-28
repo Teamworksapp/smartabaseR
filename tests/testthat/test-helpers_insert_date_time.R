@@ -71,35 +71,6 @@ test_that("Check .insert_date_time() works", {
     )
   )
 
-  # Error with leading zero in start_time
-  expect_error(
-    .insert_date_time(
-      df = tibble::tibble(about = "Jamie Anderson") %>%
-        dplyr::mutate(
-          start_time = "01:00 am",
-          start_date = "01/09/2021",
-          end_time = "2:00 am",
-          end_date = "01/09/2021"
-        ),
-      current_datetime = current_datetime,
-      env = rlang::current_env()
-    )
-  )
-  # Error with leading zero in end_time
-  expect_error(
-    .insert_date_time(
-      df = tibble::tibble(about = "Jamie Anderson") %>%
-        dplyr::mutate(
-          start_time = "1:00 am",
-          start_date = "01/09/2021",
-          end_time = "02:00 am",
-          end_date = "01/09/2021"
-        ),
-      current_datetime = current_datetime,
-      env = rlang::current_env()
-    )
-  )
-
   # Error with no colon in start_time
   expect_error(
     .insert_date_time(

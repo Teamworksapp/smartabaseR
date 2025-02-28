@@ -298,12 +298,12 @@
 #' Cleans metadata column names, largely converting camel case to snake case
 #'
 #' @param data Data returned from Smartabase
-#' @param type Export type
+#' @param endpoint Endpoint name
 #' @noRd
 #' @keywords internal
 #' @returns A [tibble()]
-.rename_export_metadata <- function(data, type) {
-  if (type == "profile") {
+.rename_export_metadata <- function(data, endpoint) {
+  if (endpoint == "profilesearch") {
     data %>%
       dplyr::rename(
         form               = .data$formName,
@@ -339,7 +339,7 @@
 #' @returns A [tibble()] containing user data joined with event/profile data
 .join_user_data <- function(data, id_data, arg) {
   options <- arg$option
-  if (arg$type != "profile") {
+  if (arg$endpoint != "profilesearch") {
     first_metadata_cols <- c(
       "about",
       "user_id",
