@@ -1,0 +1,57 @@
+---
+title: "Retrieving a License Audit"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+editor_options:
+  chunk_output_type: console
+vignette: >
+  %\VignetteIndexEntry{Retrieving a License Audit}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+The `sb_get_license_audit()` function allows administrators to retrieve a license audit from AMS, providing an overview of user access and licensing details.
+
+This function requires authentication and an active session. The resulting license audit file is returned as a tibble.
+
+## Prerequisites
+
+Before using this function, ensure that:
+- You have valid login credentials for AMS.
+- You have established a session using `sb_login()`.
+- You have the necessary permissions to access license audit data.
+
+## Usage
+
+```{r license_audit_example, eval = FALSE}
+url <- "example.smartabase.com/example"
+username <- "<admin_username>"
+password <- "<admin_password>"
+
+login <- sb_login(
+  url = url,
+  username = username,
+  password = password
+)
+
+license_audit <- sb_get_license_audit(
+  login = login,
+  url = url,
+  username = username,
+  password = password
+)
+
+head(license_audit)
+```
+

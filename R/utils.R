@@ -197,6 +197,14 @@ get_metadata_names <- function(df) {
   c(response_time, response_list)
 }
 
+.extract_session_data <- function(response, login) {
+  cookies <- httr2::resp_header(response, "set-cookie")
+  session_header <- httr2::resp_header(response, "session-header")
+  login$cookies <- cookies
+  login$session_header <- session_header
+  login
+}
+
 #' .endpoint_names
 #'
 #' Helper to remember endpoints aliases
