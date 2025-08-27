@@ -57,24 +57,28 @@
 #' @keywords internal
 #' @returns Data to be uploaded to Smartabase - 'JSON'
 .detect_duplicate_user_ids <- function(id_data, env) {
-  if (any(duplicated(id_data$about))) {
-    dup_names <- id_data %>%
-      dplyr::count(.data$about) %>%
-      dplyr::filter(.data$n > 1) %>%
-      dplyr::pull(.data$about)
+  id_cols <- names(id_data)
+  about_exists <- any(id_cols %in% "about")
+  if (about_exists) {
+    if (any(duplicated(id_data$about))) {
+      dup_names <- id_data %>%
+        dplyr::count(.data$about) %>%
+        dplyr::filter(.data$n > 1) %>%
+        dplyr::pull(.data$about)
 
-    dup_names <- sub(",([^,]*)$", " and\\1", paste(dup_names, collapse = ", "))
+      dup_names <- sub(",([^,]*)$", " and\\1", paste(dup_names, collapse = ", "))
 
-    clear_progress_id()
-    cli::cli_abort(
-      message = c(
-        "!" = "There are multiple Smartabase accounts with the following \\
+      clear_progress_id()
+      cli::cli_abort(
+        message = c(
+          "!" = "There are multiple Smartabase accounts with the following \\
         first and last names: {paste(dup_names, collapse = ", ")}",
-        "i" = "Try running `sb_get_user(...)` to find and match the correct \\
+          "i" = "Try running `sb_get_user(...)` to find and match the correct \\
         user IDs manually."
-      ),
-      call = env
-    )
+        ),
+        call = env
+      )
+    }
   }
 }
 
@@ -101,6 +105,10 @@
       filter = sb_get_user_filter(
         user_key = user_key,
         user_value = user_value
+      ),
+      option = sb_get_user_option(
+        cache_user = arg$option$cache_user,
+        cache_user_timeout = arg$option$cache_user_timeout
       )
     ) %>%
       dplyr::select(.data$user_id, !!id_col) %>%
@@ -111,6 +119,23 @@
 
     .detect_duplicate_user_ids(id_data, arg$current_env)
     df <- dplyr::left_join(df, id_data, by = id_col)
+
+    miss_users <- df %>% dplyr::filter(is.na(user_id))
+
+    if (nrow(miss_users) > 0) {
+      miss_user <- miss_users %>% dplyr::slice(1)
+      miss_user_id_col <- miss_user[[id_col]]
+
+      cli::cli_abort(
+        call = arg$current_env,
+        c(
+          "!" = "We couldn't find information about an athlete.",
+          "x" = glue::glue(
+            "There is no athlete with {user_key} = '{miss_user_id_col}'"
+          )
+        )
+      )
+    }
   } else {
     if (!"user_id" %in% names(df)) {
       clear_progress_id()
@@ -119,8 +144,9 @@
         call = arg$current_env
       )
     }
-    df
   }
+
+  return(df)
 }
 
 
