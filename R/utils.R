@@ -1,3 +1,63 @@
+#' Caching wrapper for smartabaseR API calls
+#'
+#' @param key A unique key (string) to identify the cached result.
+#' @param expr An expression to evaluate if no valid cache is found.
+#' @param cache Logical. Should caching be used?
+#' @param cache_timeout Time-to-live for cache in seconds.
+#' @param cache_env The environment to store cache in.
+#' @param cache_label A short label (function name) for messaging.
+#'
+#' @noRd
+#' @keywords internal
+#'
+#' @returns The result of `expr`, either from cache or freshly evaluated.
+#' @noRd
+.sb_cache <- function(
+    key,
+    expr,
+    cache = TRUE,
+    cache_timeout = 1800,
+    cache_env = .sb_cache_env,
+    cache_label = "result",
+    interactive_mode = TRUE
+) {
+  now <- Sys.time()
+
+  if (cache && exists(key, envir = cache_env, inherits = FALSE)) {
+    cached <- cache_env[[key]]
+    age <- as.numeric(difftime(now, cached$timestamp, units = "secs"))
+    if (age < cache_timeout) {
+      remaining <- round(cache_timeout - age)
+      cache_env$last_hit <- key
+
+      if (!is.null(interactive_mode)) {
+        if (isTRUE(interactive_mode)) {
+          cli::cli_alert_success(
+            paste0(
+              "Using cached result for {.fn {cache_label}} ",
+              "({remaining}s remaining). ",
+              "See {.fn ?{cache_label}_option}."
+            )
+          )
+        }
+      }
+
+      return(cached$result)
+    } else {
+      rm(list = key, envir = cache_env)
+    }
+  }
+
+  result <- eval(expr, envir = parent.frame())
+  if (cache) {
+    cache_env[[key]] <- list(result = result, timestamp = now)
+    cache_env$last_hit <- NULL
+  }
+
+  return(result)
+}
+
+
 #' sb_select_metadata
 #'
 #' Returns vector of metadata variables present in data frame
@@ -82,10 +142,16 @@ get_metadata_names <- function(df) {
 #' @keywords internal
 #' @returns url string
 .build_url <- function(arg) {
-  base <- paste0(arg$url, "/api/v1")
-  endpoint <- arg$endpoint
-  params <- "informat=json&format=json"
-  glue::glue("{base}/{endpoint}?{params}")
+  if (arg$api_version == "v1") {
+    base <- paste0(arg$url, "/api/v1")
+    endpoint <- arg$endpoint
+    params <- "informat=json&format=json"
+    glue::glue("{base}/{endpoint}?{params}")
+  } else {
+    base <- paste0(arg$url, "/api/v2")
+    endpoint <- arg$endpoint
+    glue::glue("{base}/{endpoint}")
+  }
 }
 
 
@@ -156,13 +222,40 @@ get_metadata_names <- function(df) {
 #' @noRd
 #' @keywords internal
 .build_request <- function(body, arg) {
-  httr2::request(arg$smartabase_url) %>%
-    httr2::req_body_json(body, auto_unbox = TRUE, null = "list") %>%
-    httr2::req_auth_basic(
-      username = arg$username,
-      password = arg$password
-    ) %>%
-    httr2::req_user_agent("smartabaseR")
+  if (arg$endpoint_type == "login") {
+    login_request <- httr2::request(arg$smartabase_url) %>%
+      httr2::req_body_json(body, auto_unbox = TRUE, null = "list") %>%
+      httr2::req_auth_basic(
+        username = username,
+        password = password
+      ) %>%
+      httr2::req_user_agent("smartabaseR") %>%
+      httr2::req_headers(
+        "X-GWT-Permutation" = "HostedMode",
+        "session-header" = NULL
+      )
+    return(login_request)
+  }
+
+  if (arg$api_version == "v1") {
+    httr2::request(arg$smartabase_url) %>%
+      httr2::req_body_json(body, auto_unbox = TRUE, null = "list") %>%
+      httr2::req_auth_basic(
+        username = arg$username,
+        password = arg$password
+      ) %>%
+      httr2::req_user_agent("smartabaseR")
+
+  } else if (arg$api_version == "v2") {
+    httr2::request(arg$smartabase_url) %>%
+      httr2::req_headers(
+        "Cookie" = arg$login$cookie,
+        "session-header" = arg$login$session_header,
+        "X-GWT-Permutation" = "6DA389D10C28639EE3223A5A5FAB15CA"
+      ) %>%
+      httr2::req_body_json(body) %>%
+      httr2::req_user_agent("smartabaseR")
+  }
 }
 
 #' .make_request
@@ -173,8 +266,55 @@ get_metadata_names <- function(df) {
 #' @keywords internal
 #' @returns Smartabase API response
 .make_request <- function(request, arg) {
-  response <- request %>%
+  if (arg$endpoint_type == "login") {
+    response <- request %>%
+      httr2::req_error(
+        is_error = function(resp) httr2::resp_status(resp) == 401
+      ) %>%
+      httr2::req_perform()
+
+  } else {
+    response <- request %>%
+      httr2::req_error(is_error = function(resp) FALSE) %>%
+      httr2::req_perform()
+
+    if (httr2::resp_is_error(response)) {
+      clear_progress_id()
+      msg <- .build_http_error_msg(response)
+      cli::cli_abort(msg, call = arg$current_env)
+    }
+  }
+
+  response_time <- response$headers$Date %>%
+    as.POSIXct(., format = "%a, %d %b %Y %H:%M:%S") %>%
+    as.numeric() * 1000 %>%
+      purrr::set_names(glue::glue("{arg$action}_time"))
+
+  response_list <- list(
+    "response" = response,
+    "request" = response$url,
+    "http_method" = "POST",
+    "http_status_code" = response$status_code
+  )
+  c(response_time, response_list)
+}
+
+
+
+#' .make_request
+#'
+#' Calls the Smartabase API and returns the response
+#'
+#' @noRd
+#' @keywords internal
+#' @returns Smartabase API response
+.make_request_file <- function(file_url, arg) {
+  response <- httr2::request(file_url) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
+    httr2::req_headers(
+      "Cookie" = arg$login$cookie,
+      "session-header" = arg$login$session_header
+    ) %>%
     httr2::req_perform()
 
   if (httr2::resp_is_error(response)) {
@@ -186,7 +326,7 @@ get_metadata_names <- function(df) {
   response_time <- response$headers$Date %>%
     as.POSIXct(., format = "%a, %d %b %Y %H:%M:%S") %>%
     as.numeric() * 1000 %>%
-      purrr::set_names(glue::glue("{arg$action}_time"))
+    purrr::set_names(glue::glue("{arg$action}_time"))
 
   response_list <- list(
     "response" = response,
