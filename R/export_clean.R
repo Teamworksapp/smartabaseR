@@ -27,20 +27,8 @@
         data %>% dplyr::select(dplyr::any_of(c("start_time", "end_time")))
       )
   }
-
-  # if (!is.null(sync_time)) {
-  #   data <- data %>%
-  #     mutate(sync_time = sync_time) %>%
-  #     tidyr::nest(data = -sync_time)
-  # }
-  #
-  # if (!is.null(deleted_events)) {
-  #   data <- data %>%
-  #     bind_cols(deleted_events)
-  # }
   data %>% dplyr::select(-dplyr::any_of("export_object"))
 }
-
 
 
 
@@ -106,6 +94,25 @@
   }
   data
 }
+
+
+
+#' .clean_license_audit_export
+#'
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [tibble()]
+.clean_license_audit_export <- function(data, include_all_cols) {
+  if (nrow(data) == 0) {
+    return(data)
+  }
+  data %>%
+    dplyr::rename_all(tolower) %>%
+    dplyr::rename_all(~stringr::str_replace_all(., " ", "_")) %>%
+    dplyr::rename(user_id = .data$id)
+}
+
 
 #' .clean_iam_data
 #'

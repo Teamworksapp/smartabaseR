@@ -11,7 +11,13 @@
 #' @noRd
 #' @keywords internal
 .export_handler <- function(arg) {
-  if (arg$endpoint %in% c("groupmembers", "usersearch", "currentgroup")) {
+  null_endpoint <- c(
+    "groupmembers",
+    "usersearch",
+    "currentgroup",
+    "downloadLicenseAudit"
+  )
+  if (arg$endpoint %in% null_endpoint) {
     id_data <- NULL
     user_id <- NULL
   } else {
@@ -27,6 +33,22 @@
   arg$smartabase_url <- .build_url(arg)
   arg$dry_run <- FALSE
   arg$action <- "export"
+
+  if (arg$api_version == "v2") {
+    if (is.null(arg$login)) {
+      arg$login <- sb_login(
+        url = arg$url,
+        username = arg$username,
+        password = arg$password,
+        option = sb_login_option(
+          interactive_mode = arg$option$interactive_mode,
+          cache_login = arg$option$cache_audit,
+          cache_login_timeout = arg$option$cache_audit_timeout
+        )
+      )
+    }
+  }
+
   request <- .build_request(body, arg)
 
   if (isTRUE(arg$option$interactive_mode)) {
@@ -59,6 +81,7 @@
 #' @noRd
 #' @keywords internal
 #' @returns A tibble
+
 .json_to_df_handler <- function(response, arg, id_data = NULL) {
   data <- .extract_content(response, arg)
   if (nrow(data) == 0) {
@@ -69,6 +92,8 @@
     data <- .convert_user_json_to_df(response, data, arg)
   } else if (arg$endpoint == "listgroups") {
     data <- .convert_group_json_to_df(response, data, arg)
+  } else if (arg$endpoint == "membership/downloadLicenseAudit") {
+    data <- .convert_license_audit_json_to_df(response, data, arg)
   } else {
     data <- .convert_export_json_to_df(response, data, id_data, arg)
   }

@@ -169,6 +169,8 @@
     msg <- "User details export successful."
   } else if (arg$endpoint == "listgroups") {
     msg <- "Group export successful."
+  } else if (arg$endpoint == "membership/downloadLicenseAudit") {
+    msg <- "License audit export successful."
   }
   clear_progress_id()
   cli::cli_alert_success(msg)

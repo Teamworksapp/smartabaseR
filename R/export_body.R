@@ -179,6 +179,8 @@
     .build_export_id_body(arg)
   } else if (arg$endpoint == "listgroups") {
     .build_export_group_body(arg)
+  } else if (arg$endpoint == "membership/downloadLicenseAudit") {
+    .build_license_audit_body(arg)
   }
 }
 
@@ -256,3 +258,19 @@
 .build_export_group_body <- function(arg) {
   list(name = "")
 }
+
+
+#' .build_license_audit_body
+#'
+#' @noRd
+#' @keywords internal
+#' @returns A [list()]
+.build_license_audit_body <- function(arg) {
+  list(
+    "username" = arg$username,
+    "password" = arg$password,
+    "clientTimeOffset" = "0",
+    "__rpc_method_signature__" = "downloadLicenseAudit"
+  )
+}
+
