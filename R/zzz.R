@@ -1,19 +1,5 @@
 internal_env <- NULL
-
-#' cache_function
-#'
-#' @noRd
-#' @keywords internal
-#' @returns NULL
-cache_function <- function(function_name) {
-  fn <- get(function_name, envir = rlang::ns_env("smartabaseR"))
-  fn <- memoise::memoise(
-    fn,
-    omit_args = c("option")
-  )
-  assign(function_name, fn, envir = rlang::ns_env("smartabaseR"))
-  return(invisible(TRUE))
-}
+.sb_cache_env <- new.env(parent = emptyenv())
 
 #' .onLoad
 #'
@@ -21,9 +7,7 @@ cache_function <- function(function_name) {
 #' @keywords internal
 #' @returns NULL
 .onLoad <- function(libname, pkgname) {
-  internal_env <<- new.env()
-  purrr::map(
-    c("sb_login", "sb_get_user"),
-    ~ cache_function(.x)
-  )
+  internal_env <<- new.env(parent = emptyenv())
+  .sb_cache_env <<- new.env(parent = emptyenv())
 }
+
