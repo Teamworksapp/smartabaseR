@@ -88,6 +88,8 @@ sb_insert_event <- function(
     password = password,
     option = option,
     endpoint = "eventsimport",
+    endpoint_type = "event",
+    api_version = "v1",
     update_event = FALSE,
     current_env = env,
     ...
@@ -152,6 +154,8 @@ sb_update_event <- function(
     password = password,
     option = option,
     endpoint = "eventsimport",
+    endpoint_type = "event",
+    api_version = "v1",
     update_event = TRUE,
     current_env = env,
     ...
@@ -234,6 +238,8 @@ sb_upsert_event <- function(
     password = password,
     option = option,
     endpoint = "eventsimport",
+    endpoint_type = "event",
+    api_version = "v1",
     update_event = TRUE,
     current_env = env,
     ...
@@ -302,6 +308,8 @@ sb_upsert_profile <- function(
     password = password,
     option = option,
     endpoint = "profileimport",
+    endpoint_type = "profile",
+    api_version = "v1",
     update_event = FALSE,
     current_env = env,
     ...

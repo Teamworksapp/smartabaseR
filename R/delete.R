@@ -50,6 +50,7 @@ sb_delete_event <- function(
     option = option,
     endpoint = "deleteevent",
     endpoint_type = "delete",
+    api_version = "v1",
     action = "delete",
     current_env = env,
     ...
