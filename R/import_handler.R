@@ -14,15 +14,18 @@
 #'
 #' @keywords internal
 .import_handler <- function(df, arg) {
-  if (is.null(arg$login)) {
-    arg$login <- sb_login(
-      url = arg$url,
-      username = arg$username,
-      password = arg$password,
-      option = arg$option
+  login <- sb_login(
+    url = arg$url,
+    username = arg$username,
+    password = arg$password,
+    option = sb_login_option(
+      interactive_mode = arg$option$interactive_mode,
+      cache_login = arg$option$cache_user,
+      cache_login_timeout = arg$option$cache_user_timeout
     )
-  }
-  arg$entered_by_user_id <- arg$login$user$id
+  )
+  arg$entered_by_user_id <- login$user$id
+
   table_field_exists <- exists("arg$option$table_field")
   empty_table_field <- identical(arg$option$table_field, "")
   if (table_field_exists && empty_table_field) {
@@ -39,7 +42,6 @@
     .attach_user_id_to_df(., arg)
 
   arg$duplicate_date_user_id <- .detect_duplicate_date_user_id(df, arg)
-
   df_list <- .prepare_import_df(df, arg)
   arg$total_length_body <- length(df_list)
 
