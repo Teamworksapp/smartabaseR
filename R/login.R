@@ -30,101 +30,89 @@ sb_login <- function(
     username,
     password,
     ...,
-    option = sb_login_option()) {
+    option = sb_login_option()
+) {
   if (isTRUE(option$interactive_mode)) {
     login_progress_id <- cli::cli_progress_message(
       "Logging {.field {username}} into {.field {url}}..."
     )
     set_progress_id("login_progress_id", login_progress_id)
   }
-  url <- .validate_url(url)
-  password <- password
-  request_body <- list(
+  rlang::check_dots_used()
+  env <- rlang::current_env()
+
+  arg <- list(
+    url = .validate_url(url),
     username = username,
     password = password,
-    loginProperties = list(
-      appName = basename(url),
-      clientTime = format(Sys.time(), "%Y-%m-%dT%H:%M")
-    )
+    option = option,
+    endpoint = "user/loginUser",
+    endpoint_type = "login",
+    api_version = "v2",
+    current_env = env,
+    ...
   )
+  if (!is.null(arg$dev_mode)) {
+    if (isTRUE(arg$dev_mode)) {
+      return(arg)
+    }
+  }
+  cache_args <- arg[!names(arg) %in% c("current_env")]
+  key <- paste0(serialize(cache_args, NULL), collapse = "")
+  .sb_cache(
+    key = key,
+    expr = quote(.login_handler(arg)),
+    cache = arg$option[["cache_login"]],
+    cache_timeout = arg$option[["cache_login_timeout"]],
+    cache_label = "sb_login",
+    interactive_mode = arg$option[["cache_login"]]
+  )
+}
 
-  response <- httr2::request(
-    glue::glue("{url}/api/v2/user/loginUser")
-  ) %>%
-    httr2::req_body_json(request_body, auto_unbox = TRUE, null = "list") %>%
-    httr2::req_auth_basic(
-      username = username,
-      password = password
-    ) %>%
-    httr2::req_user_agent("smartabaseR") %>%
-    httr2::req_headers(
-      "X-GWT-Permutation" = "HostedMode",
-      "session-header" = NULL
-    ) %>%
-    httr2::req_error(
-      is_error = function(resp) httr2::resp_status(resp) == 401
-    ) %>%
-    httr2::req_perform()
 
-  login <- httr2::resp_body_json(response)
+.login_handler <- function(arg) {
+  body <- .build_login_body(arg)
+  arg$smartabase_url <- .build_url(arg)
+  arg$action <- "login"
+  request <- .build_request(body, arg)
+  response <- .make_request(request, arg)
+  login <- httr2::resp_body_json(response$response)
   if (!is.null(login$`__is_rpc_exception__`)) {
     if (isTRUE(login$`__is_rpc_exception__`)) {
       clear_progress_id()
       cli::cli_abort(
+        call = arg$current_env,
         glue::glue("{login$value$detailMessage}")
       )
     }
   }
-  if (isTRUE(option$interactive_mode)) {
+
+  if (isTRUE(arg$option$interactive_mode)) {
     clear_progress_id()
     cli::cli_alert_success(
-      "Successfully logged {.field {username}} into {.field {url}}."
+      "Successfully logged {.field {arg$username}} into {.field {arg$url}}."
     )
   }
 
-  login$cookie <- response$headers$`Set-Cookie`
-  login$session_header <- response$headers$`session-header`
+  login$cookie <- response$response$headers$`Set-Cookie`
+  login$session_header <- response$response$headers$`session-header`
   login
 }
 
 
-#' .get_endpoint
+#' .build_license_audit_body
 #'
-#' Gets endpoint names to be passed onto other functions. Saves us from
-#' hardcoding the endpoint names into the package itself; rather requires a
-#' login via `sb_login()` first
-#'
-#' @returns Smartabase endpoint names
 #' @noRd
 #' @keywords internal
-.get_endpoint <- function(
-    login,
-    url,
-    username,
-    password,
-    interactive_mode,
-    cache,
-    env,
-    endpoints = NULL) {
-  if (!is.null(endpoints)) {
-    return(endpoints)
-  }
-  response <- httr2::request(
-    glue::glue("{url}/api/v3/endpoints?version=v1")
-  ) %>%
-    httr2::req_auth_basic(
-      username = username,
-      password = password
-    ) %>%
-    httr2::req_user_agent("smartabaseR") %>%
-    httr2::req_headers(
-      "X-GWT-Permutation" = "HostedMode",
-      "session-header" = login$session_header,
-      "Cookie" = glue::glue("JSESSIONID={login$session_header}")
-    ) %>%
-    httr2::req_perform()
-
-  endpoints <- httr2::resp_body_json(response)
-  .validate_endpoints(endpoints, url)
-  endpoints
+#' @returns A [list()]
+.build_login_body <- function(arg) {
+  list(
+    username = arg$username,
+    password = arg$password,
+    loginProperties = list(
+      appName = basename(arg$url),
+      clientTime = format(Sys.time(), "%Y-%m-%dT%H:%M")
+    )
+  )
 }
+
