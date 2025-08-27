@@ -102,3 +102,28 @@
   export_data <- .clean_export(data = export_data, id_data, arg)
   new_sb_tibble(response, export_data, arg)
 }
+
+
+.convert_license_audit_json_to_df <- function(response, data, arg) {
+  cookie <- response$response$headers$`session-header`
+  content <- response$response %>% httr2::resp_body_json()
+  exception <- content[["__is_rpc_exception__"]]
+
+  if (!is.null(exception)) {
+    if (isTRUE(exception)) {
+      clear_progress_id()
+      cli::cli_abort(
+        "License Audit access denied.",
+        call = arg$current_env
+      )
+    }
+  }
+
+  file_url <- glue::glue("{content$value$url}&token={arg$login$user$skypeName}")
+  license_audit_resp <- .make_request_file(file_url, arg)
+  export_data <- httr2::resp_body_string(license_audit_resp$response) %>%
+    readr::read_csv(show_col_types = FALSE)
+
+  export_data <- .clean_license_audit_export(data = export_data, include_all_cols = TRUE)
+  new_sb_tibble(response, export_data, arg)
+}
