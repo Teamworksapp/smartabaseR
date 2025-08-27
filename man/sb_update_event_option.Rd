@@ -8,7 +8,8 @@ sb_update_event_option(
   interactive_mode = TRUE,
   id_col = c("user_id", "about", "username", "email"),
   table_field = NULL,
-  cache = TRUE
+  cache_user = TRUE,
+  cache_user_timeout = 1800
 )
 }
 \arguments{
@@ -29,8 +30,14 @@ relevant import option helper function. This is equivalent to ticking
 'Treat all records for the same user, on the same day as a single record?'
 in the Smartabase web app.}
 
-\item{cache}{If TRUE, login token and user details are cached once per
-session. To invalidate the cache, restart your R session.}
+\item{cache_user}{If TRUE, user IDs for target athletes are cached on the
+local cache. This saves API calls to get the user IDs before each import,
+since user data tends to be slow-changing. This is particularly useful
+for large AMS sites.}
+
+\item{cache_user_timeout}{Defaults to 30 seconds. The time in seconds that
+the user ID cache is valid for. Once invalidated, the user data will be
+re-exported. Restarting the R session will also invalidate the cache.}
 }
 \value{
 A list of options with class = "sb_import_option"

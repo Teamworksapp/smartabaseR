@@ -7,9 +7,10 @@
 sb_get_user_option(
   interactive_mode = TRUE,
   include_all_cols = FALSE,
-  cache = TRUE,
   include_missing_user = FALSE,
-  guess_col_type = TRUE
+  guess_col_type = TRUE,
+  cache_user = TRUE,
+  cache_user_timeout = 1800
 )
 }
 \arguments{
@@ -24,17 +25,27 @@ user information like phone, address and date of birth are also returned. If
 only one user is returned, roles and groups information about that user is
 included.}
 
-\item{cache}{If TRUE, login token and user details are cached once per
-session. Similar to \code{include_user_data}, caching can have performance
-benefits when the user data set is large, such as on large Smartabase sites
-with thousands of users. To invalidate the cache, restart your R session.}
-
 \item{include_missing_user}{If TRUE, includes users who have not recorded
 data in that form as rows of NA values.}
 
 \item{guess_col_type}{If TRUE, \code{\link[=sb_get_event]{sb_get_event()}} uses \code{\link[readr:type_convert]{readr::type_convert()}}
 to guess the column types of the exported data frame. If FALSE, all columns
 will come through as character.}
+
+\item{cache_user}{Logical. If \code{TRUE}, the result of \code{sb_get_user()}
+will be cached on the local machine and reused within the current R session,
+up to the timeout specified by \code{cache_user_timeout}. All of the export
+functions (e.g. \code{sb_get_event()}, \code{sb_sync_event()} etc.) call
+\code{sb_get_user()} internally, so caching is recommended given that retrieving
+the user data can be
+\itemize{
+\item Can be computationally intensive on large sites
+\item User data is slow-changing and unlike to change in a given R session
+}}
+
+\item{cache_user_timeout}{Numeric. Duration (in seconds) that cached user
+data remains valid. After this timeout, the data will be refreshed from
+the API. Note that cached results are only stored for the current R session.}
 }
 \value{
 A list of options with class = "sb_export_option"
@@ -61,6 +72,7 @@ sb_get_user_option(guess_col_type = FALSE, interactive_mode = FALSE)
 Other export option helpers: 
 \code{\link{sb_get_event_option}()},
 \code{\link{sb_get_group_option}()},
+\code{\link{sb_get_license_audit_option}()},
 \code{\link{sb_get_profile_option}()},
 \code{\link{sb_sync_event_option}()}
 }

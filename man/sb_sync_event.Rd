@@ -29,9 +29,9 @@ an integer}
 
 \item{...}{These dots are for future extensions and must be empty}
 
-\item{filter}{More filters accessible via \code{\link[=sb_sync_event_filter]{sb_sync_event_filter()}} object}
+\item{filter}{More filters accessible via \code{\link[=sb_sync_event_filter]{sb_sync_event_filter()}}}
 
-\item{option}{More options accessible via \code{\link[=sb_sync_event_option]{sb_sync_event_option()}} object}
+\item{option}{More options accessible via \code{\link[=sb_sync_event_option]{sb_sync_event_option()}}}
 }
 \value{
 A tibble containing Smartabase event data

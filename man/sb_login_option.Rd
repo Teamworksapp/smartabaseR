@@ -2,19 +2,36 @@
 % Please edit documentation in R/login_option.R
 \name{sb_login_option}
 \alias{sb_login_option}
-\title{sb_login_option}
+\title{Set option parameters for \code{\link[=sb_login]{sb_login()}}}
 \usage{
-sb_login_option(interactive_mode = TRUE)
+sb_login_option(
+  interactive_mode = TRUE,
+  cache_login = TRUE,
+  cache_login_timeout = 1800
+)
 }
 \arguments{
 \item{interactive_mode}{If TRUE, all messages are printed to the console.
 If FALSE, they are suppressed. The idea is that \code{interactive_mode} should be
 set to FALSE in automated environments to ensure logs aren't clogged up with
 progress messages.}
+
+\item{cache_login}{Logical. If \code{TRUE}, the result of \code{\link[=sb_login]{sb_login()}} will be
+cached in memory and reused for the duration of the current R session, up to
+the timeout specified by \code{cache_login_timeout}.
+
+This is useful because \code{sb_login()} is often called automatically behind the
+scenes by import functions such as \code{\link[=sb_insert_event]{sb_insert_event()}}. If you're calling
+multiple import functions repeatedly in the same R session, caching avoids
+unnecessary re-authentication, reducing latency and API load.}
+
+\item{cache_login_timeout}{Numeric. Time in seconds that a cached login
+object remains valid. Once this timeout is exceeded, a new login will be
+requested on the next function call.}
 }
 \value{
 list of named export options
 }
 \description{
-Exports data from a Smartabase event form
+sb_login_option
 }

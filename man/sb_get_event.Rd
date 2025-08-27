@@ -30,9 +30,9 @@ end_date (dd/mm/YYYY) character values}
 
 \item{...}{These dots are for future extensions and must be empty}
 
-\item{filter}{More filters accessible via \code{\link[=sb_get_event_filter]{sb_get_event_filter()}} object}
+\item{filter}{More filters accessible via \code{\link[=sb_get_event_filter]{sb_get_event_filter()}}}
 
-\item{option}{More options accessible via \code{\link[=sb_get_event_option]{sb_get_event_option()}} object}
+\item{option}{More options accessible via \code{\link[=sb_get_event_option]{sb_get_event_option()}}}
 
 \item{time_range}{Vector of length two containing a valid start_time and
 and end_time (h:mm am/pm) character values. Defaults to

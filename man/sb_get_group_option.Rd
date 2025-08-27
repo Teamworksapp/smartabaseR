@@ -40,6 +40,7 @@ sb_get_group_option(guess_col_type = FALSE, interactive_mode = FALSE)
 
 Other export option helpers: 
 \code{\link{sb_get_event_option}()},
+\code{\link{sb_get_license_audit_option}()},
 \code{\link{sb_get_profile_option}()},
 \code{\link{sb_get_user_option}()},
 \code{\link{sb_sync_event_option}()}
