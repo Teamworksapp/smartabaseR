@@ -118,6 +118,7 @@ push_smartabase <- function(
     password = password,
     option = option,
     type = type,
+    api_version = "v1",
     update_event = edit_event,
     current_env = env,
     ...

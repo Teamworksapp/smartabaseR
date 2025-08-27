@@ -118,6 +118,7 @@ pull_smartabase <- function(
     filter = filter,
     option = option,
     type = "event",
+    api_version = "v1",
     current_env = env,
     dev_mode = dev_mode,
     pull_smartabase = TRUE,
