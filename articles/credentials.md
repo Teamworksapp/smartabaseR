@@ -1,0 +1,59 @@
+# Credentials
+
+### Required credentials
+
+Every call to an exported `smartabaseR` functions requires a `url`,
+`username` and `password`. Note: usernames and emails are **not**
+interchangeable; `smartabaseR` only accepts valid Smartabase usernames.
+
+### Credential storage
+
+In the `smartabaseR` documentation, we supply credentials in plain text
+directly in all the examples. We only do this for the sake of space, but
+in production environments we would advise against storing Smartabase
+credentials in plain text anywhere, let alone in the main function call
+for all to see.
+
+Here is some excellent documentation that explores some options:
+<https://CRAN.R-project.org/package=httr/vignettes/secrets.html>
+
+We’d like to reiterate something Hadley Wickham says in that document:
+“Regardless of how you store them, to use your secrets you will still
+need to read them into R variables. Be careful not to expose them by
+printing them or saving them to a file.”
+
+#### Environment variables
+
+At worst, we would suggest storing credentials as environment variables.
+These are still stored as plain text, but at least they don’t need to be
+shown on screen when using `smartabaseR` in an interactive environment.
+
+``` r
+## Opens .Reviron file
+file.edit("~/.Renviron")
+```
+
+If we set the environment variables `SB_URL`, `SB_USER` and `SB_PASS`,
+then in our script we could call those credentials like this:
+
+``` r
+sb_get_event(
+  form = "Training Log",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = Sys.getenv("SB_URL"),
+  username = Sys.getenv("SB_USER"),
+  password = Sys.getenv("SB_PASS")
+)
+```
+
+#### keyring
+
+A better option is to use a package like
+[keyring](https://github.com/r-lib/keyring) which gives you more control
+over how your secrets are accessed.
+
+#### Ask every time
+
+A more laborious option is to request for a password every time:
+[rstudioapi::askForPassword()](https://rstudio.github.io/rstudioapi/reference/askForPassword.html)
+or [getPass::getPass()](https://github.com/wrathematics/getPass).

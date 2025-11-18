@@ -1,0 +1,263 @@
+# smartabaseR: An R wrapper for the Teamworks AMS API (formerly Smartabase API)
+
+`smartabaseR` is an R package that lets you connect R to Teamworks AMS
+(formerly known as Smartabase). At its core, `smartabaseR` acts as a
+wrapper for the Teamworks AMS API (formerly known as the Smartabase
+API).
+
+[`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+returns a flat export of your Teamworks AMS data. From there you can
+leverage R’s rich data wrangling, statistics and machine learning
+capabilities.
+
+[`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md)
+sends data from R to Smartabase.
+
+## Installation
+
+Install the development version of `smartabaseR` from
+[GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("Teamworksapp/smartabaseR")
+```
+
+## Requirements
+
+- `smartabaseR` can only be used on Smartabase versions **6.14** or
+  greater (if your account has `superadmin` or `site owner` privileges,
+  then `smartabaseR` can also be used with **v6.13**).
+
+  - In 2023, Smartabase switched to [calendar
+    versioning](https://calver.org/). `smartabaseR` can be used on any
+    site that uses calendar versioning e.g. **2023.1**, **2023.2** etc.
+
+- Smartabase email addresses and Smartabase usernames are NOT
+  interchangeable when logging into Smartabase via `smartabaseR`. You
+  must always supply a valid Smartabase username when prompted in
+  `smartabaseR`.
+
+## Security
+
+`smartabaseR` respects all the same permissions as if you were
+interacting with the Smartabase web app or a Smartabase mobile app. For
+example, if you don’t have access to a certain form in Smartabase, then
+you won’t have access to that form via `smartabaseR`. Likewise, if you
+have delete access to a certain form in Smartabase, then you can also
+delete data from that form with `smartabaseR`.
+
+`smartabaseR` is a powerful tool. It can level up your automation and
+analytics processes but there is potential for damage if you have not:
+
+1.  read all the documentation
+2.  undertaken extensive testing before putting into production
+3.  reached out to your Smartabase consultant when/if you have any
+    questions and/or concerns
+
+## Get started
+
+It’s important to think about how you provide credentials to
+`smartabaseR`. You can read more about that here:
+[`vignette("credentials")`](https://teamworksapp.github.io/smartabaseR/articles/credentials.md).
+
+## Usage
+
+The two main functions of `smartabaseR` allow you to export/import data
+from/to your Smartabase site via the Smartabase API.
+
+#### sb_get_event()
+
+The
+[`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+function allows you to export data from a specific Smartabase form into
+an R session:
+
+``` r
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+#### sb_insert_event()
+
+The
+[`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md)
+function allows you to send data back to a Smartabase form:
+
+``` r
+sb_insert_event(
+  df = data,
+  form = "Example Form",
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+## Further Reading
+
+Browse the vignettes below for in depth details on the workflow and for
+details each function:
+
+- [`vignette("exporting-data")`](https://teamworksapp.github.io/smartabaseR/articles/exporting-data.md)
+- [`vignette("importing-data")`](https://teamworksapp.github.io/smartabaseR/articles/importing-data.md)
+- [`vignette("helper-functions")`](https://teamworksapp.github.io/smartabaseR/articles/helper-functions.md)
+
+# Package index
+
+## All functions
+
+- [`print(`*`<sb_df>`*`)`](https://teamworksapp.github.io/smartabaseR/reference/print.sb_df.md)
+  : print.sb_df
+
+- [`save_credentials()`](https://teamworksapp.github.io/smartabaseR/reference/save_credentials.md)
+  : save_credentials
+
+- [`sb_date_range()`](https://teamworksapp.github.io/smartabaseR/reference/sb_date_range.md)
+  : Generates a date range relative to a supplied end date.
+
+- [`sb_delete_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event.md)
+  : Export event data
+
+- [`sb_delete_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event_option.md)
+  :
+
+  Set option parameters for
+  [`sb_delete_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_delete_event.md)
+
+- [`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+  : Export event data
+
+- [`sb_get_event_filter()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_filter.md)
+  :
+
+  Set filter parameters for
+  [`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+
+- [`sb_get_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_option.md)
+  :
+
+  Set option parameters for
+  [`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+
+- [`sb_get_group()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_group.md)
+  : Export Smartabase group data
+
+- [`sb_get_group_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_group_option.md)
+  :
+
+  Set option parameters for
+  [`sb_get_group()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_group.md)
+
+- [`sb_get_profile()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile.md)
+  : Export data from a Smartabase profile form
+
+- [`sb_get_profile_filter()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile_filter.md)
+  :
+
+  Set filter parameters for
+  [`sb_get_profile()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile.md)
+
+- [`sb_get_profile_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile_option.md)
+  :
+
+  Set option parameters for
+  [`sb_get_profile()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile.md)
+
+- [`sb_get_user()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_user.md)
+  : Export Smartabase user data
+
+- [`sb_get_user_filter()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_user_filter.md)
+  :
+
+  Set filter parameters for
+  [`sb_get_profile()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_profile.md)
+
+- [`sb_get_user_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_user_option.md)
+  :
+
+  Set option parameters for
+  [`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+
+- [`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md)
+  : Insert event data
+
+- [`sb_insert_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event_option.md)
+  :
+
+  Set option parameters for
+  [`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md)
+
+- [`sb_login()`](https://teamworksapp.github.io/smartabaseR/reference/sb_login.md)
+  : Log into Smartabase using credentials
+
+- [`sb_login_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_login_option.md)
+  : sb_login_option
+
+- [`sb_select_metadata()`](https://teamworksapp.github.io/smartabaseR/reference/sb_select_metadata.md)
+  : sb_select_metadata
+
+- [`sb_sync_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event.md)
+  : Export modified event data since the last synchronisation time
+
+- [`sb_sync_event_filter()`](https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event_filter.md)
+  :
+
+  Set filter parameters for
+  [`sb_sync_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event.md)
+
+- [`sb_sync_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event_option.md)
+  :
+
+  Set option parameters for
+  [`sb_sync_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event.md)
+
+- [`sb_update_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_update_event.md)
+  : Update profile data
+
+- [`sb_update_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_update_event_option.md)
+  :
+
+  Set option parameters for
+  [`sb_update_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_update_event_option.md)
+
+- [`sb_upsert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event.md)
+  : Upsert event data
+
+- [`sb_upsert_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event_option.md)
+  :
+
+  Set option parameters for
+  [`sb_upsert_event_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_event_option.md)
+
+- [`sb_upsert_profile()`](https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile.md)
+  : Upsert profile data
+
+- [`sb_upsert_profile_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile_option.md)
+  :
+
+  Set option parameters for
+  [`sb_upsert_profile_option()`](https://teamworksapp.github.io/smartabaseR/reference/sb_upsert_profile_option.md)
+
+# Articles
+
+### All vignettes
+
+- [Credentials](https://teamworksapp.github.io/smartabaseR/articles/credentials.md):
+- [Deleting
+  Data](https://teamworksapp.github.io/smartabaseR/articles/deleting-data.md):
+- [Exporting
+  Data](https://teamworksapp.github.io/smartabaseR/articles/exporting-data.md):
+- [Get
+  Started](https://teamworksapp.github.io/smartabaseR/articles/get-started.md):
+- [Helper
+  Functions](https://teamworksapp.github.io/smartabaseR/articles/helper-functions.md):
+- [Importing
+  Data](https://teamworksapp.github.io/smartabaseR/articles/importing-data.md):
+- [Synchronising with
+  Smartabase](https://teamworksapp.github.io/smartabaseR/articles/synchronising-with-smartabase.md):

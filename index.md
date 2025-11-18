@@ -1,0 +1,109 @@
+# smartabaseR: An R wrapper for the Teamworks AMS API (formerly Smartabase API)
+
+`smartabaseR` is an R package that lets you connect R to Teamworks AMS
+(formerly known as Smartabase). At its core, `smartabaseR` acts as a
+wrapper for the Teamworks AMS API (formerly known as the Smartabase
+API).
+
+[`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+returns a flat export of your Teamworks AMS data. From there you can
+leverage R’s rich data wrangling, statistics and machine learning
+capabilities.
+
+[`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md)
+sends data from R to Smartabase.
+
+## Installation
+
+Install the development version of `smartabaseR` from
+[GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("Teamworksapp/smartabaseR")
+```
+
+## Requirements
+
+- `smartabaseR` can only be used on Smartabase versions **6.14** or
+  greater (if your account has `superadmin` or `site owner` privileges,
+  then `smartabaseR` can also be used with **v6.13**).
+
+  - In 2023, Smartabase switched to [calendar
+    versioning](https://calver.org/). `smartabaseR` can be used on any
+    site that uses calendar versioning e.g. **2023.1**, **2023.2** etc.
+
+- Smartabase email addresses and Smartabase usernames are NOT
+  interchangeable when logging into Smartabase via `smartabaseR`. You
+  must always supply a valid Smartabase username when prompted in
+  `smartabaseR`.
+
+## Security
+
+`smartabaseR` respects all the same permissions as if you were
+interacting with the Smartabase web app or a Smartabase mobile app. For
+example, if you don’t have access to a certain form in Smartabase, then
+you won’t have access to that form via `smartabaseR`. Likewise, if you
+have delete access to a certain form in Smartabase, then you can also
+delete data from that form with `smartabaseR`.
+
+`smartabaseR` is a powerful tool. It can level up your automation and
+analytics processes but there is potential for damage if you have not:
+
+1.  read all the documentation
+2.  undertaken extensive testing before putting into production
+3.  reached out to your Smartabase consultant when/if you have any
+    questions and/or concerns
+
+## Get started
+
+It’s important to think about how you provide credentials to
+`smartabaseR`. You can read more about that here:
+[`vignette("credentials")`](https://teamworksapp.github.io/smartabaseR/articles/credentials.md).
+
+## Usage
+
+The two main functions of `smartabaseR` allow you to export/import data
+from/to your Smartabase site via the Smartabase API.
+
+#### sb_get_event()
+
+The
+[`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md)
+function allows you to export data from a specific Smartabase form into
+an R session:
+
+``` r
+sb_get_event(
+  form = "Example Form",
+  date_range = c("01/03/2023", "07/03/2023"),
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+#### sb_insert_event()
+
+The
+[`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md)
+function allows you to send data back to a Smartabase form:
+
+``` r
+sb_insert_event(
+  df = data,
+  form = "Example Form",
+  url = "example.smartabase.com/site",
+  username = "example.username",
+  password = "example_password"
+)
+```
+
+## Further Reading
+
+Browse the vignettes below for in depth details on the workflow and for
+details each function:
+
+- [`vignette("exporting-data")`](https://teamworksapp.github.io/smartabaseR/articles/exporting-data.md)
+- [`vignette("importing-data")`](https://teamworksapp.github.io/smartabaseR/articles/importing-data.md)
+- [`vignette("helper-functions")`](https://teamworksapp.github.io/smartabaseR/articles/helper-functions.md)
