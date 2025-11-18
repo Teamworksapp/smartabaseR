@@ -23,7 +23,7 @@ Imports:
     lubridate,
     magrittr,
     memoise,
-    purrr (<= 1.1.0),
+    purrr,
     readr,
     rlang,
     stringr,
@@ -32,6 +32,8 @@ Imports:
     tidyr,
     tidyselect,
     usethis
+Remotes:
+  hikokuchuo/tidyjson
 Suggests: 
     ggplot2,
     knitr,
