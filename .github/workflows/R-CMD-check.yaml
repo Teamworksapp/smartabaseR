@@ -43,7 +43,7 @@ jobs:
         with:
           extra-packages: |
             any::rcmdcheck
-            any:tidyjson
+            any::tidyjson
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

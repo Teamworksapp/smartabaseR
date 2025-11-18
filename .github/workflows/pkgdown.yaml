@@ -34,7 +34,7 @@ jobs:
         with:
           extra-packages: |
             any::pkgdown,
-            any:tidyjson,
+            any::tidyjson,
             local::.
           needs: website
 
