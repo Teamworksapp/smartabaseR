@@ -3,7 +3,7 @@ ProjectId: 701ce363-77d9-4969-8453-6e2a46deb53b
 
 RestoreWorkspace: No
 SaveWorkspace: No
-AlwaysSaveHistory: Default
+AlwaysSaveHistory: No
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
