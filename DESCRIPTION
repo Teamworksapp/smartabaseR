@@ -33,7 +33,7 @@ Imports:
     tidyselect,
     usethis
 Remotes:
-  shikokuchuo/tidyjson@purrr-fix
+    joranE/tidyjson
 Suggests: 
     ggplot2,
     knitr,
