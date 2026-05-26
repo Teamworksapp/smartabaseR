@@ -54,6 +54,41 @@
   )
 }
 
+#' .extract_cursor
+#'
+#' Extracts the pagination cursor from a raw API response.
+#' Returns NULL when there are no further pages.
+#'
+#' The cursor field location and key name differs by endpoint:
+#' - `eventsearch` / `filteredeventsearch`: top-level `nextCursor`
+#' - `synchronise`: nested inside `pagination$cursor`
+#'
+#' @param response Named list returned by [.make_request()]
+#' @param endpoint Character; the AMS endpoint name (e.g. `"eventsearch"`)
+#' @noRd
+#' @keywords internal
+#' @returns A non-empty character cursor string, or NULL
+.extract_cursor <- function(response, endpoint) {
+  # Use check_type = FALSE because some AMS endpoints return JSON without an
+  # explicit application/json Content-Type header.
+  body <- httr2::resp_body_json(
+    response$response,
+    simplifyVector = FALSE,
+    check_type     = FALSE
+  )
+
+  cursor <- if (endpoint == "synchronise") {
+    body[["pagination"]][["cursor"]]
+  } else {
+    # eventsearch, filteredeventsearch
+    body[["nextCursor"]]
+  }
+
+  # Treat NULL or empty string as "no more pages"
+  if (is.null(cursor) || identical(cursor, "")) NULL else cursor
+}
+
+
 #' .extract_new_sync_time
 #'
 #'

@@ -14,6 +14,14 @@
     json <- json %>%
       dplyr::filter(.data$export_object == "export") %>%
       tidyjson::enter_object("events")
+  } else if (arg$endpoint %in% c("eventsearch", "filteredeventsearch")) {
+    # When pagination is enabled the response gains a top-level "cursor" key
+    # alongside "events". Filter to just the events array so that
+    # gather_array() isn't called on the non-array cursor value.
+    if ("events" %in% json$export_object) {
+      json <- json %>%
+        dplyr::filter(.data$export_object == "events")
+    }
   }
 
   if (nrow(json) > 0) {
