@@ -99,12 +99,27 @@
   page_arg           <- arg
   page_arg$is_paging <- TRUE
 
-  pages  <- list()
-  cursor <- NULL
-  page_n <- 0L
+  max_pages   <- if (!is.null(arg$option$max_pages)) arg$option$max_pages else 1000L
+  pages       <- list()
+  cursor      <- NULL
+  last_cursor <- NULL
+  page_n      <- 0L
 
   repeat {
     page_n <- page_n + 1L
+
+    if (page_n > max_pages) {
+      clear_progress_id()
+      cli::cli_abort(
+        c(
+          "Pagination safety limit reached after {max_pages} pages of \\
+           {.field {arg$form}} data.",
+          "i" = "This may indicate an infinite-loop bug in the server cursor. \\
+                 The data collected so far has been discarded."
+        ),
+        call = arg$current_env
+      )
+    }
 
     if (isTRUE(arg$option$interactive_mode) && page_n > 1L) {
       cli::cli_progress_message(
@@ -113,10 +128,25 @@
       )
     }
 
-    body     <- .build_export_body(arg, user_id, cursor = cursor)
-    request  <- .build_request(body, arg)
-    response <- .make_request(request, arg)
-    cursor   <- .extract_cursor(response, arg$endpoint)
+    body        <- .build_export_body(arg, user_id, cursor = cursor)
+    request     <- .build_request(body, arg)
+    response    <- .make_request(request, arg)
+    last_cursor <- cursor
+    cursor      <- .extract_cursor(response, arg$endpoint)
+
+    if (!is.null(cursor) && identical(cursor, last_cursor)) {
+      clear_progress_id()
+      cli::cli_abort(
+        c(
+          "Pagination cursor did not advance on page {page_n} of \\
+           {.field {arg$form}} data.",
+          "i" = "The server returned the same cursor twice in a row, which \\
+                 would cause an infinite loop. The data collected so far has \\
+                 been discarded."
+        ),
+        call = arg$current_env
+      )
+    }
 
     if (isTRUE(arg$option$interactive_mode)) {
       export_wrangle_progress_id <- cli::cli_progress_message(
