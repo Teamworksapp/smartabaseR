@@ -93,10 +93,12 @@
 #'
 #' Build body to be passed to event export endpoint
 #'
+#' @param cursor Character cursor from a previous paginated response, or NULL
+#'   for the first page.
 #' @noRd
 #' @keywords internal
 #' @returns A character vector
-.build_export_event_body <- function(arg, user_id) {
+.build_export_event_body <- function(arg, user_id, cursor = NULL) {
   data_filters <- arg$filter$data_filter
   filters <- arg$filter
   options <- arg$option
@@ -108,8 +110,16 @@
     startDate   = arg$date_range[[1]][[1]],
     finishDate  = arg$date_range[[2]][[1]],
     startTime   = arg$time_range[[1]][[1]],
-    finishTime  = arg$time_range[[2]][[1]]
+    finishTime  = arg$time_range[[2]][[1]],
+    paginate    = TRUE
   )
+
+  # Only include cursor when continuing from a previous page — omitting it
+  # entirely on the first request avoids serialisation issues (NULL becomes []
+  # under req_body_json's null = "list" rule).
+  if (!is.null(cursor)) {
+    body$cursor <- cursor
+  }
 
   if (!is.null(key)) {
     body$filter <- data_filters
@@ -138,22 +148,35 @@
 
 #' .build_export_synchronise_body
 #'
-#' Build body to be passed to synchronise export endpoint
+#' Build body to be passed to synchronise export endpoint.
+#' The `synchronise` endpoint uses a nested `pagination` object (unlike
+#' `eventsearch` / `filteredeventsearch` which use top-level fields).
 #'
+#' @param cursor Character cursor from a previous paginated response, or NULL
+#'   for the first page.
 #' @noRd
 #' @keywords internal
 #' @returns A character vector
-.build_export_synchronise_body <- function(arg, user_id) {
+.build_export_synchronise_body <- function(arg, user_id, cursor = NULL) {
+  # Only include cursor in the pagination object when continuing from a
+  # previous page — omitting it avoids serialisation issues with NULL.
+  pagination <- list(paginate = TRUE)
+  if (!is.null(cursor)) {
+    pagination$cursor <- cursor
+  }
+
   if (is.null(arg$last_sync_time)) {
     body <- list(
-      formName = arg$form,
-      userIds = user_id
+      formName   = arg$form,
+      userIds    = user_id,
+      pagination = pagination
     )
   } else {
     body <- list(
-      formName = arg$form,
-      userIds = user_id,
-      lastSynchronisationTimeOnServer = arg$last_sync_time
+      formName                        = arg$form,
+      userIds                         = user_id,
+      lastSynchronisationTimeOnServer = arg$last_sync_time,
+      pagination                      = pagination
     )
   }
   body
@@ -165,16 +188,19 @@
 #' Helper that encapsulates logic for passing to correct build function based
 #' on arg$endpoint
 #'
+#' @param cursor Character cursor from a previous paginated response, or NULL.
+#'   Only used for paginating endpoints (eventsearch, filteredeventsearch,
+#'   synchronise).
 #' @noRd
 #' @keywords internal
 #' @returns A character vector
-.build_export_body <- function(arg, user_id = NULL) {
+.build_export_body <- function(arg, user_id = NULL, cursor = NULL) {
   if (arg$endpoint == "synchronise") {
-    .build_export_synchronise_body(arg, user_id)
+    .build_export_synchronise_body(arg, user_id, cursor = cursor)
   } else if (arg$endpoint == "profilesearch") {
     .build_export_profile_body(arg, user_id)
   } else if (arg$endpoint %in% c("eventsearch", "filteredeventsearch")) {
-    .build_export_event_body(arg, user_id)
+    .build_export_event_body(arg, user_id, cursor = cursor)
   } else if (arg$endpoint %in% c("groupmembers","usersearch","currentgroup")) {
     .build_export_id_body(arg)
   } else if (arg$endpoint == "listgroups") {

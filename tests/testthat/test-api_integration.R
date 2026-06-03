@@ -68,8 +68,8 @@ test_that("sb_insert_event() integration test", {
     dplyr::mutate(
       user_id = 12024,
       start_date = "01/01/2025",
-      `Body Weight pre training table` = 35,
-      `Urine Colour` = "1"
+      `Number Test` = 35,
+      `Text Test` = "Hello World"
     )
 
   insert_results <- sb_insert_event(
@@ -109,7 +109,7 @@ test_that("sb_update_event() integration test", {
   expect_true(export_12am$start_time[[1]] == "12:00 AM")
 
   update_body_weight <- export_12am %>%
-    dplyr::mutate(`Body Weight pre training table` = 999)
+    dplyr::mutate(`Number Test` = 999)
 
   update_results <- sb_update_event(
     df = update_body_weight,
@@ -134,14 +134,14 @@ test_that("sb_update_event() integration test", {
     password = Sys.getenv("TEST_PASSWORD"),
     date_range = date_range_value,
     filter = sb_get_event_filter(
-      data_key = "Body Weight pre training table",
+      data_key = "Number Test",
       data_value = 999
     )
   )
 
   expect_s3_class(export_999_update, "data.frame")
   expect_true(nrow(export_999_update) == 1)
-  expect_true(export_999_update$`Body Weight pre training table`[[1]] == 999)
+  expect_true(export_999_update$`Number Test`[[1]] == 999)
 })
 
 # Upsert data
@@ -163,7 +163,7 @@ test_that("sb_upsert_event() integration test", {
 
   expect_s3_class(export_data, "data.frame")
   export_999_value <- export_data %>%
-    dplyr::filter(`Body Weight pre training table` == 999)
+    dplyr::filter(`Number Test` == 999)
   expect_true(nrow(export_999_value) == 1)
 
   # Remove event_id from one value, which will thus become new record, also
@@ -171,11 +171,11 @@ test_that("sb_upsert_event() integration test", {
   upsert_data <- export_data %>%
     dplyr::mutate(
       event_id = dplyr::if_else(
-        `Body Weight pre training table` == 999,
+        `Number Test` == 999,
         NA_integer_,
         event_id
       ),
-      `Body Weight pre training table` = dplyr::if_else(
+      `Number Test` = dplyr::if_else(
         is.na(event_id),
         123,
         543
@@ -207,7 +207,7 @@ test_that("sb_upsert_event() integration test", {
   )
 
   unique_values <- check_upsert_results %>%
-    dplyr::pull(`Body Weight pre training table`) %>%
+    dplyr::pull(`Number Test`) %>%
     unique()
 
   expect_true(all(unique_values %in% c(123, 999, 543)))
