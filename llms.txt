@@ -19,6 +19,7 @@ Install the development version of `smartabaseR` from
 [GitHub](https://github.com/Teamworksapp/smartabaseR/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("Teamworksapp/smartabaseR")
 ```
@@ -74,6 +75,7 @@ function allows you to export data from a specific Smartabase form into
 an R session:
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -90,6 +92,7 @@ The
 function allows you to send data back to a Smartabase form:
 
 ``` r
+
 sb_insert_event(
   df = data,
   form = "Example Form",

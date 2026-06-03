@@ -5,6 +5,7 @@ is a way to determine which events have been entered/updated after a
 certain time (`last_sync_time`):
 
 ``` r
+
 sync_data <- sb_sync_event(
   form = "Example event form",
   type = "synchronise",
@@ -43,6 +44,7 @@ can access that value by using the
 [`attr()`](https://rdrr.io/r/base/attr.html) function:
 
 ``` r
+
 new_sync_time <- attr(sync_example, "new_sync_time")
 ```
 
@@ -54,6 +56,7 @@ inserted/updated since you last called
 [`sb_sync_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_sync_event.md):
 
 ``` r
+
 next_sync_example <- sb_sync_event(
   form = "Example profile form",
   type = "synchronise",

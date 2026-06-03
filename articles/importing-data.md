@@ -27,6 +27,7 @@ existing events being updated/overwritten.
 #### Example
 
 ``` r
+
 training_data <- dplyr::tibble(
   start_date = "13/01/2023",
   user_id = c(37204, 37201),
@@ -45,6 +46,7 @@ training_data
 ```
 
 ``` r
+
 sb_insert_event(
   df = training_data,
   form = "Team Summary"
@@ -90,6 +92,7 @@ applying some transformation and then importing the results using
 [`sb_insert_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_insert_event.md).
 
 ``` r
+
 training_data <- sb_get_event(
   form = "Training Log",
   date_range = c("15/04/2023", "15/04/2023"),
@@ -113,6 +116,7 @@ imagine we want to populate that field with the team’s average distance
 without creating new records. First, let’s do the calculation:
 
 ``` r
+
 library(dplyr)
 
 avg_dist_data <- training_data %>%
@@ -133,6 +137,7 @@ All we need to do now is import our `avg_dist_data` data back into our
 and the `Team Average Distance` field will be populated:
 
 ``` r
+
 sb_update_event(
   df = avg_dist_data,
   form = "Training Log",
@@ -179,6 +184,7 @@ To illustrate how
 works, let’s first get some event data from Smartabase:
 
 ``` r
+
 training_data <- sb_get_event(
   form = "Training Log",
   date_range = c("15/04/2023", "15/04/2023"),
@@ -198,6 +204,7 @@ Let’s say that we want to update this data in Smartabase such that the
 `Distance` field is rounded down to the nearest 100:
 
 ``` r
+
 library(dplyr)
 
 training_data <- training_data %>%
@@ -223,6 +230,7 @@ Smartabase. Here’s the new data:
 Joining the data exported from Smartabase with this new data gives:
 
 ``` r
+
 upsert_data <- full_join(training_data, extra_data)
 #> Joining with `by = join_by(start_date, user_id, Distance, RPE)`
 
@@ -243,6 +251,7 @@ will invoke two API calls: one to insert the rows where `event_id = NA`
 and another to update the remaining events:
 
 ``` r
+
 sb_upsert_event(
   df = upsert_data,
   form = "Training Log",
@@ -277,6 +286,7 @@ future profile imports will all be updates.
 #### Example
 
 ``` r
+
 example_profile_data <- dplyr::tibble(
   start_date = "13/01/2023",
   user_id = 37204,
@@ -294,6 +304,7 @@ training_data
 ```
 
 ``` r
+
 sb_upsert_profile(
   df = example_profile_data,
   form = "Example Profile Form",
@@ -316,6 +327,7 @@ and we want to set `table_field = "Example Table Field"`, we would set
 For example:
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -394,6 +406,7 @@ Our call to
 would then set `option = sb_insert_event_option(id_col = "about")`:
 
 ``` r
+
 sb_insert_event(
   df = training_data,
   form = "Training Log",
@@ -421,6 +434,7 @@ Here is some event data from a form that contains both table and
 non-table fields:
 
 ``` r
+
 strength_data <- sb_get_event(
   form = "Strength Testing",
   date_range = c("15/04/2023", end_date = "15/04/2023"),
@@ -435,6 +449,7 @@ strength_data <- sb_get_event(
 ```
 
 ``` r
+
 strength_data
 #> # A tibble: 6 × 8
 #>   start_date user_id about      `Session RPE` Exercise  Load Repetition event_id
@@ -459,6 +474,7 @@ and non-table fields. That is why the user must specify which columns
 map to Smartabase table fields via `table_field`:
 
 ``` r
+
 sb_insert_event(
   df = strength_data,
   form = "Strength Testing",
@@ -485,6 +501,7 @@ individual API calls.
 For example, let’s say we have the following data set
 
 ``` r
+
 print(strength_data)
 #> # A tibble: 6 × 5
 #>   start_date user_id about          exercise     load

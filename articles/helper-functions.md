@@ -56,6 +56,7 @@ to use
 along with the `user_key` and `user_value` options:
 
 ``` r
+
 sb_get_user(
   url = "example.smartabase.com/site",
   username = "example.username",
@@ -91,6 +92,7 @@ Note \#2: if only a single athlete is returned in the payload, then
 `group` and `role` columns (lists of tibbles) are also returned.
 
 ``` r
+
 user_data <- sb_get_user(
   url = "example.smartabase.com/site",
   username = "example.username",
@@ -112,6 +114,7 @@ user_data
 To unnest a list column, you can use the `unnest()` from `tidyr`:
 
 ``` r
+
 tidyr::unnest(user_data, athlete_group)
 #> # A tibble: 2 × 16
 #>   user_id about   first_name last_name username email dob   middle_name known_as
@@ -130,6 +133,7 @@ returns a list of Smartabase groups available to your account. It’s
 arguments are `username`, `password` and `url`.
 
 ``` r
+
 sb_get_group(
   url = "example.smartabase.com/site",
   username = "example.username",
@@ -154,6 +158,7 @@ as opposed to needing to write out write out metadata variables names
 yourself. For example:
 
 ``` r
+
 example_df <- dplyr::tibble(
   about = c("Jamie Anderson", "Charlie Thompson"),
   start_date = c("14/02/2023", "14/02/2023"),

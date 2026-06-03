@@ -29,6 +29,7 @@ These are still stored as plain text, but at least they don’t need to be
 shown on screen when using `smartabaseR` in an interactive environment.
 
 ``` r
+
 ## Opens .Reviron file
 file.edit("~/.Renviron")
 ```
@@ -37,6 +38,7 @@ If we set the environment variables `SB_URL`, `SB_USER` and `SB_PASS`,
 then in our script we could call those credentials like this:
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),

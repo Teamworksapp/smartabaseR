@@ -3,6 +3,7 @@
 ### Load smartabaseR
 
 ``` r
+
 library(smartabaseR)
 ```
 
@@ -31,6 +32,7 @@ function. You will at a minimum need to supply values to the `form`,
 in dd/mm/YYYY format.
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -71,6 +73,7 @@ Summary”
 First, to calculate the team average:
 
 ``` r
+
 # Need to load dplyr
 library(dplyr)
 
@@ -89,6 +92,7 @@ rpe_average
 Now to compare the group average to each athlete’s RPE:
 
 ``` r
+
 rpe_average <- rpe_average %>%
   mutate(rpe_diff = rpe - team_rpe)
 
@@ -104,6 +108,7 @@ Finally, to upload our results back up to Smartabase, we need to supply
 a data frame and a form name as well as our credentials:
 
 ``` r
+
 sb_insert_event(
   df = rpe_average,
   form = "Team Summary",

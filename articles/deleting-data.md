@@ -24,6 +24,7 @@ data with
 [`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md):
 
 ``` r
+
 example_data <- sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -47,6 +48,7 @@ has `event_id = 16517`. We would pass that event ID to
 like so:
 
 ``` r
+
 sb_delete_event(
   event_id = 16517,
   url = "example.smartabase.com/site",

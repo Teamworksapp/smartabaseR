@@ -23,6 +23,7 @@ with a `date_range` value. For example, to export event data with event
 dates between March 1st 2023 to March 7th 2023, we would write:
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -49,6 +50,7 @@ depending on how far you want to look back. For instance, if we want
 data from the last week:
 
 ``` r
+
 sb_date_range(duration_value = "7", duration_unit = "days")
 ```
 
@@ -59,6 +61,7 @@ In a call to
 [`sb_get_event()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event.md):
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = sb_date_range("7", "days"),
@@ -71,6 +74,7 @@ sb_get_event(
 You can also set your own `end_date`:
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = sb_date_range("7", "days", end_date = "31/12/1999"),
@@ -89,6 +93,7 @@ require to export events that occurred within specific times of the day,
 you can manually supply a `time_range` value like so:
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "01/03/2023"),
@@ -118,6 +123,7 @@ use
 [`sb_get_event_filter()`](https://teamworksapp.github.io/smartabaseR/reference/sb_get_event_filter.md):
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -161,6 +167,7 @@ If we wanted to filter for the athlete “Aiden Thomas” then we”d set
 If `user_key = "about"`, `data_value` accepts *full names*.
 
 ``` r
+
 sb_get_event(
   form = "Example event form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -183,6 +190,7 @@ may be different to Smartabase UUIDs, which can be manually set in the
 Smartabase admin site.
 
 ``` r
+
 sb_get_event(
   form = "Example event form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -201,6 +209,7 @@ sb_get_event(
 If `user_key = "username"`, `user_value` accepts Smartabase *usernames*.
 
 ``` r
+
 sb_get_event(
   form = "Example event form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -220,6 +229,7 @@ If `user_key = "email"`, `user_value` accepts users’ *emails*, as
 recorded on Smartabase.
 
 ``` r
+
 sb_get_event(
   form = "Example event form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -242,6 +252,7 @@ Smartabase. Data will then only be exported for these users.
 `user_value` is ignored.
 
 ``` r
+
 sb_get_event(
   form = "Example event form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -261,6 +272,7 @@ If `user_key = "group"`, `user_value` accepts the name of a Smartabase
 group.
 
 ``` r
+
 sb_get_event(
   form = "Example event form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -295,6 +307,7 @@ and you only want to export data where Duration was equal to “35”, your
 call may look like this
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -316,6 +329,7 @@ greater than “35”. You can achieve this by supplying “greater_than” to
 the `data_condition` argument:
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -349,6 +363,7 @@ For example, if we only wanted events where `Duration < 25` AND
 `RPE > 6`:
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -368,6 +383,7 @@ Practically this tends to mean it makes no sense to create competing
 conditions for a single Smartabase field:
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -406,6 +422,7 @@ RPE is greater than or equal to “6”, then our
 call would look like this:
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -429,6 +446,7 @@ Anderson” using their full names and 2) events where Duration is *not
 equal* to “50” minutes and RPE *contains* the word “Hard”:
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -454,6 +472,7 @@ to export data but we want every column to be a string, we could use
 `sb_get_event_option(guess_col_type = FALSE)`:
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("01/03/2023", "07/03/2023"),
@@ -495,6 +514,7 @@ well as any associated files, which are downloaded to the current
 directory.
 
 ``` r
+
 sb_get_event(
   form = "Example Form",
   date_range = c("17/03/2023", "17/03/2023"),
@@ -643,6 +663,7 @@ is for when the package is being run in automated environments. In these
 situations you may want to minimise progress messages clogging up logs.
 
 ``` r
+
 sb_get_event(
   form = "Training Log",
   date_range = sb_date_range("2", "days"),
