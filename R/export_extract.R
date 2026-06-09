@@ -63,7 +63,7 @@
 #' - `eventsearch` / `filteredeventsearch`: top-level `nextCursor`
 #' - `synchronise`: nested inside `pagination$cursor`
 #'
-#' @param response Named list returned by [.make_request()]
+#' @param response Named list returned by `.make_request()`
 #' @param endpoint Character; the AMS endpoint name (e.g. `"eventsearch"`)
 #' @noRd
 #' @keywords internal

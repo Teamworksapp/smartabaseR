@@ -86,7 +86,7 @@
 #' cursor is fixed to use a `(date, id)` composite key, paginated and
 #' non-paginated `eventsearch` counts will agree exactly.
 #'
-#' @param arg  Named list of arguments from [.export_handler()]
+#' @param arg  Named list of arguments from `.export_handler()`
 #' @param user_id Vector of user IDs for the request body
 #' @param id_data User data tibble (or vector) used for data joining
 #'
@@ -185,7 +185,7 @@
 #'   `deleted_event_id` values are accumulated across all pages.
 #'
 #' @param pages Non-empty list of `sb_df` tibbles, one per page
-#' @param arg   Named list of arguments from [.export_handler()]
+#' @param arg   Named list of arguments from `.export_handler()`
 #'
 #' @returns A single `sb_df` tibble
 #' @noRd
