@@ -1,14 +1,9 @@
-#' \code{smartabaseR} package
-#'
-#' R wrapper for Smartabase API
-#'
-#'
-#' @docType package
-#' @name smartabaseR
+#' @keywords internal
+"_PACKAGE"
+
 #' @importFrom rlang .data
 #' @importFrom rlang :=
 #' @importFrom utils capture.output
-#' @keywords internal
 NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
