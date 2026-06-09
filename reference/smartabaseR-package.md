@@ -3,7 +3,18 @@
 R wrapper for the Smartabase API. Export, import or delete Smartabase
 data from R.
 
+R wrapper for the Smartabase API. Export, import or delete Smartabase
+data from R.
+
 ## See also
+
+Useful links:
+
+- <https://teamworksapp.github.io/smartabaseR/>
+
+- <https://github.com/Teamworksapp/smartabaseR>
+
+- Report bugs at <https://github.com/Teamworksapp/smartabaseR/issues>
 
 Useful links:
 
