@@ -124,7 +124,7 @@
     if (isTRUE(arg$option$interactive_mode) && page_n > 1L) {
       cli::cli_progress_message(
         "Fetching page {page_n} of {.field {arg$form}} data...",
-        .envir = arg$current_env
+        .envir = rlang::current_env()
       )
     }
 
