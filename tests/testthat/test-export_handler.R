@@ -50,6 +50,75 @@ test_that("{page_n} interpolates in paginate_export progress message without err
   expect_match(as.character(rendered), "Test Form",        fixed = TRUE)
 })
 
+
+# Helper: build a minimal sb_df page with a typed Post Code column
+make_mock_page <- function(post_code_vec) {
+  df <- tibble::tibble(
+    about        = paste("Athlete", seq_along(post_code_vec)),
+    user_id      = as.integer(seq_along(post_code_vec)),
+    `Post Code`  = post_code_vec
+  )
+  result <- tibble::new_tibble(
+    df,
+    nrow             = nrow(df),
+    class            = "sb_df_non_interactive",
+    request          = list(),
+    http_method      = "POST",
+    http_status_code = 200L
+  )
+  attr(result, "form")        <- "Test Form"
+  attr(result, "export_time") <- as.POSIXct("2025-01-01")
+  result
+}
+
+test_that(".combine_paginated_pages() handles double/character type conflict (DP-1547)", {
+  # Reproduce the exact error: pages where per-page type_convert gives
+  # <double> on numeric-only pages and <character> on blank-only pages.
+  page_double <- make_mock_page(c(2000, 3000, 4000))   # already numeric
+  page_char   <- make_mock_page(c("", "", ""))          # character, type_convert left as-is
+
+  # Confirm the old bare bind_rows would error with this input
+  expect_error(
+    dplyr::bind_rows(purrr::map(list(page_double, page_char), tibble::as_tibble)),
+    regexp = "Can't combine"
+  )
+
+  arg <- list(
+    form     = "Test Form",
+    endpoint = "eventsearch",
+    option   = list(interactive_mode = FALSE, guess_col_type = TRUE)
+  )
+
+  result <- .combine_paginated_pages(list(page_double, page_char), arg)
+
+  expect_s3_class(result, "data.frame")
+  expect_equal(nrow(result), 6L)
+  expect_type(result$`Post Code`, "double")
+  # Blank-page rows become NA, not errors
+  expect_equal(sum(is.na(result$`Post Code`)), 3L)
+  expect_equal(result$`Post Code`[1:3], c(2000, 3000, 4000))
+})
+
+test_that(".combine_paginated_pages() with guess_col_type = FALSE keeps metadata ID cols numeric", {
+  page_double <- make_mock_page(c(2000, 3000))
+  page_char   <- make_mock_page(c("", ""))
+
+  arg <- list(
+    form     = "Test Form",
+    endpoint = "eventsearch",
+    option   = list(interactive_mode = FALSE, guess_col_type = FALSE)
+  )
+
+  result <- .combine_paginated_pages(list(page_double, page_char), arg)
+
+  expect_s3_class(result, "data.frame")
+  expect_equal(nrow(result), 4L)
+  # User form fields stay as character when guess_col_type is FALSE
+  expect_type(result$`Post Code`, "character")
+  # Metadata ID columns must always be numeric regardless of guess_col_type
+  expect_type(result$user_id, "double")
+})
+
 test_that("{page_n} interpolation fails with wrong env, confirming the regression was real", {
   # Mirror the broken code path (.envir = arg$current_env where page_n is absent)
   # to confirm that using the wrong environment does indeed error. This ensures

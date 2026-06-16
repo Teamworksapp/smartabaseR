@@ -192,7 +192,34 @@
 #' @keywords internal
 .combine_paginated_pages <- function(pages, arg) {
   last_page <- pages[[length(pages)]]
-  combined  <- dplyr::bind_rows(purrr::map(pages, tibble::as_tibble))
+
+  # Coerce every column to character before binding so that type mismatches
+  # across pages (e.g. a field that is numeric on page 1 but an empty string
+  # on page 18) don't cause bind_rows() to error. Type inference is then
+  # re-applied on the full combined dataset below.
+  combined <- dplyr::bind_rows(
+    purrr::map(pages, ~ dplyr::mutate(
+      tibble::as_tibble(.x),
+      dplyr::across(dplyr::everything(), as.character)
+    ))
+  )
+
+  if (isTRUE(arg$option$guess_col_type)) {
+    time_cols <- dplyr::select(combined, dplyr::any_of(c("start_time", "end_time")))
+    combined  <- combined %>%
+      dplyr::select(-dplyr::any_of(c("start_time", "end_time"))) %>%
+      readr::type_convert(col_types = readr::cols()) %>%
+      dplyr::bind_cols(time_cols)
+  } else {
+    # Even when guess_col_type is FALSE, the metadata ID columns must always be
+    # numeric. The character coercion above (needed for safe bind_rows) would
+    # otherwise leave them as character, violating the documented output contract.
+    id_cols <- c("user_id", "entered_by_user_id", "event_id")
+    combined <- dplyr::mutate(
+      combined,
+      dplyr::across(dplyr::any_of(id_cols), as.numeric)
+    )
+  }
 
   class_type <- if (isTRUE(arg$option$interactive_mode)) {
     "sb_df"
