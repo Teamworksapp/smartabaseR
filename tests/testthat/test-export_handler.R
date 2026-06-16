@@ -99,7 +99,7 @@ test_that(".combine_paginated_pages() handles double/character type conflict (DP
   expect_equal(result$`Post Code`[1:3], c(2000, 3000, 4000))
 })
 
-test_that(".combine_paginated_pages() with guess_col_type = FALSE still succeeds", {
+test_that(".combine_paginated_pages() with guess_col_type = FALSE keeps metadata ID cols numeric", {
   page_double <- make_mock_page(c(2000, 3000))
   page_char   <- make_mock_page(c("", ""))
 
@@ -113,8 +113,10 @@ test_that(".combine_paginated_pages() with guess_col_type = FALSE still succeeds
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 4L)
-  # Without re-typing, column stays character (coerced from double then not re-converted)
+  # User form fields stay as character when guess_col_type is FALSE
   expect_type(result$`Post Code`, "character")
+  # Metadata ID columns must always be numeric regardless of guess_col_type
+  expect_type(result$user_id, "double")
 })
 
 test_that("{page_n} interpolation fails with wrong env, confirming the regression was real", {

@@ -210,6 +210,15 @@
       dplyr::select(-dplyr::any_of(c("start_time", "end_time"))) %>%
       readr::type_convert(col_types = readr::cols()) %>%
       dplyr::bind_cols(time_cols)
+  } else {
+    # Even when guess_col_type is FALSE, the metadata ID columns must always be
+    # numeric. The character coercion above (needed for safe bind_rows) would
+    # otherwise leave them as character, violating the documented output contract.
+    id_cols <- c("user_id", "entered_by_user_id", "event_id")
+    combined <- dplyr::mutate(
+      combined,
+      dplyr::across(dplyr::any_of(id_cols), as.numeric)
+    )
   }
 
   class_type <- if (isTRUE(arg$option$interactive_mode)) {
